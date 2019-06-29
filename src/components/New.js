@@ -8,6 +8,13 @@ import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
+import Dropzone from 'react-dropzone';
+
+const acceptFileType = 'image/x-png, image/png, image,jpg, image/jpeg, image/gif'
+const acceptFileTypeArray = acceptFileType.split(",").map((item) => {
+    return item.trim()
+})
+
 class NewPoll extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +26,8 @@ class NewPoll extends React.Component {
             options: [
                 { option: '', optionError: '' },
                 { option: '', optionError: '' }
-            ]
+            ],
+            imgSrc: null,
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -64,7 +72,7 @@ class NewPoll extends React.Component {
             const key = op.option.trim();
             a[key] = 0;
             return a;
-        }, { title: this.state.title.trim() })
+        }, { title: this.state.title.trim(), imgSrc: this.state.imgSrc })
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
         firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
@@ -73,8 +81,8 @@ class NewPoll extends React.Component {
             const uid = firebaseApp.auth().currentUser.uid;
             var updates = {};
             updates[`/user-polls/${uid}/${newPollKey}`] = true;
-            firebaseApp.database().ref().update(updates);  
-        } 
+            firebaseApp.database().ref().update(updates);
+        }
 
         console.log(200);
 
@@ -89,7 +97,46 @@ class NewPoll extends React.Component {
         this.setState({ options });
     }
 
+    verifyFile = (files) => {
+        if (files && files.length > 0) {
+            const currentFile = files[0]
+            const currentFileType = currentFile.type
+            const currentFileSize = currentFile.size
+            if (currentFileSize > 10000000) {
+                alert("This File is too Large")
+                return false;
+            }
+            if (!acceptFileTypeArray.includes(currentFileType)) {
+                alert("This File Type is not allowed. Only images are allowed")
+                return false
+            }
+            return true
+        }
+    }
+
+    handleOnDrop = (files, rejectedFiles) => {
+        if (rejectedFiles && rejectedFiles.length > 0) {
+            this.verifyFile(rejectedFiles)
+        }
+
+        if (files && files.length > 0) {
+            const isVerified = this.verifyFile(files)
+            if (isVerified) {
+                const currentFile = files[0]
+                const reader = new FileReader()
+                reader.addEventListener("load", () => {
+                    this.setState({ imgSrc: reader.result })
+                }, false)
+
+                reader.readAsDataURL(currentFile)
+
+            }
+        }
+    }
+
     render() {
+
+        const { imgSrc } = this.state
 
         let options = this.state.options.map((option, i) => {
             return (
@@ -117,6 +164,22 @@ class NewPoll extends React.Component {
                         <h2>New Poll</h2>
 
                         <form onSubmit={this.handleSubmit}>
+
+                            {imgSrc !== null ?
+                                <div>
+                                    <img src={imgSrc} alt='User Uploaded' />
+                                </div> : 
+                                
+                                <Dropzone onDrop={this.handleOnDrop}>
+                                {({ getRootProps, getInputProps }) => (
+                                    <section>
+                                        <div {...getRootProps()}>
+                                            <input {...getInputProps()} />
+                                            <p>Drop Your image files Here</p>
+                                        </div>
+                                    </section>
+                                )}
+                            </Dropzone>}
 
                             <TextField
                                 label="Title"

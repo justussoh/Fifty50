@@ -18,6 +18,7 @@ class Poll extends React.Component {
         this.state = {
             title: '',
             options: [],
+            imgSrc:null,
             voted: localStorage.getItem(this.props.match.params.pollId) ? true : false,
             showSnackbar: false,
             loading: true
@@ -31,16 +32,16 @@ class Poll extends React.Component {
             const dbPoll = snapshot.val();
 
             const options = Object.keys(dbPoll).reduce((a, key) => {
-                if (key !== 'title') {
-                    a.push({ [key]: dbPoll[key] }); //[key] is an es6 computed property name
+                if (key !== 'title' && key !== 'imgSrc') {
+                    a.push({ [key]: dbPoll[key] });
                 }
                 return a;
             }, []);
 
-            this.setState({ title: dbPoll.title, options: options, loading: false })
+            this.setState({ title: dbPoll.title, options: options, imgSrc:dbPoll.imgSrc, loading: false })
         })).bind(this);
     }
-
+    
     componentWillUnmount() {
         this.pollRef.off();
     }
@@ -107,6 +108,11 @@ class Poll extends React.Component {
                         <br /><br />
                         <h2>{this.state.title}</h2>
                         <br />
+
+                        {this.state.imgSrc !== null ?
+                                <div>
+                                    <img src={this.state.imgSrc} alt='User Uploaded' />
+                                </div> : '' }
 
                         <Loading loading={this.state.loading} />
 
