@@ -28,6 +28,7 @@ class NewSingleOption extends React.Component {
                 { option: '', optionError: '' }
             ],
             imgSrc: null,
+            pollType:'mcq',
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -72,7 +73,7 @@ class NewSingleOption extends React.Component {
             const key = op.option.trim();
             a[key] = 0;
             return a;
-        }, { title: this.state.title.trim(), imgSrc: this.state.imgSrc })
+        }, { title: this.state.title.trim(), imgSrc: this.state.imgSrc, pollType:this.state.pollType })
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
         firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
@@ -198,7 +199,7 @@ class NewSingleOption extends React.Component {
 
                             <br /><br />
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 label="Create"
                                 type="submit"
                             />

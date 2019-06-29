@@ -5,8 +5,6 @@ import history from '../history';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 
 import Dropzone from 'react-dropzone';
 
@@ -15,7 +13,7 @@ const acceptFileTypeArray = acceptFileType.split(",").map((item) => {
     return item.trim()
 })
 
-class NewSingleOption extends React.Component {
+class NewOpenEnded extends React.Component {
     constructor(props) {
         super(props);
 
@@ -23,16 +21,12 @@ class NewSingleOption extends React.Component {
             loggedIn: false,
             title: '',
             titleError: '',
-            options: [
-                { option: '', optionError: '' },
-                { option: '', optionError: '' }
-            ],
             imgSrc: null,
+            pollType: 'open',
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleAddOption = this.handleAddOption.bind(this);
         this.formIsInvalid = this.formIsInvalid.bind(this);
     }
 
@@ -55,12 +49,6 @@ class NewSingleOption extends React.Component {
         this.setState({ title: e.target.value });
     }
 
-    handleOptionChange(i, e) {
-        let options = this.state.options;
-        options[i].option = e.target.value;
-        this.setState({ options: options });
-    }
-
     handleSubmit(e) {
         e.preventDefault();
 
@@ -68,11 +56,7 @@ class NewSingleOption extends React.Component {
             return;
         }
 
-        const pollData = this.state.options.reduce((a, op) => {
-            const key = op.option.trim();
-            a[key] = 0;
-            return a;
-        }, { title: this.state.title.trim(), imgSrc: this.state.imgSrc })
+        const pollData = { title: this.state.title.trim(), imgSrc: this.state.imgSrc, pollType:this.state.pollType }
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
         firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
@@ -90,12 +74,6 @@ class NewSingleOption extends React.Component {
 
     }
 
-    handleAddOption() {
-        let options = this.state.options;
-        options.push({ option: '', optionError: '' });
-
-        this.setState({ options });
-    }
 
     verifyFile = (files) => {
         if (files && files.length > 0) {
@@ -138,21 +116,6 @@ class NewSingleOption extends React.Component {
 
         const { imgSrc } = this.state
 
-        let options = this.state.options.map((option, i) => {
-            return (
-                <div key={i}>
-                    <br />
-                    <TextField
-                        label={`Option ${i + 1}`}
-                        value={this.state.options[i].option}
-                        onChange={this.handleOptionChange.bind(this, i)}
-                        error={this.state.options[i].optionError}
-                        helperText={this.state.options[i].optionError}
-                    />
-                </div>
-            );
-        });
-
         return (
             <div className="row">
                 <div className="col-sm-12 text-xs-center">
@@ -168,18 +131,18 @@ class NewSingleOption extends React.Component {
                             {imgSrc !== null ?
                                 <div>
                                     <img src={imgSrc} alt='User Uploaded' />
-                                </div> : 
-                                
+                                </div> :
+
                                 <Dropzone onDrop={this.handleOnDrop}>
-                                {({ getRootProps, getInputProps }) => (
-                                    <section>
-                                        <div {...getRootProps()}>
-                                            <input {...getInputProps()} />
-                                            <p>Drop Your image files Here</p>
-                                        </div>
-                                    </section>
-                                )}
-                            </Dropzone>}
+                                    {({ getRootProps, getInputProps }) => (
+                                        <section>
+                                            <div {...getRootProps()}>
+                                                <input {...getInputProps()} />
+                                                <p>Drop Your image files Here</p>
+                                            </div>
+                                        </section>
+                                    )}
+                                </Dropzone>}
 
                             <TextField
                                 label="Title"
@@ -189,16 +152,9 @@ class NewSingleOption extends React.Component {
                                 helperText={this.state.titleError}
                             />
 
-                            {options}
-
-                            <br />
-                            <Fab color="primary" aria-label="Add" onClick={this.handleAddOption}>
-                                <AddIcon />
-                            </Fab>
-
                             <br /><br />
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 label="Create"
                                 type="submit"
                             />
@@ -256,4 +212,4 @@ class NewSingleOption extends React.Component {
 
 }
 
-export default NewSingleOption;
+export default NewOpenEnded;

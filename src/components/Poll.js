@@ -10,6 +10,8 @@ import { Chart } from 'react-google-charts';
 
 import { Comment } from '../components/PollingForm'
 
+const keyTypes= ['title', 'imgSrc', 'pollType']
+
 class Poll extends React.Component {
     constructor(props) {
         super(props);
@@ -32,16 +34,16 @@ class Poll extends React.Component {
             const dbPoll = snapshot.val();
 
             const options = Object.keys(dbPoll).reduce((a, key) => {
-                if (key !== 'title' && key !== 'imgSrc') {
+                if (!keyTypes.includes(key)) {
                     a.push({ [key]: dbPoll[key] });
                 }
                 return a;
             }, []);
 
-            this.setState({ title: dbPoll.title, options: options, imgSrc:dbPoll.imgSrc, loading: false })
+            this.setState({ title: dbPoll.title, options: options, imgSrc:dbPoll.imgSrc, pollType: dbPoll.pollType, loading: false })
         })).bind(this);
     }
-    
+
     componentWillUnmount() {
         this.pollRef.off();
     }
