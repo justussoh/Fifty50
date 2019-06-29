@@ -9,7 +9,7 @@ import { NoMatch } from './NoMatch';
 import { Layout } from './components/Layout';
 import { NavigationBar } from './components/NavigationBar';
 import { Comment } from './components/PollingForm';
-import { New } from './components/New';
+import  NewPoll  from './components/NewPoll';
 import { Poll } from './components/Poll';
 import { Update } from './components/Update';
 import { Login } from './components/Login';
@@ -33,7 +33,7 @@ function App() {
             <Route exact path="/recover" component={Recover} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/polls/dashboard" component={Dashboard} />
-            <Route exact path="/polls/new" component={New} />
+            <Route exact path="/polls/new" component={NewPoll} />
             <Route exact path="/polls/poll/:pollId" component={Poll} />
             <Route path="/polls/update/:pollId" component={Update} />
             <Route exact path="/pollingform" component={Comment} />

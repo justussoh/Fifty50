@@ -15,7 +15,7 @@ const acceptFileTypeArray = acceptFileType.split(",").map((item) => {
     return item.trim()
 })
 
-class NewPoll extends React.Component {
+class NewSingleOption extends React.Component {
     constructor(props) {
         super(props);
 
@@ -256,6 +256,4 @@ class NewPoll extends React.Component {
 
 }
 
-export const New = () => (
-    <NewPoll />
-); 
+export default NewSingleOption;
