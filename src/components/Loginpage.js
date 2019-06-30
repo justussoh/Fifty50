@@ -56,9 +56,8 @@ class Loginpage extends React.Component {
         <div className="col-sm-12 text-xs-center">
 
           <Paper>
-
             <br /><br />
-            <h2>Login</h2>
+            <h2>Log in to Fifty50</h2>
 
             <form onSubmit={this.handleSubmit}>
 
