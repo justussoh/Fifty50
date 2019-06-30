@@ -6,6 +6,7 @@ import history from '../history';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 
 import { Chart } from 'react-google-charts';
 
@@ -21,7 +22,7 @@ class Poll extends React.Component {
         this.state = {
             title: '',
             options: [],
-            newOption: null,
+            newOption: { option: '', optionError: '' },
             originalCount: 0,
             imgSrc: null,
             pollType: null,
@@ -29,6 +30,10 @@ class Poll extends React.Component {
             showSnackbar: false,
             loading: true,
         };
+
+        this.formIsInvalid = this.formIsInvalid.bind(this);
+        this.handleAnswerOpen = this.handleAnswerOpen.bind(this);
+        this.handleAnswerChange = this.handleAnswerChange.bind(this);
     }
 
     componentWillMount() {
@@ -56,13 +61,23 @@ class Poll extends React.Component {
                     return a;
                 }, []);
 
-                this.setState({ title: dbPoll.title, options: options, imgSrc: dbPoll.imgSrc, pollType: dbPoll.pollType, originalCount: options.length - 1, loading: false })
+                if (options.length === 0) {
+                    this.setState({ originalCount: 0 })
+                } else {
+                    this.setState({ originalCount: options.length - 1 })
+                }
+
+                this.setState({ title: dbPoll.title, options: options, imgSrc: dbPoll.imgSrc, pollType: dbPoll.pollType, loading: false })
             }
         })).bind(this);
     }
 
     componentWillUnmount() {
         this.pollRef.off();
+    }
+
+    componentDidUpdate() {
+        console.log(this.state)
     }
 
     handleVote(option) {
@@ -83,12 +98,16 @@ class Poll extends React.Component {
         e.preventDefault();
 
         if (this.formIsInvalid()) {
+            console.log('Invalid Answer')
             return;
         }
 
         const newOption = this.state.newOption.option;
 
-        if (this.state.options.hasOwnProperty(newOption)) {
+        if (this.state.options.filter(o => {
+            return o.hasOwnProperty(newOption);
+        }).length > 0) {
+            console.log('hello')
             let currentCount = this.state.options.filter(o => {
                 return o.hasOwnProperty(newOption);
             })[0][newOption];
@@ -98,35 +117,15 @@ class Poll extends React.Component {
             this.setState({ voted: true, showSnackbar: true });
         }
         else {
-    
-            const updates={}
 
-            updates[`polls/${this.props.match.params.pollId}/${newOption}`] = 0;
-    
+            const updates = {}
+
+            updates[`polls/${this.props.match.params.pollId}/${newOption}`] = 1;
+
             firebaseApp.database().ref().update(updates);
             localStorage.setItem(this.props.match.params.pollId, 'true');
             this.setState({ voted: true, showSnackbar: true });
         }
-    }
-
-    formIsInvalid() {
-
-        let isInvalid = false;
-        const regex = /[\.#\$\/\[\]]/;
-
-        let newOption = this.state.newOption;
-        let thisOption = newOption.option.trim();
-
-        if (thisOption.length === 0) {
-            newOption = { option: thisOption, optionError: 'This option must not be empty.' }
-            isInvalid = true;
-        } else if (thisOption.match(regex)) {
-            newOption = { option: thisOption, optionError: `Options can't contain ".", "#", "$", "/", "[", or "]"` }
-            isInvalid = true;
-        } else {
-            newOption = { option: thisOption, optionError: '' }
-        }
-        return isInvalid;
     }
 
     render() {
@@ -211,10 +210,83 @@ class Poll extends React.Component {
                         </div>
                     </div>
                 );
+            case 'open':
+                return (
+                    <div className="row">
+                        <div className="col-sm-12 text-xs-center">
+
+                            <Snackbar
+                                open={this.state.showSnackbar}
+                                message="Thanks for your vote!"
+                                autoHideDuration={4000}
+                            />
+
+                            <Paper>
+                                <br /><br />
+                                <h2>{this.state.title}</h2>
+                                <br />
+
+                                {this.state.imgSrc !== null ?
+                                    <div>
+                                        <img src={this.state.imgSrc} alt='User Uploaded' />
+                                    </div> : ''}
+
+                                <Loading loading={this.state.loading} />
+                                
+                                {this.state.voted ? <h2>Already Answer</h2> :
+                                    <form onSubmit={this.handleAnswerOpen}>
+                                        <TextField
+                                            label="Your Answer Here"
+                                            value={this.state.newOption.option}
+                                            onChange={this.handleAnswerChange}
+                                            error={this.state.newOption.optionError}
+                                            helperText={this.state.newOption.optionError}
+                                            disabled={this.state.voted}
+                                        />
+                                        <Button variant='outlined' type='submit'>Submit</Button>
+                                    </form>}
+
+                                <br />
+                                <Chart
+                                    chartTitle="DonutChart"
+                                    chartType="PieChart"
+                                    width="100%"
+                                    data={data}
+                                    options={{ is3D: 'true' }}
+                                />
+
+                                <br /><br />
+
+                                <Comment pollId={this.props.match.params.pollId} />
+
+                            </Paper>
+                        </div>
+                    </div>
+                );
             default:
                 return (<h1>Unknown Poll Type</h1>);
         }
 
+    }
+
+    formIsInvalid() {
+
+        let isInvalid = false;
+        const regex = /[\.#\$\/\[\]]/;
+
+        let newOption = this.state.newOption;
+        let thisOption = newOption.option.trim();
+
+        if (thisOption.length === 0) {
+            this.setState({ newOption: { option: thisOption, optionError: 'This option must not be empty.' } })
+            isInvalid = true;
+        } else if (thisOption.match(regex)) {
+            this.setState({ newOption: { option: thisOption, optionError: `Options can't contain ".", "#", "$", "/", "[", or "]"` } })
+            isInvalid = true;
+        } else {
+            this.setState({ newOption: { option: thisOption, optionError: '' } })
+        }
+        return isInvalid;
     }
 }
 

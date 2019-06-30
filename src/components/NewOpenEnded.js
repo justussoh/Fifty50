@@ -183,30 +183,6 @@ class NewOpenEnded extends React.Component {
             this.setState({ title: title, titleError: '' })
         }
 
-        this.state.options.forEach((o, i) => {
-
-            let options = this.state.options;
-            let thisOption = o.option.trim();
-
-            if (thisOption.length === 0) {
-                options[i] = { option: thisOption, optionError: 'This option must not be empty.' }
-                this.setState({ options: options });
-                isInvalid = true;
-            } else if (thisOption.match(regex)) {
-                options[i] = { option: thisOption, optionError: `Options can't contain ".", "#", "$", "/", "[", or "]"` }
-                this.setState({ options: options });
-                isInvalid = true;
-            } else {
-
-                if (thisOption === 'title') { //can't have option with key "title"
-                    thisOption = 'Title';
-                }
-
-                options[i] = { option: thisOption, optionError: '' }
-                this.setState({ options: options });
-            }
-        });
-
         return isInvalid;
     }
 
