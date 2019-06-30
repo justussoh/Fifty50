@@ -21,9 +21,10 @@ class Poll extends React.Component {
             title: '',
             options: [],
             imgSrc: null,
+            pollType:null,
             voted: localStorage.getItem(this.props.match.params.pollId) ? true : false,
             showSnackbar: false,
-            loading: true
+            loading: true,
         };
     }
 

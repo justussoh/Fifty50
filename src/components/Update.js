@@ -9,6 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
+const keyTypes = ['title', 'imgSrc', 'pollType']
+
 class Update extends React.Component {
     constructor(props) {
         super(props);
@@ -16,6 +18,8 @@ class Update extends React.Component {
         this.state = {
             title: '',
             options: [],
+            imgSrc: null,
+            pollType:null,
             originalCount: 0,
             loading: true
         };
@@ -32,7 +36,7 @@ class Update extends React.Component {
             const dbPoll = snapshot.val();
 
             const options = Object.keys(dbPoll).reduce((a, key) => {
-                if (key !== 'title') {
+                if (!keyTypes.includes(key)) {
                     a.push({ option: [key], optionError: '' }); //[key]is es6 computed property name
                 }
                 return a;
@@ -41,7 +45,7 @@ class Update extends React.Component {
             //to start with a new option
             options.push({ option: '', optionError: '' });
 
-            this.setState({ title: dbPoll.title, options: options, originalCount: options.length - 1, loading: false })
+            this.setState({ title: dbPoll.title, options: options, imgSrc: dbPoll.imgSrc, pollType: dbPoll.pollType, originalCount: options.length - 1, loading: false })
         })).bind(this);
     }
 
@@ -113,6 +117,11 @@ class Update extends React.Component {
                     <Paper>
                         <br /><br />
                         <h2>{`Update "${this.state.title}"`}</h2>
+
+                        {this.state.imgSrc !== null ?
+                                        <div>
+                                            <img src={this.state.imgSrc} alt='User Uploaded' />
+                                        </div> : ''}
 
                         <Loading loading={this.state.loading} />
 
