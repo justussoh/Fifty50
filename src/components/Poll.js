@@ -1,6 +1,7 @@
 import React from 'react';
 import { firebaseApp } from '../utils/firebase';
 import Loading from './Loading';
+import history from '../history';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
@@ -20,8 +21,10 @@ class Poll extends React.Component {
         this.state = {
             title: '',
             options: [],
+            newOption: null,
+            originalCount: 0,
             imgSrc: null,
-            pollType:null,
+            pollType: null,
             voted: localStorage.getItem(this.props.match.params.pollId) ? true : false,
             showSnackbar: false,
             loading: true,
@@ -44,8 +47,16 @@ class Poll extends React.Component {
                 this.setState({ title: dbPoll.title, options: options, imgSrc: dbPoll.imgSrc, pollType: dbPoll.pollType, loading: false })
             }
 
-            if(dbPoll.pollType === 'open'){
-                this.setState({ title: dbPoll.title, imgSrc: dbPoll.imgSrc, pollType: dbPoll.pollType, loading: false })
+            if (dbPoll.pollType === 'open') {
+
+                const options = Object.keys(dbPoll).reduce((a, key) => {
+                    if (!keyTypes.includes(key)) {
+                        a.push({ [key]: dbPoll[key] });
+                    }
+                    return a;
+                }, []);
+
+                this.setState({ title: dbPoll.title, options: options, imgSrc: dbPoll.imgSrc, pollType: dbPoll.pollType, originalCount: options.length - 1, loading: false })
             }
         })).bind(this);
     }
@@ -64,7 +75,62 @@ class Poll extends React.Component {
         this.setState({ voted: true, showSnackbar: true });
     }
 
+    handleAnswerChange(e) {
+        this.setState({ newOption: { option: e.target.value, optionError: '' } });
+    }
+
+    handleAnswerOpen(e) {
+        e.preventDefault();
+
+        if (this.formIsInvalid()) {
+            return;
+        }
+
+        const newOption = this.state.newOption.option;
+
+        if (this.state.options.hasOwnProperty(newOption)) {
+            let currentCount = this.state.options.filter(o => {
+                return o.hasOwnProperty(newOption);
+            })[0][newOption];
+
+            firebaseApp.database().ref().update({ [`polls/${this.props.match.params.pollId}/${newOption}`]: currentCount += 1 })
+            localStorage.setItem(this.props.match.params.pollId, 'true');
+            this.setState({ voted: true, showSnackbar: true });
+        }
+        else {
+    
+            const updates={}
+
+            updates[`polls/${this.props.match.params.pollId}/${newOption}`] = 0;
+    
+            firebaseApp.database().ref().update(updates);
+            localStorage.setItem(this.props.match.params.pollId, 'true');
+            this.setState({ voted: true, showSnackbar: true });
+        }
+    }
+
+    formIsInvalid() {
+
+        let isInvalid = false;
+        const regex = /[\.#\$\/\[\]]/;
+
+        let newOption = this.state.newOption;
+        let thisOption = newOption.option.trim();
+
+        if (thisOption.length === 0) {
+            newOption = { option: thisOption, optionError: 'This option must not be empty.' }
+            isInvalid = true;
+        } else if (thisOption.match(regex)) {
+            newOption = { option: thisOption, optionError: `Options can't contain ".", "#", "$", "/", "[", or "]"` }
+            isInvalid = true;
+        } else {
+            newOption = { option: thisOption, optionError: '' }
+        }
+        return isInvalid;
+    }
+
     render() {
+
 
         const data = this.state.options.map(option => {
             return [Object.keys(option)[0], option[Object.keys(option)[0]]];
@@ -100,55 +166,55 @@ class Poll extends React.Component {
             );
         });
 
-        switch (this.state.pollType){
+        switch (this.state.pollType) {
             case 'mcq':
-                    return (
-                        <div className="row">
-                            <div className="col-sm-12 text-xs-center">
-            
-                                <Snackbar
-                                    open={this.state.showSnackbar}
-                                    message="Thanks for your vote!"
-                                    autoHideDuration={4000}
+                return (
+                    <div className="row">
+                        <div className="col-sm-12 text-xs-center">
+
+                            <Snackbar
+                                open={this.state.showSnackbar}
+                                message="Thanks for your vote!"
+                                autoHideDuration={4000}
+                            />
+
+                            <Paper>
+                                <br /><br />
+                                <h2>{this.state.title}</h2>
+                                <br />
+
+                                {this.state.imgSrc !== null ?
+                                    <div>
+                                        <img src={this.state.imgSrc} alt='User Uploaded' />
+                                    </div> : ''}
+
+                                <Loading loading={this.state.loading} />
+
+                                {optionsUI}
+
+                                {addOptionUI}
+
+                                <br />
+                                <Chart
+                                    chartTitle="DonutChart"
+                                    chartType="PieChart"
+                                    width="100%"
+                                    data={data}
+                                    options={{ is3D: 'true' }}
                                 />
-            
-                                <Paper>
-                                    <br /><br />
-                                    <h2>{this.state.title}</h2>
-                                    <br />
-            
-                                    {this.state.imgSrc !== null ?
-                                        <div>
-                                            <img src={this.state.imgSrc} alt='User Uploaded' />
-                                        </div> : ''}
-            
-                                    <Loading loading={this.state.loading} />
-            
-                                    {optionsUI}
-            
-                                    {addOptionUI}
-            
-                                    <br />
-                                    <Chart
-                                        chartTitle="DonutChart"
-                                        chartType="PieChart"
-                                        width="100%"
-                                        data={data}
-                                        options={{ is3D: 'true' }}
-                                    />
-            
-                                    <br /><br />
-            
-                                    <Comment pollId={this.props.match.params.pollId} />
-            
-                                </Paper>
-                            </div>
+
+                                <br /><br />
+
+                                <Comment pollId={this.props.match.params.pollId} />
+
+                            </Paper>
                         </div>
-                        );
+                    </div>
+                );
             default:
                 return (<h1>Unknown Poll Type</h1>);
         }
-             
+
     }
 }
 
