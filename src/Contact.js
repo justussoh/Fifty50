@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -56,7 +57,16 @@ export const Contact = () => (
 	        rowsMax="20"
 	        margin="normal"
 	        variant="outlined"
-	    />     
+	    />   
+
+      <Button
+        variant="outlined"
+        label="Create"
+        type="submit">
+        Submit
+      </Button>  
+        <h1>    </h1>
+        <h1>    </h1>
 	    <h6>Our goal is to reply within the same day, but it</h6>
 	    <h6>might take us until the next business day.</h6> 	
 	    </Grid>
