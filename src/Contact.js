@@ -53,12 +53,12 @@ export const Contact = () => (
 	        id="outlined-multiline-flexible"
 	        label="Message"
 	        multiline
-	        rowsMax="4"
+	        rowsMax="20"
 	        margin="normal"
 	        variant="outlined"
 	    />     
-	    <h5>Our goal is to reply within the same day, but it</h5>
-	    <h5>might take us until the next business day.</h5> 	
+	    <h6>Our goal is to reply within the same day, but it</h6>
+	    <h6>might take us until the next business day.</h6> 	
 	    </Grid>
 
        	<Grid container direction = "column">
@@ -67,13 +67,13 @@ export const Contact = () => (
        	<h1>    </h1>
        	<h1>    </h1>
        	<h1>    </h1>
-        <h5>EMAIL US</h5>
-        <h5>support@fifty50.com</h5>
+        <h6>EMAIL US</h6>
+        <h6>support@fifty50.com</h6>
 
-       	<h5>CALL US</h5>
-       	<h5>+65 91234567</h5>
-       	<h5>Monday - Friday: 11am - 5pm SGT</h5>
-       	<h5>(excluding public holidays)</h5>
+       	<h6>CALL US</h6>
+       	<h6>+65 91234567</h6>
+       	<h6>Monday - Friday: 11am - 5pm SGT</h6>
+       	<h6>(excluding public holidays)</h6>
        	</Grid>
        	</Grid>
     </div>
