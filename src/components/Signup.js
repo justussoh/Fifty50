@@ -1,10 +1,9 @@
 import React from 'react';
 import { firebaseApp } from '../utils/firebase';
 import history from '../history';
-
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -114,10 +113,12 @@ class Signup extends React.Component {
       <div className="row">
         <div className="col-sm-12 text-xs-center">
 
-          <Paper>
+          <Grid container justify = "center" alignItems = "center">
             <br /><br />
-            <h2>Signup</h2>
+            <h2>Sign up</h2>
+          </Grid>
 
+            <Grid container justify = "center" alignItems = "center">
             <form onSubmit={this.handleSubmit}>
 
             <TextField
@@ -152,13 +153,13 @@ class Signup extends React.Component {
 
               <br /><br />
               <Button
-                children="Signup"
+                children="Sign up"
                 type="submit"
               />
 
             </form>
             <br /><br />
-          </Paper>
+          </Grid>
         </div>
       </div>
 

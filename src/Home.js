@@ -5,6 +5,7 @@ import muiButton from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles({
   root: {
@@ -21,9 +22,14 @@ const useStyles = makeStyles({
 
 export const Home = () => (
     <div>
+      <Grid container justify = "center" alignItems = "center">
         <Typography variant="h1" component="h2" gutterBottom>
         Fifty50</Typography>
+      </Grid>  
+      <Grid container justify = "center" alignItems = "center">
         <h5>GATHERING ANSWERS FOR YOU</h5>
+      </Grid>
+      <Grid container justify = "center" alignItems = "center">
         <Link to="/polls/new">
             <Fab
           		variant="extended"
@@ -34,5 +40,6 @@ export const Home = () => (
           		Create new poll
         	</Fab>
         </Link>
+      </Grid>  
     </div>
 )

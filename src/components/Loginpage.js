@@ -1,10 +1,9 @@
 import React from 'react';
 import { firebaseApp } from '../utils/firebase';
 import history from '../history';
-
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 
 class Loginpage extends React.Component {
   constructor(props) {
@@ -55,10 +54,12 @@ class Loginpage extends React.Component {
       <div className="row">
         <div className="col-sm-12 text-xs-center">
 
-          <Paper>
+          <Grid container justify = "center" alignItems = "center">
             <br /><br />
             <h2>Log in to Fifty50</h2>
+          </Grid>  
 
+          <Grid container justify = "center" alignItems = "center">
             <form onSubmit={this.handleSubmit}>
 
               <TextField
@@ -79,15 +80,15 @@ class Loginpage extends React.Component {
                 error={this.state.passwordError}
                 helperText={this.state.passwordError}
                 />
-
               <br /><br />
               <Button
-                children="Login"
+                children="Log in"
                 type="submit"
                 />
 
             </form>
-
+          </Grid>
+          <Grid container justify = "center" alignItems = "center">
             <br />
               <Button 
                 children="Forgot your password?"
@@ -95,7 +96,7 @@ class Loginpage extends React.Component {
                 />
 
             <br /><br />
-          </Paper>
+          </Grid>  
         </div>
       </div>
 
