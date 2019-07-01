@@ -10,7 +10,8 @@ import TextField from '@material-ui/core/TextField';
 
 import { Chart } from 'react-google-charts';
 
-import { Comment } from '../components/PollingForm'
+import PollShareDialog from './PollShareDialog';
+import { Comment } from '../components/PollingForm';
 
 const keyTypes = ['title', 'imgSrc', 'pollType']
 
@@ -29,6 +30,7 @@ class Poll extends React.Component {
             voted: localStorage.getItem(this.props.match.params.pollId) ? true : false,
             showSnackbar: false,
             loading: true,
+            showShareDialog: false,
         };
 
         this.formIsInvalid = this.formIsInvalid.bind(this);
@@ -128,6 +130,14 @@ class Poll extends React.Component {
         }
     }
 
+    handleShareModelClose = () => {
+        this.setState({ showShareDialog: false });
+    }
+
+    handleShareModelOpen = () => {
+        this.setState({ showShareDialog: true });
+    }
+
     render() {
 
 
@@ -137,6 +147,7 @@ class Poll extends React.Component {
         data.unshift(['option', 'votes']);
 
         let isAuthUser = firebaseApp.auth().currentUser ? true : false;
+
 
         let addOptionUI;
         if (isAuthUser) {
@@ -177,9 +188,13 @@ class Poll extends React.Component {
                                 autoHideDuration={4000}
                             />
 
+
+
                             <Paper>
                                 <br /><br />
                                 <h2>{this.state.title}</h2>
+                                <br />
+                                <Button variant="outlined" color="primary" onClick={this.handleShareModelOpen}>Share</Button>
                                 <br />
 
                                 {this.state.imgSrc !== null ?
@@ -206,7 +221,14 @@ class Poll extends React.Component {
 
                                 <Comment pollId={this.props.match.params.pollId} />
 
+
                             </Paper>
+                        </div>
+                        <div>
+                            <PollShareDialog
+                                show={this.state.showShareDialog}
+                                Close={this.handleShareModelClose}
+                                url={`/polls/poll/${this.props.match.params.pollId}`} />
                         </div>
                     </div>
                 );
@@ -225,6 +247,8 @@ class Poll extends React.Component {
                                 <br /><br />
                                 <h2>{this.state.title}</h2>
                                 <br />
+                                <Button variant="outlined" color="primary" onClick={this.handleShareModelOpen}>Share</Button>
+                                <br />
 
                                 {this.state.imgSrc !== null ?
                                     <div>
@@ -232,7 +256,7 @@ class Poll extends React.Component {
                                     </div> : ''}
 
                                 <Loading loading={this.state.loading} />
-                                
+
                                 {this.state.voted ? <h2>Already Answer</h2> :
                                     <form onSubmit={this.handleAnswerOpen}>
                                         <TextField
@@ -261,6 +285,13 @@ class Poll extends React.Component {
 
                             </Paper>
                         </div>
+                        <div>
+                            <PollShareDialog
+                                show={this.state.showShareDialog}
+                                Close={this.handleShareModelClose}
+                                url={`/polls/poll/${this.props.match.params.pollId}`} />
+                        </div>
+
                     </div>
                 );
             default:
