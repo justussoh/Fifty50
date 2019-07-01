@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 import Dropzone from 'react-dropzone';
 
@@ -23,6 +25,7 @@ class NewOpenEnded extends React.Component {
             titleError: '',
             imgSrc: null,
             pollType: 'open',
+            loginToAnswer:false,
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -56,7 +59,7 @@ class NewOpenEnded extends React.Component {
             return;
         }
 
-        const pollData = { title: this.state.title.trim(), imgSrc: this.state.imgSrc, pollType:this.state.pollType }
+        const pollData = { title: this.state.title.trim(), imgSrc: this.state.imgSrc, pollType:this.state.pollType, loginToAnswer:this.state.loginToAnswer }
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
         firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
@@ -112,6 +115,10 @@ class NewOpenEnded extends React.Component {
         }
     }
 
+    handleLoginToAnswer = (e) => {
+        this.setState({ loginToAnswer: e.target.checked });
+    }
+
     render() {
 
         const { imgSrc } = this.state
@@ -152,7 +159,17 @@ class NewOpenEnded extends React.Component {
                                 helperText={this.state.titleError}
                             />
 
-                            <br /><br />
+                            <br />
+                            {this.state.loggedIn?
+                            <FormControlLabel
+                                control={<Switch
+                                    checked={this.state.loginToAnswer}
+                                    onChange={this.handleLoginToAnswer}
+                                />}
+                                label="Does User need to Login to Answer"
+                                labelPlacement="top"
+                            />:''}
+                            <br />
                             <Button
                                 variant="outlined"
                                 label="Create"

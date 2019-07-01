@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 
 import Dropzone from 'react-dropzone';
 
@@ -28,7 +30,8 @@ class NewSingleOption extends React.Component {
                 { option: '', optionError: '' }
             ],
             imgSrc: null,
-            pollType:'mcq',
+            pollType: 'mcq',
+            loginToAnswer: false,
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -73,7 +76,7 @@ class NewSingleOption extends React.Component {
             const key = op.option.trim();
             a[key] = 0;
             return a;
-        }, { title: this.state.title.trim(), imgSrc: this.state.imgSrc, pollType:this.state.pollType })
+        }, { title: this.state.title.trim(), imgSrc: this.state.imgSrc, pollType: this.state.pollType, loginToAnswer:this.state.loginToAnswer })
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
         firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
@@ -135,6 +138,10 @@ class NewSingleOption extends React.Component {
         }
     }
 
+    handleLoginToAnswer = (e) => {
+        this.setState({ loginToAnswer: e.target.checked });
+    }
+
     render() {
 
         const { imgSrc } = this.state
@@ -169,18 +176,18 @@ class NewSingleOption extends React.Component {
                             {imgSrc !== null ?
                                 <div>
                                     <img src={imgSrc} alt='User Uploaded' />
-                                </div> : 
-                                
+                                </div> :
+
                                 <Dropzone onDrop={this.handleOnDrop}>
-                                {({ getRootProps, getInputProps }) => (
-                                    <section>
-                                        <div {...getRootProps()}>
-                                            <input {...getInputProps()} />
-                                            <p>Drop your image files here</p>
-                                        </div>
-                                    </section>
-                                )}
-                            </Dropzone>}
+                                    {({ getRootProps, getInputProps }) => (
+                                        <section>
+                                            <div {...getRootProps()}>
+                                                <input {...getInputProps()} />
+                                                <p>Drop your image files here</p>
+                                            </div>
+                                        </section>
+                                    )}
+                                </Dropzone>}
 
                             <TextField
                                 label="Title"
@@ -197,7 +204,18 @@ class NewSingleOption extends React.Component {
                                 <AddIcon />
                             </Fab>
 
-                            <br /><br />
+                            <br />
+                            {this.state.loggedIn?
+                            <FormControlLabel
+                                control={<Switch
+                                    checked={this.state.loginToAnswer}
+                                    onChange={this.handleLoginToAnswer}
+                                />}
+                                label="Does User need to Login to Answer"
+                                labelPlacement="top"
+                            />:''}
+                            
+                            <br />
                             <Button
                                 variant="outlined"
                                 label="Create"

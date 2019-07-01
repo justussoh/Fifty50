@@ -42,10 +42,14 @@ class Update extends React.Component {
                 return a;
             }, []);
 
+            if(dbPoll.hasOwnProperty('imgSrc')){
+                this.setState({imgSrc: dbPoll.imgSrc});   
+            }
+
             //to start with a new option
             options.push({ option: '', optionError: '' });
 
-            this.setState({ title: dbPoll.title, options: options, imgSrc: dbPoll.imgSrc, pollType: dbPoll.pollType, originalCount: options.length - 1, loading: false })
+            this.setState({ title: dbPoll.title, options: options, pollType: dbPoll.pollType, originalCount: options.length - 1, loading: false })
         })).bind(this);
     }
 

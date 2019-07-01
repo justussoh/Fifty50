@@ -12,8 +12,9 @@ import { Chart } from 'react-google-charts';
 
 import PollShareDialog from './PollShareDialog';
 import { Comment } from '../components/PollingForm';
+import LoginDialog from './LoginDialog'
 
-const keyTypes = ['title', 'imgSrc', 'pollType']
+const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer']
 
 class Poll extends React.Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class Poll extends React.Component {
             showSnackbar: false,
             loading: true,
             showShareDialog: false,
+            loginToAnswer:false,
         };
 
         this.formIsInvalid = this.formIsInvalid.bind(this);
@@ -55,7 +57,7 @@ class Poll extends React.Component {
                     this.setState({imgSrc: dbPoll.imgSrc});   
                 }
 
-                this.setState({ title: dbPoll.title, options: options, pollType: dbPoll.pollType, loading: false })
+                this.setState({ title: dbPoll.title, options: options, pollType: dbPoll.pollType, loginToAnswer:dbPoll.loginToAnswer, loading: false })
             }
 
             if (dbPoll.pollType === 'open') {
@@ -77,7 +79,7 @@ class Poll extends React.Component {
                     this.setState({imgSrc: dbPoll.imgSrc});   
                 }
 
-                this.setState({ title: dbPoll.title, options: options, pollType: dbPoll.pollType, loading: false })
+                this.setState({ title: dbPoll.title, options: options, pollType: dbPoll.pollType, loginToAnswer:dbPoll.loginToAnswer, loading: false })
             }
         })).bind(this);
     }
@@ -184,6 +186,8 @@ class Poll extends React.Component {
             );
         });
 
+        
+
         switch (this.state.pollType) {
             case 'mcq':
                 return (
@@ -227,7 +231,7 @@ class Poll extends React.Component {
 
                                 <br /><br />
 
-                                <Comment pollId={this.props.match.params.pollId} />
+                                <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
 
 
                             </Paper>
@@ -238,6 +242,9 @@ class Poll extends React.Component {
                                 Close={this.handleShareModelClose}
                                 url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`} />
                         </div>
+                        <div>
+                            <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
+                        </div>
                     </div>
                 );
             case 'open':
@@ -247,7 +254,7 @@ class Poll extends React.Component {
 
                             <Snackbar
                                 open={this.state.showSnackbar}
-                                message="Thanks for your vote!"
+                                message="Thanks for your answering!"
                                 autoHideDuration={4000}
                             />
 
@@ -289,7 +296,7 @@ class Poll extends React.Component {
 
                                 <br /><br />
 
-                                <Comment pollId={this.props.match.params.pollId} />
+                                <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
 
                             </Paper>
                         </div>
@@ -298,6 +305,9 @@ class Poll extends React.Component {
                                 show={this.state.showShareDialog}
                                 Close={this.handleShareModelClose}
                                 url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`} />
+                        </div>
+                        <div>
+                            <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
                         </div>
 
                     </div>

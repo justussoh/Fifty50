@@ -195,6 +195,7 @@ class Comment extends React.Component {
                 id="new-comment"
                 value={newComment}
                 onChange={this.updateInput}
+                disabled={this.props.disable}
               />
               <button type="submit">Have your say</button>
             </form>
