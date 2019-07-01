@@ -6,24 +6,18 @@ import Fab from '@material-ui/core/Fab';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import styled from 'styled-components';
 
-const useStyles = makeStyles({
-  root: {
-    padding: 16,
-    color: 'red',
-    '& p': {
-      color: 'green',
-      '& span': {
-        color: 'blue'
-      }
-    }
-  },
-});
+const Styles = styled.div`
+  .blueColour{
+    color:blue;
+    text-align:center;
+  }`;
 
 export const Home = () => (
     <div>
       <Grid container justify = "center" alignItems = "center">
-        <Typography variant="h1" component="h2" gutterBottom>
+        <Typography variant="h1" component="h2" gutterBottom className='blueColour'>
         Fifty50</Typography>
       </Grid>  
       <Grid container justify = "center" alignItems = "center">
