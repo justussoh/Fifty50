@@ -1,7 +1,7 @@
 import React from 'react';
 import { firebaseApp } from '../utils/firebase';
 import history from '../history';
-
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
@@ -81,11 +81,11 @@ class NewOpenEnded extends React.Component {
             const currentFileType = currentFile.type
             const currentFileSize = currentFile.size
             if (currentFileSize > 10000000) {
-                alert("This File is too Large")
+                alert("This file is too large")
                 return false;
             }
             if (!acceptFileTypeArray.includes(currentFileType)) {
-                alert("This File Type is not allowed. Only images are allowed")
+                alert("This file type is not allowed. Only images are allowed")
                 return false
             }
             return true
@@ -122,7 +122,7 @@ class NewOpenEnded extends React.Component {
 
                     <h1>New Poll</h1>
 
-                    <Paper>
+                    <Grid>
                         <br /><br />
                         <h2>New Poll</h2>
 
@@ -138,7 +138,7 @@ class NewOpenEnded extends React.Component {
                                         <section>
                                             <div {...getRootProps()}>
                                                 <input {...getInputProps()} />
-                                                <p>Drop Your image files Here</p>
+                                                <p>Drop Your image files here</p>
                                             </div>
                                         </section>
                                     )}
@@ -156,12 +156,13 @@ class NewOpenEnded extends React.Component {
                             <Button
                                 variant="outlined"
                                 label="Create"
-                                type="submit"
-                            />
+                                type="submit">
+                                Submit
+                            </Button>
                         </form>
 
                         <br /><br />
-                    </Paper>
+                    </Grid>
                 </div>
             </div>
         );

@@ -1,17 +1,17 @@
 import React from 'react';
 import { Paper, TextField, MenuItem} from '@material-ui/core';
-
+import Grid from '@material-ui/core/Grid';
 import NewSingleOption from './NewSingleOption';
 import NewOpenEnded from "./NewOpenEnded"
 
 const pollOptions = [
     {
       value: 'mcq',
-      label: 'Select Options',
+      label: 'Fixed answers',
     },
     {
       value: 'open',
-      label: 'Open-Ended',
+      label: 'Open ended answers',
     },
   ];
 
@@ -41,14 +41,14 @@ class NewPoll extends React.Component {
         }
         return (
             <div>
-                <Paper>
+                <Grid>
                     <TextField
                         id="standard-select-currency"
                         select
-                        label="Select"
+                        label="Select your poll type"
                         value={this.state.typePoll}
                         onChange={handleChange}
-                        helperText="Please the type of poll"
+                        helperText="Choose the best poll type for you"
                         margin="normal"
 
                     >
@@ -59,7 +59,7 @@ class NewPoll extends React.Component {
                         ))}
                     </TextField>
                     {showComponent()}
-            </Paper>
+            </Grid>
                 
             </div>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { firebaseApp } from '../utils/firebase';
 import history from '../history';
-
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
@@ -160,7 +160,7 @@ class NewSingleOption extends React.Component {
 
                     <h1>New Poll</h1>
 
-                    <Paper>
+                    <Grid>
                         <br /><br />
                         <h2>New Poll</h2>
 
@@ -176,7 +176,7 @@ class NewSingleOption extends React.Component {
                                     <section>
                                         <div {...getRootProps()}>
                                             <input {...getInputProps()} />
-                                            <p>Drop Your image files Here</p>
+                                            <p>Drop your image files here</p>
                                         </div>
                                     </section>
                                 )}
@@ -201,12 +201,13 @@ class NewSingleOption extends React.Component {
                             <Button
                                 variant="outlined"
                                 label="Create"
-                                type="submit"
-                            />
+                                type="submit">
+                                Submit
+                            </Button>
                         </form>
 
                         <br /><br />
-                    </Paper>
+                    </Grid>
                 </div>
             </div>
         );
