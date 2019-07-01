@@ -51,7 +51,11 @@ class Poll extends React.Component {
                     return a;
                 }, []);
 
-                this.setState({ title: dbPoll.title, options: options, imgSrc: dbPoll.imgSrc, pollType: dbPoll.pollType, loading: false })
+                if(dbPoll.hasOwnProperty('imgSrc')){
+                    this.setState({imgSrc: dbPoll.imgSrc});   
+                }
+
+                this.setState({ title: dbPoll.title, options: options, pollType: dbPoll.pollType, loading: false })
             }
 
             if (dbPoll.pollType === 'open') {
@@ -69,7 +73,11 @@ class Poll extends React.Component {
                     this.setState({ originalCount: options.length - 1 })
                 }
 
-                this.setState({ title: dbPoll.title, options: options, imgSrc: dbPoll.imgSrc, pollType: dbPoll.pollType, loading: false })
+                if(dbPoll.hasOwnProperty('imgSrc')){
+                    this.setState({imgSrc: dbPoll.imgSrc});   
+                }
+
+                this.setState({ title: dbPoll.title, options: options, pollType: dbPoll.pollType, loading: false })
             }
         })).bind(this);
     }
@@ -228,7 +236,7 @@ class Poll extends React.Component {
                             <PollShareDialog
                                 show={this.state.showShareDialog}
                                 Close={this.handleShareModelClose}
-                                url={`/polls/poll/${this.props.match.params.pollId}`} />
+                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`} />
                         </div>
                     </div>
                 );
@@ -289,7 +297,7 @@ class Poll extends React.Component {
                             <PollShareDialog
                                 show={this.state.showShareDialog}
                                 Close={this.handleShareModelClose}
-                                url={`/polls/poll/${this.props.match.params.pollId}`} />
+                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`} />
                         </div>
 
                     </div>
