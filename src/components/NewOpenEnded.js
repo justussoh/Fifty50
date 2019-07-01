@@ -138,7 +138,7 @@ class NewOpenEnded extends React.Component {
                                         <section>
                                             <div {...getRootProps()}>
                                                 <input {...getInputProps()} />
-                                                <p>Drop Your image files here</p>
+                                                <p>Drop your image files here</p>
                                             </div>
                                         </section>
                                     )}
