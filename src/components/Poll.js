@@ -14,7 +14,7 @@ import PollShareDialog from './PollShareDialog';
 import { Comment } from '../components/PollingForm';
 import LoginDialog from './LoginDialog'
 
-const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer']
+const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire']
 
 class Poll extends React.Component {
     constructor(props) {
@@ -33,6 +33,7 @@ class Poll extends React.Component {
             loading: true,
             showShareDialog: false,
             loginToAnswer:false,
+            expire:null,
         };
 
         this.formIsInvalid = this.formIsInvalid.bind(this);
@@ -45,6 +46,11 @@ class Poll extends React.Component {
         console.log(this.pollRef)
         this.pollRef.on('value', ((snapshot) => {
             const dbPoll = snapshot.val();
+            if(dbPoll.expire && dbPoll.expire.check){
+                if(new Date().getTime() > new Date(dbPoll.expire.expireDate).getTime()){
+                    this.setState({voted:true})
+                }
+            }
             if (dbPoll.pollType === 'mcq') {
                 const options = Object.keys(dbPoll).reduce((a, key) => {
                     if (!keyTypes.includes(key)) {
@@ -57,7 +63,11 @@ class Poll extends React.Component {
                     this.setState({imgSrc: dbPoll.imgSrc});   
                 }
 
-                this.setState({ title: dbPoll.title, options: options, pollType: dbPoll.pollType, loginToAnswer:dbPoll.loginToAnswer, loading: false })
+                this.setState({ title: dbPoll.title,
+                     options: options, pollType: dbPoll.pollType,
+                      loginToAnswer:dbPoll.loginToAnswer,
+                      expire:dbPoll.expire,
+                    loading: false })
             }
 
             if (dbPoll.pollType === 'open') {
@@ -79,7 +89,12 @@ class Poll extends React.Component {
                     this.setState({imgSrc: dbPoll.imgSrc});   
                 }
 
-                this.setState({ title: dbPoll.title, options: options, pollType: dbPoll.pollType, loginToAnswer:dbPoll.loginToAnswer, loading: false })
+                this.setState({ title: dbPoll.title,
+                     options: options,
+                      pollType: dbPoll.pollType,
+                       loginToAnswer:dbPoll.loginToAnswer,
+                       expire:dbPoll.expire,
+                     loading: false })
             }
         })).bind(this);
     }
@@ -208,6 +223,10 @@ class Poll extends React.Component {
                                 <br />
                                 <Button variant="outlined" color="primary" onClick={this.handleShareModelOpen}>Share</Button>
                                 <br />
+
+                                {this.state.expire && this.state.expire.check?
+                                <h2>Time Remaining: {(new Date(this.state.expire.expireDate).getTime()-new Date().getTime())/60/1000} Minutes</h2>:''
+                                }
 
                                 {this.state.imgSrc !== null ?
                                     <div>

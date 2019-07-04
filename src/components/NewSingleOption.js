@@ -4,11 +4,12 @@ import history from '../history';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+
+import {InputGroup, FormControl, DropdownButton, Dropdown} from 'react-bootstrap'
 
 import Dropzone from 'react-dropzone';
 
@@ -32,6 +33,9 @@ class NewSingleOption extends React.Component {
             imgSrc: null,
             pollType: 'mcq',
             loginToAnswer: false,
+            expire: { check: false, createDate: null, expireDate: null, duration: 0 },
+            durationMeasure:'minutes',
+            duration:5,
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -72,11 +76,36 @@ class NewSingleOption extends React.Component {
             return;
         }
 
+        if(this.state.expire.check){
+            let newExpiry = this.state.expire;
+            let now = new Date();
+            newExpiry.createDate = now;
+            let duration; 
+            if(this.state.durationMeasure==='minutes'){
+                duration = this.state.duration*60*1000
+            }
+            if(this.state.durationMeasure==='hours'){
+                duration = this.state.duration*60*60*1000
+            }
+            if(this.state.durationMeasure==='days'){
+                duration = this.state.duration*60*60*24*1000
+            }
+            newExpiry.duration=duration;
+            let expiryTime = new Date(now.getTime() + duration);
+            newExpiry.expireDate=expiryTime;
+            
+        }
+
         const pollData = this.state.options.reduce((a, op) => {
             const key = op.option.trim();
             a[key] = 0;
             return a;
-        }, { title: this.state.title.trim(), imgSrc: this.state.imgSrc, pollType: this.state.pollType, loginToAnswer:this.state.loginToAnswer })
+        }, { title: this.state.title.trim(), 
+            imgSrc: this.state.imgSrc, 
+            pollType: this.state.pollType, 
+            loginToAnswer: this.state.loginToAnswer ,
+            expire:this.state.expire,
+        })
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
         firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
@@ -89,7 +118,7 @@ class NewSingleOption extends React.Component {
         }
 
         console.log(200);
-
+        //console.log(this.state)
         history.push(`/polls/poll/${newPollKey}`);
 
     }
@@ -140,6 +169,20 @@ class NewSingleOption extends React.Component {
 
     handleLoginToAnswer = (e) => {
         this.setState({ loginToAnswer: e.target.checked });
+    }
+
+    handleExpiryChange = (e) => {
+        let newExpiry = this.state.expire;
+        newExpiry.check = e.target.checked;
+        this.setState({ expire: newExpiry });
+    }
+
+    handleDurationChange(measure){
+        this.setState({durationMeasure: measure});
+    }
+
+    handleDurationPeriodChange = (e) => {
+        this.setState({ duration: e.target.value });
     }
 
     render() {
@@ -205,16 +248,44 @@ class NewSingleOption extends React.Component {
                             </Fab>
 
                             <br />
-                            {this.state.loggedIn?
+                            {this.state.loggedIn ?
+                                <FormControlLabel
+                                    control={<Switch
+                                        checked={this.state.loginToAnswer}
+                                        onChange={this.handleLoginToAnswer}
+                                    />}
+                                    label="Does User need to Login to Answer"
+                                    labelPlacement="top"
+                                /> : ''}
                             <FormControlLabel
                                 control={<Switch
-                                    checked={this.state.loginToAnswer}
-                                    onChange={this.handleLoginToAnswer}
+                                    checked={this.state.expire.check}
+                                    onChange={this.handleExpiryChange}
                                 />}
-                                label="Does User need to Login to Answer"
-                                labelPlacement="top"
-                            />:''}
-                            
+                                label="Set a Duration for the poll"
+                                labelPlacement="top" />
+
+                            {this.state.expire.check ? 
+                            <InputGroup>
+                                <FormControl
+                                    placeholder="Enter Duration"
+                                    value={this.state.duration}
+                                    type='number'
+                                    onChange={this.handleDurationPeriodChange}
+                                />
+
+                                <DropdownButton
+                                    as={InputGroup.Append}
+                                    variant="outline-secondary"
+                                    title={this.state.durationMeasure}
+                                                                     
+                                >
+                                    <Dropdown.Item onClick={() =>{this.handleDurationChange('minutes')}}>Minutes</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>{this.handleDurationChange('hours')}}>Hours</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>{this.handleDurationChange('days')}}>Days</Dropdown.Item>
+                                </DropdownButton>
+                            </InputGroup> : ''}
+
                             <br />
                             <Button
                                 variant="outlined"
