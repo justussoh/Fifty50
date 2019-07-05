@@ -34,6 +34,7 @@ class Poll extends React.Component {
             showShareDialog: false,
             loginToAnswer:false,
             expire:null,
+            status:'',
         };
 
         this.formIsInvalid = this.formIsInvalid.bind(this);
@@ -48,7 +49,7 @@ class Poll extends React.Component {
             const dbPoll = snapshot.val();
             if(dbPoll.expire && dbPoll.expire.check){
                 if(new Date().getTime() > new Date(dbPoll.expire.expireDate).getTime()){
-                    this.setState({voted:true})
+                    this.setState({voted:true, status:'expired'})
                 }
             }
             if (dbPoll.pollType === 'mcq') {
@@ -163,6 +164,21 @@ class Poll extends React.Component {
         this.setState({ showShareDialog: true });
     }
 
+    renderTimer = () =>{
+        if(this.state.expire && this.state.expire.check){
+            if(this.state.status === 'expired'){
+                return (
+                    <h2>Poll has expired</h2>
+                );
+            }else{
+                return(
+                    <h2>Time Remaining: {(new Date(this.state.expire.expireDate).getTime()-new Date().getTime())/60/1000} Minutes</h2>
+                );
+            }
+        }
+        return ''
+    }
+
     render() {
 
 
@@ -172,6 +188,8 @@ class Poll extends React.Component {
         data.unshift(['option', 'votes']);
 
         let isAuthUser = firebaseApp.auth().currentUser ? true : false;
+
+        
 
 
         let addOptionUI;
@@ -224,9 +242,7 @@ class Poll extends React.Component {
                                 <Button variant="outlined" color="primary" onClick={this.handleShareModelOpen}>Share</Button>
                                 <br />
 
-                                {this.state.expire && this.state.expire.check?
-                                <h2>Time Remaining: {(new Date(this.state.expire.expireDate).getTime()-new Date().getTime())/60/1000} Minutes</h2>:''
-                                }
+                                {this.renderTimer()}
 
                                 {this.state.imgSrc !== null ?
                                     <div>
