@@ -14,7 +14,7 @@ import PollShareDialog from './PollShareDialog';
 import { Comment } from '../components/PollingForm';
 import LoginDialog from './LoginDialog'
 
-const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire']
+const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];
 
 class Poll extends React.Component {
     constructor(props) {

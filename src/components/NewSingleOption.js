@@ -8,6 +8,10 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import {Typeahead} from 'react-bootstrap-typeahead'
+
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
 
 import {InputGroup, FormControl, DropdownButton, Dropdown} from 'react-bootstrap'
 
@@ -36,6 +40,9 @@ class NewSingleOption extends React.Component {
             expire: { check: false, createDate: null, expireDate: null, duration: 0 },
             durationMeasure:'minutes',
             duration:5,
+            category:'',
+            categoryList:[],
+            categories:[],
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -57,6 +64,15 @@ class NewSingleOption extends React.Component {
                 this.setState({ loggedIn: false })
             }
         });
+        this.pollRef = firebaseApp.database().ref();
+        this.pollRef.on('value', ((snapshot) => {
+            const db = snapshot.val();
+            this.setState({categories:db.catergoryList});
+        })).bind(this);
+    }
+
+    componentWillUnmount() {
+        this.pollRef.off();
     }
 
     handleTitleChange(e) {
@@ -96,6 +112,11 @@ class NewSingleOption extends React.Component {
             
         }
 
+        const cat = this.state.categoryList.reduce((a,option) =>{
+            a.push(option.label);
+            return a;
+        },[]);
+
         const pollData = this.state.options.reduce((a, op) => {
             const key = op.option.trim();
             a[key] = 0;
@@ -105,6 +126,7 @@ class NewSingleOption extends React.Component {
             pollType: this.state.pollType, 
             loginToAnswer: this.state.loginToAnswer ,
             expire:this.state.expire,
+            categoryList: cat,
         })
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
@@ -115,6 +137,20 @@ class NewSingleOption extends React.Component {
             var updates = {};
             updates[`/user-polls/${uid}/${newPollKey}`] = true;
             firebaseApp.database().ref().update(updates);
+        }
+
+        if (cat.length > 0){
+            for(let i=0;i <cat.length; i++){
+                var updates = {};
+                updates[`/category/${cat[i]}/${newPollKey}`] = true;
+                firebaseApp.database().ref().update(updates);
+                if (!this.state.categories.includes(cat[i])){
+                    var updates = {};
+                    this.state.categories.push(cat[i]);
+                    updates[`/categoryList`]=this.state.categories;
+                    firebaseApp.database().ref().update(updates);
+                }
+            }
         }
 
         console.log(200);
@@ -175,15 +211,27 @@ class NewSingleOption extends React.Component {
         let newExpiry = this.state.expire;
         newExpiry.check = e.target.checked;
         this.setState({ expire: newExpiry });
-    }
+    };
 
     handleDurationChange(measure){
         this.setState({durationMeasure: measure});
-    }
+    };
 
     handleDurationPeriodChange = (e) => {
         this.setState({ duration: e.target.value });
-    }
+    };
+
+    handleCategoryInputChange = (value) =>{
+        this.setState({
+            category:value
+        });
+    };
+
+    handleSearchSelect = (selected) => {
+        this.setState({
+            categoryList: selected,
+        });
+    };
 
     render() {
 
@@ -285,7 +333,19 @@ class NewSingleOption extends React.Component {
                                     <Dropdown.Item onClick={()=>{this.handleDurationChange('days')}}>Days</Dropdown.Item>
                                 </DropdownButton>
                             </InputGroup> : ''}
-
+                            <br />
+                            <Typeahead allowNew
+                                       multiple
+                                       selectHintOnEnter
+                                       newSelectionPrefix="Add a Category: "
+                                       options={this.state.categories}
+                                       placeholder="Add Category"
+                                       onInputChange={this.handleCategoryInputChange}
+                                       onChange={this.handleSearchSelect}
+                                       id='category'
+                                       maxResults={5}
+                                       minLength={2}
+                            />
                             <br />
                             <Button
                                 variant="outlined"

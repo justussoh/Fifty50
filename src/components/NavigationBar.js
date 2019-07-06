@@ -65,7 +65,7 @@ class NavigationBar extends React.Component {
                             alignRight={true}>
                             <Dropdown.Toggle as={AvatarIcon} />
                             <Dropdown.Menu>
-                                <Dropdown.Item><Nav.Link href="/polls/dashboard">Dashboard</Nav.Link></Dropdown.Item>
+                                <Dropdown.Item as={Nav.Link} href="/polls/dashboard" >Dashboard</Dropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item><Button
                                     onClick={this.handleLogout}

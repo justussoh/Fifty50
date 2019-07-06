@@ -23,7 +23,8 @@ class Dashboard extends React.Component {
         this.state = {
             dialogOpen: false,
             loading: true,
-            polls: [] //items like { id: 34324, title: 'sdf'}
+            polls: [], //items like { id: 34324, title: 'sdf'}
+            user:null,
         };
 
         this.poll2Delete = '';
@@ -40,6 +41,7 @@ class Dashboard extends React.Component {
             if (user) { //this can get called after componentWillUnmount, make sure its there to avoid errors
 
                 const uid = user.uid;
+                this.setState({user:user});
 
                 this.userPollsRef = firebaseApp.database().ref(`user-polls/${uid}`);
 
@@ -142,7 +144,7 @@ class Dashboard extends React.Component {
                 <div className="col-sm-12 text-xs-center">
 
                     <Paper>
-
+                        {this.state.user ? <h2>Hello {this.state.user.displayName}</h2> : ''}
                         <br />
                         <h2>Your Polls</h2>
                         <br />

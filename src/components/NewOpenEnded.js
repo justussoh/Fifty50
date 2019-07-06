@@ -4,17 +4,20 @@ import history from '../history';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import {Typeahead} from 'react-bootstrap-typeahead'
 
 import {InputGroup, FormControl, DropdownButton, Dropdown} from 'react-bootstrap'
 import Dropzone from 'react-dropzone';
 
+import 'react-bootstrap-typeahead/css/Typeahead.css';
+import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
+
 const acceptFileType = 'image/x-png, image/png, image,jpg, image/jpeg, image/gif'
 const acceptFileTypeArray = acceptFileType.split(",").map((item) => {
     return item.trim()
-})
+});
 
 class NewOpenEnded extends React.Component {
     constructor(props) {
@@ -30,6 +33,9 @@ class NewOpenEnded extends React.Component {
             expire: { check: false, createDate: null, expireDate: null, duration: 0 },
             durationMeasure:'minutes',
             duration:5,
+            category:'',
+            categoryList:[],
+            categories:[],
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -50,6 +56,15 @@ class NewOpenEnded extends React.Component {
                 this.setState({ loggedIn: false })
             }
         });
+        this.pollRef = firebaseApp.database().ref();
+        this.pollRef.on('value', ((snapshot) => {
+            const db = snapshot.val();
+            this.setState({categories:db.catergoryList});
+        })).bind(this);
+    }
+
+    componentWillUnmount() {
+        this.pollRef.off();
     }
 
     handleTitleChange(e) {
@@ -83,13 +98,18 @@ class NewOpenEnded extends React.Component {
             
         }
 
+        const cat = this.state.categoryList.reduce((a,option) =>{
+           a.push(option.label);
+           return a;
+        },[]);
+
         const pollData = { title: this.state.title.trim(),
             imgSrc: this.state.imgSrc,
             pollType:this.state.pollType,
             loginToAnswer:this.state.loginToAnswer,
             expire:this.state.expire,
-        
-        }
+            categoryList: cat,
+        };
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
         firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
@@ -101,10 +121,23 @@ class NewOpenEnded extends React.Component {
             firebaseApp.database().ref().update(updates);
         }
 
+        if (cat.length > 0){
+            for(let i=0;i <cat.length; i++){
+                var updates = {};
+                updates[`/category/${cat[i]}/${newPollKey}`] = true;
+                firebaseApp.database().ref().update(updates);
+                if (!this.state.categories.includes(cat[i])){
+                    var updates = {};
+                    this.state.categories.push(cat[i]);
+                    updates[`/categoryList`]=this.state.categories;
+                    firebaseApp.database().ref().update(updates);
+                }
+            }
+        }
+
         console.log(200);
 
         history.push(`/polls/poll/${newPollKey}`);
-
     }
 
 
@@ -161,11 +194,23 @@ class NewOpenEnded extends React.Component {
 
     handleDurationPeriodChange = (e) => {
         this.setState({ duration: e.target.value });
-    }
+    };
+
+    handleCategoryInputChange = (value) =>{
+        this.setState({
+            category:value
+        });
+    };
+
+    handleSearchSelect = (selected) => {
+        this.setState({
+            categoryList: selected,
+        });
+    };
 
     render() {
 
-        const { imgSrc } = this.state
+        const { imgSrc } = this.state;
 
         return (
             <div className="row">
@@ -241,6 +286,19 @@ class NewOpenEnded extends React.Component {
                                     <Dropdown.Item onClick={()=>{this.handleDurationChange('days')}}>Days</Dropdown.Item>
                                 </DropdownButton>
                             </InputGroup> : ''}
+                            <br />
+                            <Typeahead allowNew
+                                       multiple
+                                       selectHintOnEnter
+                                       newSelectionPrefix="Add a Category: "
+                                       options={this.state.categories}
+                                       placeholder="Add Category"
+                                       onInputChange={this.handleCategoryInputChange}
+                                       onChange={this.handleSearchSelect}
+                                       id='category'
+                                       maxResults={5}
+                                       minLength={2}
+                            />
                             <br />
                             <Button
                                 variant="outlined"
