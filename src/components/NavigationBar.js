@@ -52,7 +52,7 @@ class NavigationBar extends React.Component {
 
     handleAvatarMenuToggle = () => {
         this.setState({ hover: !this.state.hover })
-    }
+    };
 
     renderNav = () => {
         switch (this.state.loggedIn) {

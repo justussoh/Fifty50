@@ -17,6 +17,7 @@ import { Loginpage } from './components/Loginpage';
 import { Signup } from './components/Signup';
 import { Recover } from './components/Recover';
 import { Dashboard } from './components/Dashboard';
+import Category from './components/Category';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route exact path="/polls/new" component={NewPoll} />
             <Route exact path="/polls/poll/:pollId" component={Poll} />
             <Route path="/polls/update/:pollId" component={Update} />
+            <Route exact path="/category/:category" component={Category} />
             <Route exact path="/pollingform" component={Comment} />
             <Route component={NoMatch} />
           </Switch>
