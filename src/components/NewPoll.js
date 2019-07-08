@@ -3,6 +3,7 @@ import { Paper, TextField, MenuItem} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import NewSingleOption from './NewSingleOption';
 import NewOpenEnded from "./NewOpenEnded"
+import NewOpenEndedMcq from "./NewOpenEndedMcq";
 
 const pollOptions = [
     {
@@ -12,6 +13,10 @@ const pollOptions = [
     {
       value: 'open',
       label: 'Open ended answers',
+    },
+    {
+        value: 'openmcq',
+        label: 'Custom answers',
     },
   ];
 
@@ -35,6 +40,8 @@ class NewPoll extends React.Component {
                     return <NewSingleOption />;
                 case 'open':
                     return <NewOpenEnded />;
+                case 'openmcq':
+                    return <NewOpenEndedMcq />;
                 default:
                     return <NewSingleOption />;
             }

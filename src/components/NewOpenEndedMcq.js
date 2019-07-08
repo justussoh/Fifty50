@@ -1,68 +1,25 @@
 import React from 'react';
-import {firebaseApp} from '../utils/firebase';
+import { firebaseApp } from '../utils/firebase';
 import history from '../history';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import {Typeahead} from 'react-bootstrap-typeahead'
 
+import {InputGroup, FormControl, DropdownButton, Dropdown} from 'react-bootstrap'
+import Dropzone from 'react-dropzone';
+
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
 
-import {InputGroup, FormControl, DropdownButton, Dropdown} from 'react-bootstrap'
-
-import Dropzone from 'react-dropzone';
-
-const acceptFileType = 'image/x-png, image/png, image,jpg, image/jpeg, image/gif';
+const acceptFileType = 'image/x-png, image/png, image,jpg, image/jpeg, image/gif'
 const acceptFileTypeArray = acceptFileType.split(",").map((item) => {
     return item.trim()
 });
 
-const option = ['Academic disciplines‎',
-    'Business‎',
-    'Concepts',
-    'Crime‎',
-    'Culture‎',
-    'Economy‎',
-    'Education‎',
-    'Energy',
-    'Entertainment‎',
-    'Events‎',
-    'Food and drink‎',
-    'Geography‎',
-    'Government‎',
-    'Health‎',
-    'History‎',
-    'Human behavior',
-    'Humanities‎',
-    'Knowledge‎',
-    'Language‎',
-    'Law',
-    'Life‎',
-    'Mathematics‎',
-    'Military',
-    'Mind‎',
-    'Music‎',
-    'Nature‎',
-    'Objects‎',
-    'Organizations‎',
-    'People‎',
-    'Philosophy‎',
-    'Politics‎',
-    'Religion‎',
-    'Science‎',
-    'Society',
-    'Sports‎',
-    'Technology‎',
-    'Universe‎',
-    'World‎',];
-
-
-class NewSingleOption extends React.Component {
+class NewOpenEndedMcq extends React.Component {
     constructor(props) {
         super(props);
 
@@ -70,24 +27,19 @@ class NewSingleOption extends React.Component {
             loggedIn: false,
             title: '',
             titleError: '',
-            options: [
-                {option: '', optionError: ''},
-                {option: '', optionError: ''}
-            ],
             imgSrc: null,
-            pollType: 'mcq',
-            loginToAnswer: false,
-            expire: {check: false, createDate: null, expireDate: null, duration: 0},
-            durationMeasure: 'minutes',
-            duration: 5,
-            category: '',
-            categoryList: [],
-            categories: [],
+            pollType: 'openmcq',
+            loginToAnswer:false,
+            expire: { check: false, createDate: null, expireDate: null, duration: 0 },
+            durationMeasure:'minutes',
+            duration:5,
+            category:'',
+            categoryList:[],
+            categories:[],
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleAddOption = this.handleAddOption.bind(this);
         this.formIsInvalid = this.formIsInvalid.bind(this);
     }
 
@@ -101,13 +53,13 @@ class NewSingleOption extends React.Component {
                     loggedIn: true
                 });
             } else {
-                this.setState({loggedIn: false})
+                this.setState({ loggedIn: false })
             }
         });
         this.pollRef = firebaseApp.database().ref();
         this.pollRef.on('value', ((snapshot) => {
             const db = snapshot.val();
-            this.setState({categories: db.categoryList});
+            this.setState({categories:db.categoryList});
         })).bind(this);
     }
 
@@ -116,13 +68,7 @@ class NewSingleOption extends React.Component {
     }
 
     handleTitleChange(e) {
-        this.setState({title: e.target.value});
-    }
-
-    handleOptionChange(i, e) {
-        let options = this.state.options;
-        options[i].option = e.target.value;
-        this.setState({options: options});
+        this.setState({ title: e.target.value });
     }
 
     handleSubmit(e) {
@@ -132,37 +78,33 @@ class NewSingleOption extends React.Component {
             return;
         }
 
-        if (this.state.expire.check) {
+        if(this.state.expire.check){
             let newExpiry = this.state.expire;
             let now = new Date();
             newExpiry.createDate = now;
             let duration;
-            if (this.state.durationMeasure === 'minutes') {
-                duration = this.state.duration * 60 * 1000
+            if(this.state.durationMeasure==='minutes'){
+                duration = this.state.duration*60*1000
             }
-            if (this.state.durationMeasure === 'hours') {
-                duration = this.state.duration * 60 * 60 * 1000
+            if(this.state.durationMeasure==='hours'){
+                duration = this.state.duration*60*60*1000
             }
-            if (this.state.durationMeasure === 'days') {
-                duration = this.state.duration * 60 * 60 * 24 * 1000
+            if(this.state.durationMeasure==='days'){
+                duration = this.state.duration*60*60*24*1000
             }
-            newExpiry.duration = duration;
+            newExpiry.duration=duration;
             let expiryTime = new Date(now.getTime() + duration);
-            newExpiry.expireDate = expiryTime;
+            newExpiry.expireDate=expiryTime;
+
         }
 
-        const pollData = this.state.options.reduce((a, op) => {
-            const key = op.option.trim();
-            a[key] = 0;
-            return a;
-        }, {
-            title: this.state.title.trim(),
+        const pollData = { title: this.state.title.trim(),
             imgSrc: this.state.imgSrc,
-            pollType: this.state.pollType,
-            loginToAnswer: this.state.loginToAnswer,
-            expire: this.state.expire,
+            pollType:this.state.pollType,
+            loginToAnswer:this.state.loginToAnswer,
+            expire:this.state.expire,
             categoryList: this.state.categoryList,
-        });
+        };
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
         firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
@@ -188,19 +130,11 @@ class NewSingleOption extends React.Component {
             }
         }
 
-
         console.log(200);
-        //console.log(this.state)
+
         history.push(`/polls/poll/${newPollKey}`);
-
     }
 
-    handleAddOption() {
-        let options = this.state.options;
-        options.push({option: '', optionError: ''});
-
-        this.setState({options});
-    }
 
     verifyFile = (files) => {
         if (files && files.length > 0) {
@@ -208,11 +142,11 @@ class NewSingleOption extends React.Component {
             const currentFileType = currentFile.type
             const currentFileSize = currentFile.size
             if (currentFileSize > 10000000) {
-                alert("This File is too Large")
+                alert("This file is too large")
                 return false;
             }
             if (!acceptFileTypeArray.includes(currentFileType)) {
-                alert("This File Type is not allowed. Only images are allowed")
+                alert("This file type is not allowed. Only images are allowed")
                 return false
             }
             return true
@@ -230,7 +164,7 @@ class NewSingleOption extends React.Component {
                 const currentFile = files[0]
                 const reader = new FileReader()
                 reader.addEventListener("load", () => {
-                    this.setState({imgSrc: reader.result})
+                    this.setState({ imgSrc: reader.result })
                 }, false)
 
                 reader.readAsDataURL(currentFile)
@@ -240,26 +174,26 @@ class NewSingleOption extends React.Component {
     }
 
     handleLoginToAnswer = (e) => {
-        this.setState({loginToAnswer: e.target.checked});
+        this.setState({ loginToAnswer: e.target.checked });
     }
 
     handleExpiryChange = (e) => {
         let newExpiry = this.state.expire;
         newExpiry.check = e.target.checked;
-        this.setState({expire: newExpiry});
-    };
+        this.setState({ expire: newExpiry });
+    }
 
-    handleDurationChange(measure) {
+    handleDurationChange(measure){
         this.setState({durationMeasure: measure});
-    };
+    }
 
     handleDurationPeriodChange = (e) => {
-        this.setState({duration: e.target.value});
+        this.setState({ duration: e.target.value });
     };
 
-    handleCategoryInputChange = (value) => {
+    handleCategoryInputChange = (value) =>{
         this.setState({
-            category: value
+            category:value
         });
     };
 
@@ -271,42 +205,27 @@ class NewSingleOption extends React.Component {
 
     render() {
 
-        const {imgSrc} = this.state
-
-        let options = this.state.options.map((option, i) => {
-            return (
-                <div key={i}>
-                    <br/>
-                    <TextField
-                        label={`Option ${i + 1}`}
-                        value={this.state.options[i].option}
-                        onChange={this.handleOptionChange.bind(this, i)}
-                        error={this.state.options[i].optionError}
-                        helperText={this.state.options[i].optionError}
-                    />
-                </div>
-            );
-        });
+        const { imgSrc } = this.state;
 
         return (
             <div className="row">
                 <div className="col-sm-12 text-xs-center">
 
-                    <h1>New Fixed Answer Poll</h1>
+                    <h1>New Custom Answer Poll</h1>
 
                     <Grid>
-                        <br/><br/>
+                        <br /><br />
                         <h2>New Poll</h2>
 
                         <form onSubmit={this.handleSubmit}>
 
                             {imgSrc !== null ?
                                 <div>
-                                    <img src={imgSrc} alt='User Uploaded'/>
+                                    <img src={imgSrc} alt='User Uploaded' />
                                 </div> :
 
                                 <Dropzone onDrop={this.handleOnDrop}>
-                                    {({getRootProps, getInputProps}) => (
+                                    {({ getRootProps, getInputProps }) => (
                                         <section>
                                             <div {...getRootProps()}>
                                                 <input {...getInputProps()} />
@@ -324,15 +243,8 @@ class NewSingleOption extends React.Component {
                                 helperText={this.state.titleError}
                             />
 
-                            {options}
-
-                            <br/>
-                            <Fab color="primary" aria-label="Add" onClick={this.handleAddOption}>
-                                <AddIcon/>
-                            </Fab>
-
-                            <br/>
-                            {this.state.loggedIn ?
+                            <br />
+                            {this.state.loggedIn?
                                 <FormControlLabel
                                     control={<Switch
                                         checked={this.state.loginToAnswer}
@@ -340,14 +252,14 @@ class NewSingleOption extends React.Component {
                                     />}
                                     label="Does User need to Login to Answer"
                                     labelPlacement="top"
-                                /> : ''}
+                                />:''}
                             <FormControlLabel
                                 control={<Switch
                                     checked={this.state.expire.check}
                                     onChange={this.handleExpiryChange}
                                 />}
                                 label="Set a Duration for the poll"
-                                labelPlacement="top"/>
+                                labelPlacement="top" />
 
                             {this.state.expire.check ?
                                 <InputGroup>
@@ -364,18 +276,12 @@ class NewSingleOption extends React.Component {
                                         title={this.state.durationMeasure}
 
                                     >
-                                        <Dropdown.Item onClick={() => {
-                                            this.handleDurationChange('minutes')
-                                        }}>Minutes</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => {
-                                            this.handleDurationChange('hours')
-                                        }}>Hours</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => {
-                                            this.handleDurationChange('days')
-                                        }}>Days</Dropdown.Item>
+                                        <Dropdown.Item onClick={() =>{this.handleDurationChange('minutes')}}>Minutes</Dropdown.Item>
+                                        <Dropdown.Item onClick={()=>{this.handleDurationChange('hours')}}>Hours</Dropdown.Item>
+                                        <Dropdown.Item onClick={()=>{this.handleDurationChange('days')}}>Days</Dropdown.Item>
                                     </DropdownButton>
                                 </InputGroup> : ''}
-                            <br/>
+                            <br />
                             <Typeahead allowNew
                                        multiple
                                        selectHintOnEnter
@@ -388,7 +294,7 @@ class NewSingleOption extends React.Component {
                                        maxResults={5}
                                        minLength={2}
                             />
-                            <br/>
+                            <br />
                             <Button
                                 variant="outlined"
                                 label="Create"
@@ -397,7 +303,7 @@ class NewSingleOption extends React.Component {
                             </Button>
                         </form>
 
-                        <br/><br/>
+                        <br /><br />
                     </Grid>
                 </div>
             </div>
@@ -411,42 +317,18 @@ class NewSingleOption extends React.Component {
         const title = this.state.title.trim();
 
         if (title.length === 0) {
-            this.setState({titleError: 'Title must no be empty.'})
+            this.setState({ titleError: 'Title must no be empty.' })
             isInvalid = true;
         } else if (title.match(regex)) {
-            this.setState({titleError: `Title can't contain ".", "#", "$", "/", "[", or "]"`})
+            this.setState({ titleError: `Title can't contain ".", "#", "$", "/", "[", or "]"` })
             isInvalid = true;
         } else {
-            this.setState({title: title, titleError: ''})
+            this.setState({ title: title, titleError: '' })
         }
-
-        this.state.options.forEach((o, i) => {
-
-            let options = this.state.options;
-            let thisOption = o.option.trim();
-
-            if (thisOption.length === 0) {
-                options[i] = {option: thisOption, optionError: 'This option must not be empty.'}
-                this.setState({options: options});
-                isInvalid = true;
-            } else if (thisOption.match(regex)) {
-                options[i] = {option: thisOption, optionError: `Options can't contain ".", "#", "$", "/", "[", or "]"`}
-                this.setState({options: options});
-                isInvalid = true;
-            } else {
-
-                if (thisOption === 'title') { //can't have option with key "title"
-                    thisOption = 'Title';
-                }
-
-                options[i] = {option: thisOption, optionError: ''}
-                this.setState({options: options});
-            }
-        });
 
         return isInvalid;
     }
 
 }
 
-export default NewSingleOption;
+export default NewOpenEndedMcq;

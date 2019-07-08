@@ -111,7 +111,34 @@ class Poll extends React.Component {
                     loading: false
                 })
             }
+
+            if (dbPoll.pollType === 'openmcq') {
+                const options = Object.keys(dbPoll).reduce((a, key) => {
+                    if (!keyTypes.includes(key)) {
+                        a.push({[key]: dbPoll[key]});
+                    }
+                    return a;
+                }, []);
+
+                if (dbPoll.hasOwnProperty('imgSrc')) {
+                    this.setState({imgSrc: dbPoll.imgSrc});
+                }
+
+                if (dbPoll.categoryList && dbPoll.categoryList.length > 0) {
+                    this.setState({categories: dbPoll.categoryList});
+                }
+
+                this.setState({
+                    title: dbPoll.title,
+                    options: options, pollType: dbPoll.pollType,
+                    loginToAnswer: dbPoll.loginToAnswer,
+                    expire: dbPoll.expire,
+                    loading: false
+                })
+            }
         })).bind(this);
+
+
     }
 
     componentWillUnmount() {
@@ -383,6 +410,83 @@ class Poll extends React.Component {
                             <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
                         </div>
 
+                    </div>
+                );
+            case 'openmcq':
+                return (
+                    <div className="row">
+                        <div className="col-sm-12 text-xs-center">
+
+                            <Snackbar
+                                open={this.state.showSnackbar}
+                                message="Thanks for your vote!"
+                                autoHideDuration={4000}
+                            />
+
+
+                            <Paper>
+                                <br/><br/>
+                                <h2>{this.state.title}</h2>
+                                <br/>
+                                <Button variant="outlined" color="primary"
+                                        onClick={this.handleShareModelOpen}>Share</Button>
+                                <br/>
+
+                                {this.renderTimer()}
+
+                                {this.state.imgSrc !== null ?
+                                    <div>
+                                        <img src={this.state.imgSrc} alt='User Uploaded'/>
+                                    </div> : ''}
+
+                                <Loading loading={this.state.loading}/>
+
+                                {optionsUI}
+                                <br />
+
+                                {this.state.voted ? <h2>Already Answer</h2> :
+                                    <form onSubmit={this.handleAnswerOpen}>
+                                        <TextField
+                                            label="Your Answer Here"
+                                            value={this.state.newOption.option}
+                                            onChange={this.handleAnswerChange}
+                                            error={this.state.newOption.optionError}
+                                            helperText={this.state.newOption.optionError}
+                                            disabled={this.state.voted}
+                                        />
+                                        <Button variant='outlined' type='submit'>Submit</Button>
+                                    </form>}
+
+                                <br/>
+                                {this.state.categories.length >0 ? <div>
+                                    <h4>Categories:</h4>
+                                    {renderCategories}
+                                </div>: <h4> No Categories:</h4>}
+
+                                <br/>
+                                <Chart
+                                    chartTitle="DonutChart"
+                                    chartType="PieChart"
+                                    width="100%"
+                                    data={data}
+                                    options={{is3D: 'true'}}
+                                />
+
+                                <br/><br/>
+
+                                <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
+
+                            </Paper>
+                        </div>
+                        <div>
+                            <PollShareDialog
+                                show={this.state.showShareDialog}
+                                Close={this.handleShareModelClose}
+                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
+                        </div>
+                        <div>
+                            <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
+                        </div>
                     </div>
                 );
             default:

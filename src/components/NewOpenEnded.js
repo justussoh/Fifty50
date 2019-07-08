@@ -215,7 +215,7 @@ class NewOpenEnded extends React.Component {
 
                     <Grid>
                         <br /><br />
-                        <h2>New Poll</h2>
+                        <h2>New Open Ended Poll</h2>
 
                         <form onSubmit={this.handleSubmit}>
 
