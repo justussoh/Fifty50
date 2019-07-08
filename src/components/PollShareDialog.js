@@ -50,7 +50,7 @@ class PollShareDialog extends Component {
                     </IconButton>
                 </div></DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
+
                         Send the link to your friends!
                          <InputGroup>
                             <FormControl
@@ -81,7 +81,7 @@ class PollShareDialog extends Component {
                             </InputGroup.Append>
                         </InputGroup>
                         <FormControl placeholder='Add a note (Optimal)' value={this.state.message} as="textarea" rows="3" onChange={this.handleMessageChange} />
-                    </DialogContentText>
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.props.Close} color="primary">

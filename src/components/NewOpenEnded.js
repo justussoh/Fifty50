@@ -59,7 +59,7 @@ class NewOpenEnded extends React.Component {
         this.pollRef = firebaseApp.database().ref();
         this.pollRef.on('value', ((snapshot) => {
             const db = snapshot.val();
-            this.setState({categories:db.catergoryList});
+            this.setState({categories:db.categoryList});
         })).bind(this);
     }
 
@@ -98,17 +98,12 @@ class NewOpenEnded extends React.Component {
             
         }
 
-        const cat = this.state.categoryList.reduce((a,option) =>{
-           a.push(option.label);
-           return a;
-        },[]);
-
         const pollData = { title: this.state.title.trim(),
             imgSrc: this.state.imgSrc,
             pollType:this.state.pollType,
             loginToAnswer:this.state.loginToAnswer,
             expire:this.state.expire,
-            categoryList: cat,
+            categoryList: this.state.categoryList,
         };
 
         const newPollKey = firebaseApp.database().ref().child('polls').push().key;
@@ -121,15 +116,15 @@ class NewOpenEnded extends React.Component {
             firebaseApp.database().ref().update(updates);
         }
 
-        if (cat.length > 0){
-            for(let i=0;i <cat.length; i++){
+        if (this.state.categoryList.length > 0) {
+            for (let i = 0; i < this.state.categoryList.length; i++) {
                 var updates = {};
-                updates[`/category/${cat[i]}/${newPollKey}`] = true;
+                updates[`/category/${this.state.categoryList[i]}/${newPollKey}`] = true;
                 firebaseApp.database().ref().update(updates);
-                if (!this.state.categories.includes(cat[i])){
+                if (!this.state.categories.includes(this.state.categoryList[i])) {
                     var updates = {};
-                    this.state.categories.push(cat[i]);
-                    updates[`/categoryList`]=this.state.categories;
+                    this.state.categories.push(this.state.categoryList[i]);
+                    updates[`/categoryList`] = this.state.categories;
                     firebaseApp.database().ref().update(updates);
                 }
             }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { firebaseApp } from '../utils/firebase';
+import {firebaseApp} from '../utils/firebase';
 import Loading from './Loading';
 import history from '../history';
 
@@ -7,11 +7,12 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import Chip from '@material-ui/core/Chip';
 
-import { Chart } from 'react-google-charts';
+import {Chart} from 'react-google-charts';
 
 import PollShareDialog from './PollShareDialog';
-import { Comment } from '../components/PollingForm';
+import {Comment} from '../components/PollingForm';
 import LoginDialog from './LoginDialog'
 
 const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];
@@ -24,7 +25,7 @@ class Poll extends React.Component {
         this.state = {
             title: '',
             options: [],
-            newOption: { option: '', optionError: '' },
+            newOption: {option: '', optionError: ''},
             originalCount: 0,
             imgSrc: null,
             pollType: null,
@@ -32,9 +33,10 @@ class Poll extends React.Component {
             showSnackbar: false,
             loading: true,
             showShareDialog: false,
-            loginToAnswer:false,
-            expire:null,
-            status:'',
+            loginToAnswer: false,
+            expire: null,
+            status: '',
+            categories: [],
         };
 
         this.formIsInvalid = this.formIsInvalid.bind(this);
@@ -47,55 +49,67 @@ class Poll extends React.Component {
         console.log(this.pollRef)
         this.pollRef.on('value', ((snapshot) => {
             const dbPoll = snapshot.val();
-            if(dbPoll.expire && dbPoll.expire.check){
-                if(new Date().getTime() > new Date(dbPoll.expire.expireDate).getTime()){
-                    this.setState({voted:true, status:'expired'})
+            if (dbPoll.expire && dbPoll.expire.check) {
+                if (new Date().getTime() > new Date(dbPoll.expire.expireDate).getTime()) {
+                    this.setState({voted: true, status: 'expired'})
                 }
             }
             if (dbPoll.pollType === 'mcq') {
                 const options = Object.keys(dbPoll).reduce((a, key) => {
                     if (!keyTypes.includes(key)) {
-                        a.push({ [key]: dbPoll[key] });
+                        a.push({[key]: dbPoll[key]});
                     }
                     return a;
                 }, []);
 
-                if(dbPoll.hasOwnProperty('imgSrc')){
-                    this.setState({imgSrc: dbPoll.imgSrc});   
+                if (dbPoll.hasOwnProperty('imgSrc')) {
+                    this.setState({imgSrc: dbPoll.imgSrc});
                 }
 
-                this.setState({ title: dbPoll.title,
-                     options: options, pollType: dbPoll.pollType,
-                      loginToAnswer:dbPoll.loginToAnswer,
-                      expire:dbPoll.expire,
-                    loading: false })
+                if (dbPoll.categoryList && dbPoll.categoryList.length > 0) {
+                    this.setState({categories: dbPoll.categoryList});
+                }
+
+                this.setState({
+                    title: dbPoll.title,
+                    options: options, pollType: dbPoll.pollType,
+                    loginToAnswer: dbPoll.loginToAnswer,
+                    expire: dbPoll.expire,
+                    loading: false
+                })
             }
 
             if (dbPoll.pollType === 'open') {
 
                 const options = Object.keys(dbPoll).reduce((a, key) => {
                     if (!keyTypes.includes(key)) {
-                        a.push({ [key]: dbPoll[key] });
+                        a.push({[key]: dbPoll[key]});
                     }
                     return a;
                 }, []);
 
                 if (options.length === 0) {
-                    this.setState({ originalCount: 0 })
+                    this.setState({originalCount: 0})
                 } else {
-                    this.setState({ originalCount: options.length - 1 })
+                    this.setState({originalCount: options.length - 1})
                 }
 
-                if(dbPoll.hasOwnProperty('imgSrc')){
-                    this.setState({imgSrc: dbPoll.imgSrc});   
+                if (dbPoll.hasOwnProperty('imgSrc')) {
+                    this.setState({imgSrc: dbPoll.imgSrc});
                 }
 
-                this.setState({ title: dbPoll.title,
-                     options: options,
-                      pollType: dbPoll.pollType,
-                       loginToAnswer:dbPoll.loginToAnswer,
-                       expire:dbPoll.expire,
-                     loading: false })
+                if (dbPoll.categoryList && dbPoll.categoryList.length > 0) {
+                    this.setState({categories: dbPoll.categoryList});
+                }
+
+                this.setState({
+                    title: dbPoll.title,
+                    options: options,
+                    pollType: dbPoll.pollType,
+                    loginToAnswer: dbPoll.loginToAnswer,
+                    expire: dbPoll.expire,
+                    loading: false
+                })
             }
         })).bind(this);
     }
@@ -113,13 +127,13 @@ class Poll extends React.Component {
             return o.hasOwnProperty(option);
         })[0][option];
 
-        firebaseApp.database().ref().update({ [`polls/${this.props.match.params.pollId}/${option}`]: currentCount += 1 })
+        firebaseApp.database().ref().update({[`polls/${this.props.match.params.pollId}/${option}`]: currentCount += 1})
         localStorage.setItem(this.props.match.params.pollId, 'true');
-        this.setState({ voted: true, showSnackbar: true });
+        this.setState({voted: true, showSnackbar: true});
     }
 
     handleAnswerChange(e) {
-        this.setState({ newOption: { option: e.target.value, optionError: '' } });
+        this.setState({newOption: {option: e.target.value, optionError: ''}});
     }
 
     handleAnswerOpen(e) {
@@ -140,11 +154,10 @@ class Poll extends React.Component {
                 return o.hasOwnProperty(newOption);
             })[0][newOption];
 
-            firebaseApp.database().ref().update({ [`polls/${this.props.match.params.pollId}/${newOption}`]: currentCount += 1 })
+            firebaseApp.database().ref().update({[`polls/${this.props.match.params.pollId}/${newOption}`]: currentCount += 1})
             localStorage.setItem(this.props.match.params.pollId, 'true');
-            this.setState({ voted: true, showSnackbar: true });
-        }
-        else {
+            this.setState({voted: true, showSnackbar: true});
+        } else {
 
             const updates = {}
 
@@ -152,32 +165,38 @@ class Poll extends React.Component {
 
             firebaseApp.database().ref().update(updates);
             localStorage.setItem(this.props.match.params.pollId, 'true');
-            this.setState({ voted: true, showSnackbar: true });
+            this.setState({voted: true, showSnackbar: true});
         }
     }
 
     handleShareModelClose = () => {
-        this.setState({ showShareDialog: false });
+        this.setState({showShareDialog: false});
     }
 
     handleShareModelOpen = () => {
-        this.setState({ showShareDialog: true });
-    }
+        this.setState({showShareDialog: true});
+    };
 
-    renderTimer = () =>{
-        if(this.state.expire && this.state.expire.check){
-            if(this.state.status === 'expired'){
+    renderTimer = () => {
+        if (this.state.expire && this.state.expire.check) {
+            if (this.state.status === 'expired') {
                 return (
                     <h2>Poll has expired</h2>
                 );
-            }else{
-                return(
-                    <h2>Time Remaining: {(new Date(this.state.expire.expireDate).getTime()-new Date().getTime())/60/1000} Minutes</h2>
+            } else {
+                return (
+                    <h2>Time
+                        Remaining: {(new Date(this.state.expire.expireDate).getTime() - new Date().getTime()) / 60 / 1000} Minutes</h2>
                 );
             }
         }
         return ''
-    }
+    };
+
+    handleChipClick = (cat) =>{
+        const query = cat.split(' ').join('%20');
+        history.push(`/category/${query}`);
+    };
 
     render() {
 
@@ -189,14 +208,11 @@ class Poll extends React.Component {
 
         let isAuthUser = firebaseApp.auth().currentUser ? true : false;
 
-        
-
-
         let addOptionUI;
         if (isAuthUser) {
             addOptionUI = (
                 <div>
-                    <a href={`/polls/update/${this.props.match.params.pollId}`} >
+                    <a href={`/polls/update/${this.props.match.params.pollId}`}>
                         <Button variant='contained'>
                             update
                         </ Button>
@@ -214,12 +230,22 @@ class Poll extends React.Component {
                         disabled={this.state.voted}
                         variant='contained'
                     />
-                    <br /><br />
+                    <br/><br/>
                 </div>
             );
         });
 
-        
+        let renderCategories = this.state.categories.map((cat, index) => {
+            return (
+                <Chip
+                    key={index}
+                    label={cat}
+                    onClick={() => this.handleChipClick(cat)}
+                    clickable
+                />
+            );
+        });
+
 
         switch (this.state.pollType) {
             case 'mcq':
@@ -234,37 +260,43 @@ class Poll extends React.Component {
                             />
 
 
-
                             <Paper>
-                                <br /><br />
+                                <br/><br/>
                                 <h2>{this.state.title}</h2>
-                                <br />
-                                <Button variant="outlined" color="primary" onClick={this.handleShareModelOpen}>Share</Button>
-                                <br />
+                                <br/>
+                                <Button variant="outlined" color="primary"
+                                        onClick={this.handleShareModelOpen}>Share</Button>
+                                <br/>
 
                                 {this.renderTimer()}
 
                                 {this.state.imgSrc !== null ?
                                     <div>
-                                        <img src={this.state.imgSrc} alt='User Uploaded' />
+                                        <img src={this.state.imgSrc} alt='User Uploaded'/>
                                     </div> : ''}
 
-                                <Loading loading={this.state.loading} />
+                                <Loading loading={this.state.loading}/>
 
                                 {optionsUI}
 
                                 {addOptionUI}
 
-                                <br />
+                                <br/>
+                                {this.state.categories.length >0 ? <div>
+                                    <h4>Categories:</h4>
+                                    {renderCategories}
+                                </div>: <h4> No Categories:</h4>}
+
+                                <br/>
                                 <Chart
                                     chartTitle="DonutChart"
                                     chartType="PieChart"
                                     width="100%"
                                     data={data}
-                                    options={{ is3D: 'true' }}
+                                    options={{is3D: 'true'}}
                                 />
 
-                                <br /><br />
+                                <br/><br/>
 
                                 <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
 
@@ -275,7 +307,7 @@ class Poll extends React.Component {
                             <PollShareDialog
                                 show={this.state.showShareDialog}
                                 Close={this.handleShareModelClose}
-                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`} />
+                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
                         </div>
                         <div>
                             <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
@@ -294,18 +326,19 @@ class Poll extends React.Component {
                             />
 
                             <Paper>
-                                <br /><br />
+                                <br/><br/>
                                 <h2>{this.state.title}</h2>
-                                <br />
-                                <Button variant="outlined" color="primary" onClick={this.handleShareModelOpen}>Share</Button>
-                                <br />
+                                <br/>
+                                <Button variant="outlined" color="primary"
+                                        onClick={this.handleShareModelOpen}>Share</Button>
+                                <br/>
 
                                 {this.state.imgSrc !== null ?
                                     <div>
-                                        <img src={this.state.imgSrc} alt='User Uploaded' />
+                                        <img src={this.state.imgSrc} alt='User Uploaded'/>
                                     </div> : ''}
 
-                                <Loading loading={this.state.loading} />
+                                <Loading loading={this.state.loading}/>
 
                                 {this.state.voted ? <h2>Already Answer</h2> :
                                     <form onSubmit={this.handleAnswerOpen}>
@@ -320,16 +353,21 @@ class Poll extends React.Component {
                                         <Button variant='outlined' type='submit'>Submit</Button>
                                     </form>}
 
-                                <br />
+                                <br/>
+                                {this.state.categories.length >0 ? <div>
+                                    <h4>Categories:</h4>
+                                    {renderCategories}
+                                </div>: <h4> No Categories:</h4>}
+                                <br/>
                                 <Chart
                                     chartTitle="DonutChart"
                                     chartType="PieChart"
                                     width="100%"
                                     data={data}
-                                    options={{ is3D: 'true' }}
+                                    options={{is3D: 'true'}}
                                 />
 
-                                <br /><br />
+                                <br/><br/>
 
                                 <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
 
@@ -339,7 +377,7 @@ class Poll extends React.Component {
                             <PollShareDialog
                                 show={this.state.showShareDialog}
                                 Close={this.handleShareModelClose}
-                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`} />
+                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
                         </div>
                         <div>
                             <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
@@ -362,16 +400,21 @@ class Poll extends React.Component {
         let thisOption = newOption.option.trim();
 
         if (thisOption.length === 0) {
-            this.setState({ newOption: { option: thisOption, optionError: 'This option must not be empty.' } })
+            this.setState({newOption: {option: thisOption, optionError: 'This option must not be empty.'}})
             isInvalid = true;
         } else if (thisOption.match(regex)) {
-            this.setState({ newOption: { option: thisOption, optionError: `Options can't contain ".", "#", "$", "/", "[", or "]"` } })
+            this.setState({
+                newOption: {
+                    option: thisOption,
+                    optionError: `Options can't contain ".", "#", "$", "/", "[", or "]"`
+                }
+            })
             isInvalid = true;
         } else {
-            this.setState({ newOption: { option: thisOption, optionError: '' } })
+            this.setState({newOption: {option: thisOption, optionError: ''}})
         }
         return isInvalid;
     }
 }
 
-export { Poll };
+export {Poll};
