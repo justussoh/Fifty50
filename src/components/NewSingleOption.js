@@ -22,46 +22,6 @@ const acceptFileTypeArray = acceptFileType.split(",").map((item) => {
     return item.trim()
 });
 
-const option = ['Academic disciplines‎',
-    'Business‎',
-    'Concepts',
-    'Crime‎',
-    'Culture‎',
-    'Economy‎',
-    'Education‎',
-    'Energy',
-    'Entertainment‎',
-    'Events‎',
-    'Food and drink‎',
-    'Geography‎',
-    'Government‎',
-    'Health‎',
-    'History‎',
-    'Human behavior',
-    'Humanities‎',
-    'Knowledge‎',
-    'Language‎',
-    'Law',
-    'Life‎',
-    'Mathematics‎',
-    'Military',
-    'Mind‎',
-    'Music‎',
-    'Nature‎',
-    'Objects‎',
-    'Organizations‎',
-    'People‎',
-    'Philosophy‎',
-    'Politics‎',
-    'Religion‎',
-    'Science‎',
-    'Society',
-    'Sports‎',
-    'Technology‎',
-    'Universe‎',
-    'World‎',];
-
-
 class NewSingleOption extends React.Component {
     constructor(props) {
         super(props);
@@ -86,7 +46,6 @@ class NewSingleOption extends React.Component {
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
         this.formIsInvalid = this.formIsInvalid.bind(this);
     }
@@ -113,7 +72,7 @@ class NewSingleOption extends React.Component {
 
     componentWillUnmount() {
         this.pollRef.off();
-    }
+    };
 
     handleTitleChange(e) {
         this.setState({title: e.target.value});
@@ -123,10 +82,9 @@ class NewSingleOption extends React.Component {
         let options = this.state.options;
         options[i].option = e.target.value;
         this.setState({options: options});
-    }
+    };
 
-    handleSubmit(e) {
-        e.preventDefault();
+    handleSubmit = (type) => {
 
         if (this.formIsInvalid()) {
             return;
@@ -164,43 +122,58 @@ class NewSingleOption extends React.Component {
             categoryList: this.state.categoryList,
         });
 
-        const newPollKey = firebaseApp.database().ref().child('polls').push().key;
-        firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
+        if (!this.props.pollGroup) {
+            const newPollKey = firebaseApp.database().ref().child('polls').push().key;
+            firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
 
-        if (this.state.loggedIn) {
-            const uid = firebaseApp.auth().currentUser.uid;
-            var updates = {};
-            updates[`/user-polls/${uid}/${newPollKey}`] = true;
-            firebaseApp.database().ref().update(updates);
-        }
-
-        if (this.state.categoryList.length > 0) {
-            for (let i = 0; i < this.state.categoryList.length; i++) {
+            if (this.state.loggedIn) {
+                const uid = firebaseApp.auth().currentUser.uid;
                 var updates = {};
-                updates[`/category/${this.state.categoryList[i]}/${newPollKey}`] = true;
+                updates[`/user-polls/${uid}/${newPollKey}`] = true;
                 firebaseApp.database().ref().update(updates);
-                if (!this.state.categories.includes(this.state.categoryList[i])) {
+            }
+
+            if (this.state.categoryList.length > 0) {
+                for (let i = 0; i < this.state.categoryList.length; i++) {
                     var updates = {};
-                    this.state.categories.push(this.state.categoryList[i]);
-                    updates[`/categoryList`] = this.state.categories;
+                    updates[`/category/${this.state.categoryList[i]}/${newPollKey}`] = true;
                     firebaseApp.database().ref().update(updates);
+                    if (!this.state.categories.includes(this.state.categoryList[i])) {
+                        var updates = {};
+                        this.state.categories.push(this.state.categoryList[i]);
+                        updates[`/categoryList`] = this.state.categories;
+                        firebaseApp.database().ref().update(updates);
+                    }
                 }
             }
+
+            console.log(200);
+            history.push(`/polls/poll/${newPollKey}`);
+
+        } else {
+            const newPollKey = firebaseApp.database().ref().child('polls').push().key;
+            firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData);
+
+            var updates = {};
+            updates[`/pollgroup/${this.props.pollId}/${newPollKey}`] = true;
+            firebaseApp.database().ref().update(updates);
+
+            if(type==='pollGroup-next'){
+                history.push(`/pollgroup/newpoll/${this.props.pollId}`);
+            }
+            if(type==='pollGroup-submit'){
+                history.push(`/pollgroup/view/${this.props.pollId}`);
+            }
+
         }
-
-
-        console.log(200);
-        //console.log(this.state)
-        history.push(`/polls/poll/${newPollKey}`);
-
-    }
+    };
 
     handleAddOption() {
         let options = this.state.options;
         options.push({option: '', optionError: ''});
 
         this.setState({options});
-    }
+    };
 
     verifyFile = (files) => {
         if (files && files.length > 0) {
@@ -217,7 +190,7 @@ class NewSingleOption extends React.Component {
             }
             return true
         }
-    }
+    };
 
     handleOnDrop = (files, rejectedFiles) => {
         if (rejectedFiles && rejectedFiles.length > 0) {
@@ -237,11 +210,11 @@ class NewSingleOption extends React.Component {
 
             }
         }
-    }
+    };
 
     handleLoginToAnswer = (e) => {
         this.setState({loginToAnswer: e.target.checked});
-    }
+    };
 
     handleExpiryChange = (e) => {
         let newExpiry = this.state.expire;
@@ -271,7 +244,7 @@ class NewSingleOption extends React.Component {
 
     render() {
 
-        const {imgSrc} = this.state
+        const {imgSrc} = this.state;
 
         let options = this.state.options.map((option, i) => {
             return (
@@ -298,7 +271,7 @@ class NewSingleOption extends React.Component {
                         <br/><br/>
                         <h2>New Poll</h2>
 
-                        <form onSubmit={this.handleSubmit}>
+                        <form>
 
                             {imgSrc !== null ?
                                 <div>
@@ -332,69 +305,102 @@ class NewSingleOption extends React.Component {
                             </Fab>
 
                             <br/>
-                            {this.state.loggedIn ?
-                                <FormControlLabel
-                                    control={<Switch
-                                        checked={this.state.loginToAnswer}
-                                        onChange={this.handleLoginToAnswer}
-                                    />}
-                                    label="Does User need to Login to Answer"
-                                    labelPlacement="top"
-                                /> : ''}
-                            <FormControlLabel
-                                control={<Switch
-                                    checked={this.state.expire.check}
-                                    onChange={this.handleExpiryChange}
+                            {this.props.pollGroup ? '' :
+                                <div>
+                                    {this.state.loggedIn ?
+                                        <FormControlLabel
+                                            control={<Switch
+                                                checked={this.state.loginToAnswer}
+                                                onChange={this.handleLoginToAnswer}
+                                            />}
+                                            label="Does User need to Login to Answer"
+                                            labelPlacement="top"
+                                        /> : ''}
+                                </div>}
+                            {this.props.pollGroup ? '' :
+                                <div>
+                                    <FormControlLabel
+                                        control={<Switch
+                                            checked={this.state.expire.check}
+                                            onChange={this.handleExpiryChange}
+                                        />}
+                                        label="Set a Duration for the poll"
+                                        labelPlacement="top"/>
+
+                                    {this.state.expire.check ?
+                                        <InputGroup>
+                                            <FormControl
+                                                placeholder="Enter Duration"
+                                                value={this.state.duration}
+                                                type='number'
+                                                onChange={this.handleDurationPeriodChange}
+                                            />
+
+                                            <DropdownButton
+                                                as={InputGroup.Append}
+                                                variant="outline-secondary"
+                                                title={this.state.durationMeasure}
+
+                                            >
+                                                <Dropdown.Item onClick={() => {
+                                                    this.handleDurationChange('minutes')
+                                                }}>Minutes</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => {
+                                                    this.handleDurationChange('hours')
+                                                }}>Hours</Dropdown.Item>
+                                                <Dropdown.Item onClick={() => {
+                                                    this.handleDurationChange('days')
+                                                }}>Days</Dropdown.Item>
+                                            </DropdownButton>
+                                        </InputGroup> : ''}
+                                </div>}
+                            <br/>
+                            {this.props.pollGroup ? '' :
+                                <Typeahead allowNew
+                                           multiple
+                                           selectHintOnEnter
+                                           newSelectionPrefix="Add a Category: "
+                                           options={this.state.categories}
+                                           placeholder="Add Category"
+                                           onInputChange={this.handleCategoryInputChange}
+                                           onChange={this.handleSearchSelect}
+                                           id='category'
+                                           maxResults={5}
+                                           minLength={2}
                                 />}
-                                label="Set a Duration for the poll"
-                                labelPlacement="top"/>
-
-                            {this.state.expire.check ?
-                                <InputGroup>
-                                    <FormControl
-                                        placeholder="Enter Duration"
-                                        value={this.state.duration}
-                                        type='number'
-                                        onChange={this.handleDurationPeriodChange}
-                                    />
-
-                                    <DropdownButton
-                                        as={InputGroup.Append}
-                                        variant="outline-secondary"
-                                        title={this.state.durationMeasure}
-
-                                    >
-                                        <Dropdown.Item onClick={() => {
-                                            this.handleDurationChange('minutes')
-                                        }}>Minutes</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => {
-                                            this.handleDurationChange('hours')
-                                        }}>Hours</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => {
-                                            this.handleDurationChange('days')
-                                        }}>Days</Dropdown.Item>
-                                    </DropdownButton>
-                                </InputGroup> : ''}
                             <br/>
-                            <Typeahead allowNew
-                                       multiple
-                                       selectHintOnEnter
-                                       newSelectionPrefix="Add a Category: "
-                                       options={this.state.categories}
-                                       placeholder="Add Category"
-                                       onInputChange={this.handleCategoryInputChange}
-                                       onChange={this.handleSearchSelect}
-                                       id='category'
-                                       maxResults={5}
-                                       minLength={2}
-                            />
-                            <br/>
-                            <Button
-                                variant="outlined"
-                                label="Create"
-                                type="submit">
-                                Submit
-                            </Button>
+                            {this.props.pollGroup ?
+                                <div>
+                                    <Button
+                                        variant="outlined"
+                                        label="Create"
+                                        type="submit"
+                                        onClick={(e)=>{
+                                            e.preventDefault();
+                                            this.handleSubmit('pollGroup-submit')}}>
+                                        Finished
+                                    </Button>
+
+                                    <Button
+                                        variant="outlined"
+                                        label="Create"
+                                        type="submit"
+                                        onClick={(e)=>{
+                                            e.preventDefault();
+                                            this.handleSubmit('pollGroup-next')}}>
+                                        Next
+                                    </Button>
+                                </div>
+
+                                : <Button
+                                    variant="outlined"
+                                    label="Create"
+                                    type="submit"
+                                    onClick={(e)=>{
+                                        e.preventDefault();
+                                        this.handleSubmit('poll-submit')}}>
+                                    Submit
+                                </Button>}
                         </form>
 
                         <br/><br/>

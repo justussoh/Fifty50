@@ -18,6 +18,9 @@ import { Signup } from './components/Signup';
 import { Recover } from './components/Recover';
 import { Dashboard } from './components/Dashboard';
 import Category from './components/Category';
+import NewPollGroup from './components/NewPollGroup';
+import NewPollGroupPoll from './components/NewPollGroupPoll';
+import PollGroupView from './components/PollGroupView';
 
 function App() {
   return (
@@ -38,6 +41,9 @@ function App() {
             <Route exact path="/polls/poll/:pollId" component={Poll} />
             <Route path="/polls/update/:pollId" component={Update} />
             <Route exact path="/category/:category" component={Category} />
+            <Route exact path="/pollgroup/new" component={NewPollGroup} />
+            <Route exact path="/pollgroup/newpoll/:pollId" component={NewPollGroupPoll} />
+            <Route exact path="/pollgroup/view/:pollId" component={PollGroupView} />
             <Route exact path="/pollingform" component={Comment} />
             <Route component={NoMatch} />
           </Switch>
