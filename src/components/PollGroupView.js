@@ -12,6 +12,7 @@ import PollShareDialog from './PollShareDialog';
 import LoginDialog from './LoginDialog'
 import ViewPoll from './ViewPoll'
 import {Comment} from "./PollingForm";
+import {switchCase} from "@babel/types";
 
 const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];
 
@@ -28,8 +29,8 @@ class PollGroupView extends React.Component {
             expire: null,
             status: '',
             categories: [],
-            polls:[],
-            index:null,
+            polls: [],
+            index: null,
         };
 
         this.formIsInvalid = this.formIsInvalid.bind(this);
@@ -86,36 +87,15 @@ class PollGroupView extends React.Component {
         this.setState({index: 0})
     };
 
-    handlePollGroupNext = () =>{
+    handlePollGroupNext = () => {
         this.setState({index: this.state.index + 1})
     };
 
-    handlePollGroupPrev = () =>{
-        if (this.state.index=== 0) {
+    handlePollGroupPrev = () => {
+        if (this.state.index === 0) {
             this.setState({index: null})
-        }else{
+        } else {
             this.setState({index: this.state.index -= 1})
-        }
-    };
-
-    renderPoll = () =>{
-        const maxCount =this.state.polls.length;
-        switch (this.state.index) {
-            case null:
-                return  <Button variant='contained' onClick={this.handlePollGroupStart}>Start</Button>;
-            case maxCount:
-                return <h3>Finished</h3>;
-            default:
-                const viewpolls = this.state.polls.reduce((a, pollId)=>{
-                    a.push(<ViewPoll polls={this.state.polls}
-                              index={this.state.index}
-                              pollId={pollId}
-                              handleNext={this.handlePollGroupNext}
-                              handlePrev={this.handlePollGroupPrev}/>);
-                    return a;
-                },[]);
-                return viewpolls;
-
         }
     };
 
@@ -143,6 +123,41 @@ class PollGroupView extends React.Component {
     render() {
 
         let isAuthUser = firebaseApp.auth().currentUser ? true : false;
+        const maxCount = this.state.polls.length;
+
+        let addNewPoll;
+        if (isAuthUser) {
+            addNewPoll = (
+                <div>
+                    <a href={`/pollgroup/newpoll/${this.props.match.params.pollId}`}>
+                        <Button variant='contained'>
+                            Add new poll
+                        </ Button>
+                    </a>
+                </div>
+            );
+        }
+
+        let renderPoll;
+        if (this.state.index === null) {
+            renderPoll = <Button variant='contained' onClick={this.handlePollGroupStart}>Start</Button>;
+        } else if (this.state.index === maxCount) {
+            renderPoll = <h3>Finished</h3>;
+        } else {
+            renderPoll = this.state.polls.map((pollId, index) => {
+                    return (
+                        <div>
+                            {this.state.index === index ?
+                                <ViewPoll polls={this.state.polls}
+                                          index={this.state.index}
+                                          pollId={pollId}
+                                          handleNext={this.handlePollGroupNext}
+                                          handlePrev={this.handlePollGroupPrev}/> : ''}
+                        </div>);
+                }
+            )
+        }
+
 
         let renderCategories = this.state.categories.map((cat, index) => {
             return (
@@ -177,7 +192,11 @@ class PollGroupView extends React.Component {
 
                         <Loading loading={this.state.loading}/>
                         <br/>
-                        {this.renderPoll()}
+
+                        {renderPoll}
+
+                        <br/>
+                        {addNewPoll}
                         <br/>
                         {this.state.categories.length > 0 ? <div>
                             <h4>Categories:</h4>

@@ -109,6 +109,21 @@ class ViewPoll extends React.Component {
         this.pollRef.off();
     };
 
+    // componentWillReceiveProps(nextProps, nextContext) {
+    //     this.componentWillUnmount();
+    //     this.setState({
+    //         title: '',
+    //         options: [],
+    //         newOption: {option: '', optionError: ''},
+    //         originalCount: 0,
+    //         imgSrc: null,
+    //         pollType: null,
+    //         voted: localStorage.getItem(this.props.pollId) ? true : false,
+    //         loading: true,
+    //         showSnackbar: false,
+    //     });
+    //     this.componentWillMount();
+    // }
 
     handleVote(option) {
         let currentCount = this.state.options.filter(o => {
