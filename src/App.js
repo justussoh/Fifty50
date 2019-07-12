@@ -21,6 +21,7 @@ import Category from './components/Category';
 import NewPollGroup from './components/NewPollGroup';
 import NewPollGroupPoll from './components/NewPollGroupPoll';
 import PollGroupView from './components/PollGroupView';
+import Search from './components/Search'
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
             <Route exact path="/pollgroup/new" component={NewPollGroup} />
             <Route exact path="/pollgroup/newpoll/:pollId" component={NewPollGroupPoll} />
             <Route exact path="/pollgroup/view/:pollId" component={PollGroupView} />
+            <Route exact path="/search" component={Search} />
             <Route exact path="/pollingform" component={Comment} />
             <Route component={NoMatch} />
           </Switch>

@@ -1,69 +1,59 @@
-require('dotenv').config({ path: 'process.env' });
+const algoliasearch = require('algoliasearch');
+const dotenv = require('dotenv');
+const firebase = require('firebase');
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const Pusher = require('pusher');
-const Datastore = require('nedb');
+// load values from the .env file in this directory into process.env
+dotenv.config({ path: 'process.env' });
 
-const app = express();
-
-const db = new Datastore({ filename: './datafile', autoload: true });
-
-const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID,
-  key: process.env.PUSHER_APP_KEY,
-  secret: process.env.PUSHER_APP_SECRET,
-  cluster: process.env.PUSHER_APP_CLUSTER,
-  useTLS: true,
+// configure firebase
+firebase.initializeApp({
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
 });
+const database = firebase.database();
 
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// configure algolia
+const algolia = algoliasearch(
+    process.env.ALGOLIA_APP_ID,
+    process.env.ALGOLIA_API_KEY
+);
+const index = algolia.initIndex(process.env.ALGOLIA_INDEX_NAME);
 
-app.set('port', process.env.PORT || 5000);
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express running → PORT ${server.address().port}`);
-});
+const contactsRef = database.ref('polls');
+contactsRef.on('child_added', addOrUpdateIndexRecord);
+contactsRef.on('child_changed', addOrUpdateIndexRecord);
+contactsRef.on('child_removed', deleteIndexRecord);
 
-app.use(bodyParser.json());
-
-app.get('/pollingform', (req, res) => {
-    db.find({}, (err, data) => {
-        if (err) return res.status(500).send(err);
-
-        res.json(data);
-    });
-});
-
-app.post('/comment', (req, res) => {
-    db.insert(Object.assign({}, req.body), (err, newComment) => {
-        if (err) {
-            return res.status(500).send(err);
-        }
-
-        pusher.trigger('comments', 'new-comment', {
-            comment: newComment,
+function addOrUpdateIndexRecord(contact) {
+    // Get Firebase object
+    const record = contact.val();
+    if (record.hasOwnProperty('imgSrc')){
+        record.imgSrc = '';
+    }
+    // Specify Algolia's objectID using the Firebase object key
+    record.objectID = contact.key;
+    // Add or update object
+    index
+        .saveObject(record)
+        .then(() => {
+            console.log('Firebase object indexed in Algolia', record.objectID);
+        })
+        .catch(error => {
+            console.error('Error when indexing contact into Algolia', error);
+            process.exit(1);
         });
+}
 
-        res.status(200).send('OK');
-    });
-});
-
-app.post('/vote', (req, res) => {
-    const { id, vote } = req.body;
-    db.findOne({ _id: id }, function (err, doc) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      db.update({ _id: id }, { $set: { votes: doc.votes + vote } }, { returnUpdatedDocs: true }, (err, num, updatedDoc) => {
-        if (err) return res.status(500).send(err);
-
-        pusher.trigger('comments', 'new-vote', {
-          comment: updatedDoc,
+function deleteIndexRecord({key}) {
+    // Get Algolia's objectID from the Firebase object key
+    const objectID = key;
+    // Remove the object from Algolia
+    index
+        .deleteObject(objectID)
+        .then(() => {
+            console.log('Firebase object deleted from Algolia', objectID);
+        })
+        .catch(error => {
+            console.error('Error when deleting contact from Algolia', error);
+            process.exit(1);
         });
-      });
-    });
-});
+}
