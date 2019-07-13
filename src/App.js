@@ -46,6 +46,7 @@ function App() {
             <Route exact path="/pollgroup/newpoll/:pollId" component={NewPollGroupPoll} />
             <Route exact path="/pollgroup/view/:pollId" component={PollGroupView} />
             <Route exact path="/search" component={Search} />
+            <Route exact path="/search/:query" component={Search} />
             <Route exact path="/pollingform" component={Comment} />
             <Route component={NoMatch} />
           </Switch>
