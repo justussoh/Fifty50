@@ -14,9 +14,14 @@ import {Chart} from 'react-google-charts';
 import PollShareDialog from './PollShareDialog';
 import {Comment} from '../components/PollingForm';
 import LoginDialog from './LoginDialog'
+import ReactWordcloud from 'react-wordcloud'
 
 const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];
 
+function createWord (text, value) {
+    return {text, value};
+}
+;
 class Poll extends React.Component {
     constructor(props) {
         super(props);
@@ -143,6 +148,10 @@ class Poll extends React.Component {
         this.pollRef.off();
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.state)
+    }
+
     handleVote(option) {
         let currentCount = this.state.options.filter(o => {
             return o.hasOwnProperty(option);
@@ -219,6 +228,7 @@ class Poll extends React.Component {
         history.push(`/category/${query}`);
     };
 
+
     render() {
 
 
@@ -226,6 +236,11 @@ class Poll extends React.Component {
             return [Object.keys(option)[0], option[Object.keys(option)[0]]];
         });
         data.unshift(['option', 'votes']);
+
+        const words = this.state.options.reduce((a, option)=>{
+            a.push({text:Object.keys(option)[0], value: option[Object.keys(option)[0]]});
+            return a;
+        },[]);
 
         let isAuthUser = firebaseApp.auth().currentUser ? true : false;
 
@@ -380,13 +395,16 @@ class Poll extends React.Component {
                                     {renderCategories}
                                 </div>: <h4> No Categories:</h4>}
                                 <br/>
-                                <Chart
-                                    chartTitle="DonutChart"
-                                    chartType="PieChart"
-                                    width="100%"
-                                    data={data}
-                                    options={{is3D: 'true'}}
-                                />
+                                <ReactWordcloud words={words}
+                                                options={{
+                                                    rotations: 2,
+                                                    scale: 'log',
+                                                    fontSizes: [35, 60],
+                                                    rotationAngles: [0, 90],
+                                                    fontFamily: 'Roboto',
+                                                    spiral: 'archimedean',
+                                                    deterministic: true,
+                                                }}/>
 
                                 <br/><br/>
 

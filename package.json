@@ -29,8 +29,11 @@
     "react-dropzone": "^10.1.5",
     "react-google-charts": "^3.0.13",
     "react-instantsearch-dom": "^5.7.0",
+    "react-lines-ellipsis": "^0.14.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
+    "react-vis": "^1.11.7",
+    "react-wordcloud": "^1.0.8",
     "styled-components": "^4.2.1"
   },
   "scripts": {
