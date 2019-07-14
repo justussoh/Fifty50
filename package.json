@@ -21,6 +21,7 @@
     "nodemon": "^1.19.1",
     "pusher": "^2.2.0",
     "pusher-js": "^4.4.0",
+    "randomcolor": "^0.5.4",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
     "react-bootstrap-typeahead": "^3.4.5",

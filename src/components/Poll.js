@@ -16,12 +16,10 @@ import {Comment} from '../components/PollingForm';
 import LoginDialog from './LoginDialog'
 import ReactWordcloud from 'react-wordcloud'
 
+var randomColor = require('randomcolor');
+
 const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];
 
-function createWord (text, value) {
-    return {text, value};
-}
-;
 class Poll extends React.Component {
     constructor(props) {
         super(props);
@@ -223,24 +221,36 @@ class Poll extends React.Component {
         return ''
     };
 
-    handleChipClick = (cat) =>{
+    handleChipClick = (cat) => {
         const query = cat.split(' ').join('%20');
         history.push(`/category/${query}`);
     };
 
 
     render() {
+        let data;
+        if (this.state.options.length < 4) {
+            data = this.state.options.map(option => {
+                return [Object.keys(option)[0], option[Object.keys(option)[0]]];
+            });
+            data.unshift(['Option', 'Votes',]);
+        } else {
+            data = this.state.options.map(option => {
+                return [Object.keys(option)[0], option[Object.keys(option)[0]], `color:${randomColor()}`];
+            });
+            data.unshift(['Option', 'Votes', {role: 'style'},]);
+        }
 
 
-        const data = this.state.options.map(option => {
-            return [Object.keys(option)[0], option[Object.keys(option)[0]]];
+        let customData = this.state.options.map(option => {
+            return [Object.keys(option)[0], option[Object.keys(option)[0]], `color:${randomColor()}`];
         });
-        data.unshift(['option', 'votes']);
+        customData.unshift(['Option', 'Votes', {role: 'style'},]);
 
-        const words = this.state.options.reduce((a, option)=>{
-            a.push({text:Object.keys(option)[0], value: option[Object.keys(option)[0]]});
+        const words = this.state.options.reduce((a, option) => {
+            a.push({text: Object.keys(option)[0], value: option[Object.keys(option)[0]]});
             return a;
-        },[]);
+        }, []);
 
         let isAuthUser = firebaseApp.auth().currentUser ? true : false;
 
@@ -317,25 +327,60 @@ class Poll extends React.Component {
                                 {addOptionUI}
 
                                 <br/>
-                                {this.state.categories.length >0 ? <div>
+                                {this.state.categories.length > 0 ? <div>
                                     <h4>Categories:</h4>
                                     {renderCategories}
-                                </div>: <h4> No Categories:</h4>}
+                                </div> : <h4> No Categories:</h4>}
 
                                 <br/>
-                                <Chart
-                                    chartTitle="DonutChart"
-                                    chartType="PieChart"
-                                    width="100%"
-                                    data={data}
-                                    options={{is3D: 'true'}}
-                                />
-
+                                {this.state.options.length < 4 && this.state.options.length > 0 ?
+                                    <Chart
+                                        chartType="PieChart"
+                                        width="100%"
+                                        data={data}
+                                        options={{
+                                            animation: {
+                                                startup: true,
+                                                easing: 'linear',
+                                                duration: 1500,
+                                            },
+                                            title: this.state.title,
+                                        }}
+                                    /> :
+                                    <Chart
+                                        chartType="BarChart"
+                                        loader={<div>Loading Chart</div>}
+                                        width="100%"
+                                        data={data}
+                                        options={{
+                                            animation: {
+                                                startup: true,
+                                                easing: 'linear',
+                                                duration: 1500,
+                                            },
+                                            title: this.state.title,
+                                            bars: 'horizontal',
+                                            hAxis: {
+                                                minValue: 0,
+                                                gridlines: {
+                                                    count: 0
+                                                },
+                                                textPosition: "none",
+                                                baselineColor: '#fff'
+                                            },
+                                            vAxis: {
+                                                title: 'Options',
+                                                baselineColor: '#fff',
+                                                gridlines: {
+                                                    count: 0
+                                                },
+                                            },
+                                            legend: {position: 'none'},
+                                        }}
+                                    />
+                                }
                                 <br/><br/>
-
                                 <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
-
-
                             </Paper>
                         </div>
                         <div>
@@ -390,10 +435,10 @@ class Poll extends React.Component {
                                     </form>}
 
                                 <br/>
-                                {this.state.categories.length >0 ? <div>
+                                {this.state.categories.length > 0 ? <div>
                                     <h4>Categories:</h4>
                                     {renderCategories}
-                                </div>: <h4> No Categories:</h4>}
+                                </div> : <h4> No Categories:</h4>}
                                 <br/>
                                 <ReactWordcloud words={words}
                                                 options={{
@@ -421,7 +466,6 @@ class Poll extends React.Component {
                         <div>
                             <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
                         </div>
-
                     </div>
                 );
             case 'openmcq':
@@ -452,9 +496,50 @@ class Poll extends React.Component {
                                     </div> : ''}
 
                                 <Loading loading={this.state.loading}/>
+                                {this.state.options.length > 0 ?
+                                    <Chart
+                                        chartType="BarChart"
+                                        loader={<div>Loading Chart</div>}
+                                        width="100%"
+                                        data={customData}
+                                        chartEvents={[
+                                            {
+                                                eventName: 'select',
+                                                callback: ({chartWrapper}) => {
+                                                    const chart = chartWrapper.getChart();
+                                                    const selection = chart.getSelection();
+                                                    if (selection.length === 1 && !this.state.voted) {
+                                                        const [selectedItem] = selection;
+                                                        const {row} = selectedItem;
+                                                        this.handleVote(customData[row + 1][0])
+                                                    }
+                                                },
+                                            },
+                                        ]}
+                                        options={{
+                                            animation: {
+                                                startup: true,
+                                                easing: 'linear',
+                                                duration: 750,
+                                            },
+                                            title: this.state.title,
+                                            hAxis: {
+                                                minValue: 0,
+                                                gridlines: {
+                                                    count: 0
+                                                },
+                                                textPosition: "none",
+                                                baselineColor: '#fff'
+                                            },
+                                            vAxis: {
+                                                title: 'Options',
+                                                baselineColor: '#fff'
+                                            },
+                                            legend: {position: 'none'},
+                                        }}
+                                    /> : ''}
 
-                                {optionsUI}
-                                <br />
+                                <br/>
 
                                 {this.state.voted ? <h2>Already Answer</h2> :
                                     <form onSubmit={this.handleAnswerOpen}>
@@ -468,26 +553,13 @@ class Poll extends React.Component {
                                         />
                                         <Button variant='outlined' type='submit'>Submit</Button>
                                     </form>}
-
                                 <br/>
-                                {this.state.categories.length >0 ? <div>
+                                {this.state.categories.length > 0 ? <div>
                                     <h4>Categories:</h4>
                                     {renderCategories}
-                                </div>: <h4> No Categories:</h4>}
-
+                                </div> : <h4> No Categories:</h4>}
                                 <br/>
-                                <Chart
-                                    chartTitle="DonutChart"
-                                    chartType="PieChart"
-                                    width="100%"
-                                    data={data}
-                                    options={{is3D: 'true'}}
-                                />
-
-                                <br/><br/>
-
                                 <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
-
                             </Paper>
                         </div>
                         <div>
