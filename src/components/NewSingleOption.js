@@ -237,8 +237,12 @@ class NewSingleOption extends React.Component {
     };
 
     handleSearchSelect = (selected) => {
+        let select = selected.reduce((a, sel)=>{
+            a.push(sel.label)
+            return a
+        },[])
         this.setState({
-            categoryList: selected,
+            categoryList: select,
         });
     };
 

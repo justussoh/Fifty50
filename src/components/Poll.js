@@ -4,21 +4,69 @@ import Loading from './Loading';
 import history from '../history';
 
 import Snackbar from '@material-ui/core/Snackbar';
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
 import {Chart} from 'react-google-charts';
 
 import PollShareDialog from './PollShareDialog';
-import {Comment} from '../components/PollingForm';
+import {Comment} from './Comment';
 import LoginDialog from './LoginDialog'
 import ReactWordcloud from 'react-wordcloud'
+import styled from "styled-components";
 
 var randomColor = require('randomcolor');
 
 const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];
+
+const Styles = styled.div`
+
+    .row-style{
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding: 20px;
+    }
+    
+    .row{
+        margin-bottom:20px;
+    }
+
+    .results-circle{
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        background-color:green;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: 'Roboto';
+        font-weight: bold;
+        font-size: 16px;
+        margin-right: 20px;  
+        margin-top: 20px;
+    }
+    
+    .share-btn{
+        margin-left: 20px;
+    }
+    
+    .poll-question{
+        font-weight:bold;
+        font-family:'Roboto';
+        font-size: 48px;
+    }
+    
+    .background-color{
+        background: linear-gradient(90deg, rgba(23,205,185,1) 44%, rgba(0,212,255,1) 100%);
+    }
+`;
 
 class Poll extends React.Component {
     constructor(props) {
@@ -40,6 +88,7 @@ class Poll extends React.Component {
             expire: null,
             status: '',
             categories: [],
+            showResults: false,
         };
 
         this.formIsInvalid = this.formIsInvalid.bind(this);
@@ -54,7 +103,7 @@ class Poll extends React.Component {
             const dbPoll = snapshot.val();
             if (dbPoll.expire && dbPoll.expire.check) {
                 if (new Date().getTime() > new Date(dbPoll.expire.expireDate).getTime()) {
-                    this.setState({voted: true, status: 'expired'})
+                    this.setState({voted: true, status: 'expired', showResults: true})
                 }
             }
             if (dbPoll.pollType === 'mcq') {
@@ -209,12 +258,12 @@ class Poll extends React.Component {
         if (this.state.expire && this.state.expire.check) {
             if (this.state.status === 'expired') {
                 return (
-                    <h2>Poll has expired</h2>
+                    <h6>Poll has expired</h6>
                 );
             } else {
                 return (
-                    <h2>Time
-                        Remaining: {(new Date(this.state.expire.expireDate).getTime() - new Date().getTime()) / 60 / 1000} Minutes</h2>
+                    <h6>Time
+                        Remaining: {Math.floor((new Date(this.state.expire.expireDate).getTime() - new Date().getTime()) / 60 / 1000)} Minutes</h6>
                 );
             }
         }
@@ -224,6 +273,17 @@ class Poll extends React.Component {
     handleChipClick = (cat) => {
         const query = cat.split(' ').join('%20');
         history.push(`/category/${query}`);
+    };
+
+    handleMouseHoverIn = () => {
+        this.setState({showResults: true})
+    };
+    handleMouseHoverOut = () => {
+        this.setState({showResults: false})
+    };
+
+    handleUpdatePoll = () => {
+        history.push(`/polls/update/${this.props.match.params.pollId}`)
     };
 
 
@@ -258,26 +318,25 @@ class Poll extends React.Component {
         if (isAuthUser) {
             addOptionUI = (
                 <div>
-                    <a href={`/polls/update/${this.props.match.params.pollId}`}>
-                        <Button variant='contained'>
-                            update
-                        </ Button>
-                    </a>
+                    <Button onCLick={this.handleUpdatePoll} variant="outline-warning" style={{marginLeft: "10px"}}>
+                        Update
+                    </ Button>
                 </div>
             );
         }
 
         let optionsUI = this.state.options.map(option => {
             return (
-                <div key={Object.keys(option)[0]}>
+                <Row className='d-flex justify-content-center' key={Object.keys(option)[0]}>
                     <Button
                         children={Object.keys(option)[0]}
                         onClick={() => this.handleVote(Object.keys(option)[0])}
                         disabled={this.state.voted}
-                        variant='contained'
+                        size='lg'
+                        block
                     />
-                    <br/><br/>
-                </div>
+                </Row>
+
             );
         });
 
@@ -296,103 +355,143 @@ class Poll extends React.Component {
         switch (this.state.pollType) {
             case 'mcq':
                 return (
-                    <div className="row">
-                        <div className="col-sm-12 text-xs-center">
-
-                            <Snackbar
-                                open={this.state.showSnackbar}
-                                message="Thanks for your vote!"
-                                autoHideDuration={4000}
-                            />
-
-                            <Paper>
-                                <br/><br/>
-                                <h2>{this.state.title}</h2>
-                                <br/>
-                                <Button variant="outlined" color="primary"
-                                        onClick={this.handleShareModelOpen}>Share</Button>
-                                <br/>
-
-                                {this.renderTimer()}
-
-                                {this.state.imgSrc !== null ?
-                                    <div>
-                                        <img src={this.state.imgSrc} alt='User Uploaded'/>
-                                    </div> : ''}
-
-                                <Loading loading={this.state.loading}/>
-
-                                {optionsUI}
-
-                                {addOptionUI}
-
-                                <br/>
-                                {this.state.categories.length > 0 ? <div>
-                                    <h4>Categories:</h4>
-                                    {renderCategories}
-                                </div> : <h4> No Categories:</h4>}
-
-                                <br/>
-                                {this.state.options.length < 4 && this.state.options.length > 0 ?
-                                    <Chart
-                                        chartType="PieChart"
-                                        width="100%"
-                                        data={data}
-                                        options={{
-                                            animation: {
-                                                startup: true,
-                                                easing: 'linear',
-                                                duration: 1500,
-                                            },
-                                            title: this.state.title,
-                                        }}
-                                    /> :
-                                    <Chart
-                                        chartType="BarChart"
-                                        loader={<div>Loading Chart</div>}
-                                        width="100%"
-                                        data={data}
-                                        options={{
-                                            animation: {
-                                                startup: true,
-                                                easing: 'linear',
-                                                duration: 1500,
-                                            },
-                                            title: this.state.title,
-                                            bars: 'horizontal',
-                                            hAxis: {
-                                                minValue: 0,
-                                                gridlines: {
-                                                    count: 0
-                                                },
-                                                textPosition: "none",
-                                                baselineColor: '#fff'
-                                            },
-                                            vAxis: {
-                                                title: 'Options',
-                                                baselineColor: '#fff',
-                                                gridlines: {
-                                                    count: 0
-                                                },
-                                            },
-                                            legend: {position: 'none'},
-                                        }}
-                                    />
-                                }
-                                <br/><br/>
-                                <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
-                            </Paper>
+                    <Styles>
+                        <div className='background-color'>
+                            <Container fluid>
+                                <Row style={{marginBottom: '0px'}}>
+                                    <Col xs={{span: 10, offset: 1}}>
+                                        <Loading loading={this.state.loading}/>
+                                        <Paper className='row-style' elevation={5}>
+                                            <Container fluid>
+                                                <Row className='d-flex align-items-center'>
+                                                    <div className='share-btn'>
+                                                        <Button variant="outline-primary"
+                                                                onClick={this.handleShareModelOpen}>Share</Button>
+                                                    </div>
+                                                    {addOptionUI}
+                                                    {this.state.status === 'expired' ? '' :
+                                                        <div className='ml-auto results-circle'
+                                                             onMouseEnter={this.handleMouseHoverIn}
+                                                             onMouseLeave={this.handleMouseHoverOut}>
+                                                            <span>R</span>
+                                                        </div>
+                                                    }
+                                                </Row>
+                                                <Row className='d-flex justify-content-center'>
+                                                    <Col xs={{span: 8}}>
+                                                        <h2 className='poll-question text-center'>{this.state.title}</h2>
+                                                    </Col>
+                                                </Row>
+                                                {this.state.showResults ?
+                                                    <Row>
+                                                        <Col xs={{span: 8, offset: 2}}>
+                                                            {this.state.options.length < 4 && this.state.options.length > 0 ?
+                                                                <Chart
+                                                                    chartType="PieChart"
+                                                                    width="100%"
+                                                                    data={data}
+                                                                    options={{
+                                                                        animation: {
+                                                                            startup: true,
+                                                                            easing: 'linear',
+                                                                            duration: 1500,
+                                                                        },
+                                                                    }}
+                                                                /> :
+                                                                <Chart
+                                                                    chartType="BarChart"
+                                                                    loader={<div>Loading Chart</div>}
+                                                                    width="100%"
+                                                                    data={data}
+                                                                    options={{
+                                                                        animation: {
+                                                                            startup: true,
+                                                                            easing: 'linear',
+                                                                            duration: 1500,
+                                                                        },
+                                                                        bars: 'horizontal',
+                                                                        hAxis: {
+                                                                            minValue: 0,
+                                                                            gridlines: {
+                                                                                count: 0
+                                                                            },
+                                                                            textPosition: "none",
+                                                                            baselineColor: '#fff'
+                                                                        },
+                                                                        vAxis: {
+                                                                            title: 'Options',
+                                                                            baselineColor: '#fff',
+                                                                            gridlines: {
+                                                                                count: 0
+                                                                            },
+                                                                        },
+                                                                        legend: {position: 'none'},
+                                                                    }}
+                                                                />
+                                                            }
+                                                        </Col>
+                                                    </Row>
+                                                    : <div>
+                                                        <Row>
+                                                            <Col xs={{span: 8, offset: 2}}>
+                                                                {this.state.imgSrc !== null ?
+                                                                    <Row>
+                                                                        <div>
+                                                                            <img src={this.state.imgSrc}
+                                                                                 alt='User Uploaded'/>
+                                                                        </div>
+                                                                    </Row> : ''}
+                                                                <Row>
+                                                                    <Col xs={{span: 4, offset: 4}}>
+                                                                        {optionsUI}
+                                                                    </Col>
+                                                                </Row>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                }
+                                                <Row>
+                                                    <Col xs={{span: 10, offset: 1}}>
+                                                        {this.renderTimer()}
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col xs={{span: 10, offset: 1}}>
+                                                        {this.state.categories.length > 0 ? <div>
+                                                            <h6>Categories:</h6>
+                                                            {renderCategories}
+                                                        </div> : ''}
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col xs={{span: 10, offset: 1}}>
+                                                        <Comment pollId={this.props.match.params.pollId}
+                                                                 disable={!isAuthUser}/>
+                                                    </Col>
+                                                </Row>
+                                            </Container>
+                                        </Paper>
+                                    </Col>
+                                </Row>
+                            </Container>
+                            <div>
+                                <Snackbar
+                                    open={this.state.showSnackbar}
+                                    message="Thanks for your vote!"
+                                    autoHideDuration={4000}
+                                />
+                            </div>
+                            <div>
+                                <PollShareDialog
+                                    show={this.state.showShareDialog}
+                                    Close={this.handleShareModelClose}
+                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
+                            </div>
+                            <div>
+                                <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
+                            </div>
                         </div>
-                        <div>
-                            <PollShareDialog
-                                show={this.state.showShareDialog}
-                                Close={this.handleShareModelClose}
-                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
-                        </div>
-                        <div>
-                            <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
-                        </div>
-                    </div>
+                    </Styles>
                 );
             case 'open':
                 return (
@@ -574,7 +673,9 @@ class Poll extends React.Component {
                     </div>
                 );
             default:
-                return (<h1>Unknown Poll Type</h1>);
+                return (
+                    <h1>Unknown Poll Type</h1>
+                );
         }
 
     }

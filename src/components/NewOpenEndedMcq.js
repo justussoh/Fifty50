@@ -147,7 +147,7 @@ class NewOpenEndedMcq extends React.Component {
                 history.push(`/pollgroup/view/${this.props.pollId}`);
             }
         }
-    }
+    };
 
 
     verifyFile = (files) => {

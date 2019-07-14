@@ -11,7 +11,7 @@ import Chip from '@material-ui/core/Chip';
 import PollShareDialog from './PollShareDialog';
 import LoginDialog from './LoginDialog'
 import ViewPoll from './ViewPoll'
-import {Comment} from "./PollingForm";
+import {Comment} from "./Comment";
 import {switchCase} from "@babel/types";
 
 const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];

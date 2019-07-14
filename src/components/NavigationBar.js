@@ -61,7 +61,8 @@ class NavigationBar extends React.Component {
                 return <div></div>
             case true:
                 return (
-                    <Nav className="ml-auto">
+                    <Nav className="ml-auto d-flex align-items-center">
+                        <SearchBar/>
                         <Dropdown as={Nav.Item} show={this.state.hover} onClick={this.handleAvatarMenuToggle}
                                   alignRight={true}>
                             <Dropdown.Toggle as={AvatarIcon}/>
@@ -78,9 +79,6 @@ class NavigationBar extends React.Component {
             default:
                 return (
                     <Nav className="ml-auto">
-                        <Nav.Item><Nav.Link href="/">Home</Nav.Link></Nav.Item>
-                        <Nav.Item><Nav.Link href="/about"> About </Nav.Link></Nav.Item>
-                        <Nav.Item><Nav.Link href="/contact"> Contact </Nav.Link></Nav.Item>
                         <Nav.Item><Nav.Link href="/login"> Login </Nav.Link></Nav.Item>
                         <Nav.Item><SearchBar/></Nav.Item>
                     </Nav>
@@ -92,13 +90,11 @@ class NavigationBar extends React.Component {
 
         return (
             <Styles>
-                <Navbar expand="lg">
+                <Navbar expand="lg" >
                     <Navbar.Brand href='/'>Fifty50</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
-
                         {this.renderNav()}
-
                     </Navbar.Collapse>
                 </Navbar>
             </Styles>
