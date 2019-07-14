@@ -31,6 +31,10 @@ class SearchBar extends React.Component {
         })).bind(this);
     };
 
+    componentWillUnmount() {
+        this.pollRef.off();
+    }
+
     handleSearchSelect = (selected) => {
         this.setState({
             categorySelected: selected[0]

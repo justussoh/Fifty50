@@ -164,7 +164,7 @@ class Comment extends React.Component {
                                 onClick={this.handleSelect}
                                 onChange={this.updateInput}
                                 disabled={this.props.disable}
-                                placeholder='Add a public Comment'
+                                placeholder={isAuthUser ? 'Add a public Comment': 'Please Sign In!'}
                             />
                         </div>
                         {

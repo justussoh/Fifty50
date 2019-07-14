@@ -20,6 +20,8 @@ import {Comment} from './Comment';
 import LoginDialog from './LoginDialog'
 import ReactWordcloud from 'react-wordcloud'
 import styled from "styled-components";
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
 
 var randomColor = require('randomcolor');
 
@@ -66,6 +68,10 @@ const Styles = styled.div`
     .background-color{
         background: linear-gradient(90deg, rgba(23,205,185,1) 44%, rgba(0,212,255,1) 100%);
     }
+    
+    img{
+        width:100%;
+    }
 `;
 
 class Poll extends React.Component {
@@ -101,6 +107,9 @@ class Poll extends React.Component {
         //console.log(this.pollRef);
         this.pollRef.on('value', ((snapshot) => {
             const dbPoll = snapshot.val();
+            if (this.state.voted) {
+                this.setState({showResults: true})
+            }
             if (dbPoll.expire && dbPoll.expire.check) {
                 if (new Date().getTime() > new Date(dbPoll.expire.expireDate).getTime()) {
                     this.setState({voted: true, status: 'expired', showResults: true})
@@ -195,10 +204,6 @@ class Poll extends React.Component {
         this.pollRef.off();
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.state)
-    }
-
     handleVote(option) {
         let currentCount = this.state.options.filter(o => {
             return o.hasOwnProperty(option);
@@ -206,7 +211,7 @@ class Poll extends React.Component {
 
         firebaseApp.database().ref().update({[`polls/${this.props.match.params.pollId}/${option}`]: currentCount += 1})
         localStorage.setItem(this.props.match.params.pollId, 'true');
-        this.setState({voted: true, showSnackbar: true});
+        this.setState({voted: true, showSnackbar: true, showResults: true});
     }
 
     handleAnswerChange(e) {
@@ -242,7 +247,7 @@ class Poll extends React.Component {
 
             firebaseApp.database().ref().update(updates);
             localStorage.setItem(this.props.match.params.pollId, 'true');
-            this.setState({voted: true, showSnackbar: true});
+            this.setState({voted: true, showSnackbar: true, showResults: true});
         }
     }
 
@@ -318,7 +323,7 @@ class Poll extends React.Component {
         if (isAuthUser) {
             addOptionUI = (
                 <div>
-                    <Button onCLick={this.handleUpdatePoll} variant="outline-warning" style={{marginLeft: "10px"}}>
+                    <Button onClick={this.handleUpdatePoll} variant="outline-warning" style={{marginLeft: "10px"}}>
                         Update
                     </ Button>
                 </div>
@@ -495,77 +500,131 @@ class Poll extends React.Component {
                 );
             case 'open':
                 return (
-                    <div className="row">
-                        <div className="col-sm-12 text-xs-center">
+                    <Styles>
+                        <div className='background-color'>
+                            <Container fluid>
+                                <Row style={{marginBottom: '0px'}}>
+                                    <Col xs={{span: 10, offset: 1}}>
+                                        <Loading loading={this.state.loading}/>
+                                        <Paper className='row-style' elevation={5}>
+                                            <Container fluid>
+                                                <Row className='d-flex align-items-center'>
+                                                    <div className='share-btn'>
+                                                        <Button variant="outline-primary"
+                                                                onClick={this.handleShareModelOpen}>Share</Button>
+                                                    </div>
+                                                    {this.state.status === 'expired' || this.state.voted ? '' :
+                                                        <div className='ml-auto results-circle'
+                                                             onMouseEnter={this.handleMouseHoverIn}
+                                                             onMouseLeave={this.handleMouseHoverOut}>
+                                                            <span>R</span>
+                                                        </div>
+                                                    }
+                                                </Row>
+                                                <Row className='d-flex justify-content-center'>
+                                                    <Col xs={{span: 8}}>
+                                                        <h2 className='poll-question text-center'>{this.state.title}</h2>
+                                                    </Col>
+                                                </Row>
+                                                {this.state.showResults ?
+                                                    <Row>
+                                                        <Col xs={{span: 8, offset: 2}}>
+                                                            {words.length > 0 ?
+                                                                <ReactWordcloud words={words}
+                                                                                options={{
+                                                                                    rotations: 2,
+                                                                                    scale: 'log',
+                                                                                    fontSizes: [35, 60],
+                                                                                    rotationAngles: [0, 90],
+                                                                                    fontFamily: 'Roboto',
+                                                                                    spiral: 'archimedean',
+                                                                                    deterministic: true,
+                                                                                }}/> :
+                                                                <h5 className='text-center'>No Data Yet</h5>}
+                                                        </Col>
+                                                    </Row>
+                                                    : <div>
+                                                        <Row>
+                                                            <Col xs={{span: 8, offset: 2}}>
+                                                                {this.state.imgSrc !== null ?
+                                                                    <Row>
+                                                                        <div>
+                                                                            <img src={this.state.imgSrc}
+                                                                                 alt='User Uploaded'/>
+                                                                        </div>
+                                                                    </Row> : ''}
+                                                                <Row>
+                                                                    <Col xs={{span: 8, offset: 2}}>
+                                                                        {this.state.voted ? <h2>Already Answer</h2> :
+                                                                            <form onSubmit={this.handleAnswerOpen}>
+                                                                                <InputGroup>
+                                                                                    <FormControl
+                                                                                        placeholder="Your Answer Here"
+                                                                                        value={this.state.newOption.option}
+                                                                                        onChange={this.handleAnswerChange}
+                                                                                        isInvalid={Boolean(this.state.newOption.optionError)}
+                                                                                        disabled={this.state.voted}
+                                                                                    />
+                                                                                    {/*<FormControl.Feedback  type="invalid">{this.state.newOption.optionError}</FormControl.Feedback>*/}
+                                                                                    <InputGroup.Append>
+                                                                                        <Button
+                                                                                            variant="outline-primary"
+                                                                                            type='submit'>Submit</Button>
+                                                                                    </InputGroup.Append>
+                                                                                </InputGroup>
 
-                            <Snackbar
-                                open={this.state.showSnackbar}
-                                message="Thanks for your answering!"
-                                autoHideDuration={4000}
-                            />
 
-                            <Paper>
-                                <br/><br/>
-                                <h2>{this.state.title}</h2>
-                                <br/>
-                                <Button variant="outlined" color="primary"
-                                        onClick={this.handleShareModelOpen}>Share</Button>
-                                <br/>
-                                {this.renderTimer()}
 
-                                {this.state.imgSrc !== null ?
-                                    <div>
-                                        <img src={this.state.imgSrc} alt='User Uploaded'/>
-                                    </div> : ''}
+                                                                            </form>}
 
-                                <Loading loading={this.state.loading}/>
-
-                                {this.state.voted ? <h2>Already Answer</h2> :
-                                    <form onSubmit={this.handleAnswerOpen}>
-                                        <TextField
-                                            label="Your Answer Here"
-                                            value={this.state.newOption.option}
-                                            onChange={this.handleAnswerChange}
-                                            error={this.state.newOption.optionError}
-                                            helperText={this.state.newOption.optionError}
-                                            disabled={this.state.voted}
-                                        />
-                                        <Button variant='outlined' type='submit'>Submit</Button>
-                                    </form>}
-
-                                <br/>
-                                {this.state.categories.length > 0 ? <div>
-                                    <h4>Categories:</h4>
-                                    {renderCategories}
-                                </div> : <h4> No Categories:</h4>}
-                                <br/>
-                                <ReactWordcloud words={words}
-                                                options={{
-                                                    rotations: 2,
-                                                    scale: 'log',
-                                                    fontSizes: [35, 60],
-                                                    rotationAngles: [0, 90],
-                                                    fontFamily: 'Roboto',
-                                                    spiral: 'archimedean',
-                                                    deterministic: true,
-                                                }}/>
-
-                                <br/><br/>
-
-                                <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
-
-                            </Paper>
+                                                                    </Col>
+                                                                </Row>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                }
+                                                <Row>
+                                                    <Col xs={{span: 10, offset: 1}}>
+                                                        {this.renderTimer()}
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col xs={{span: 10, offset: 1}}>
+                                                        {this.state.categories.length > 0 ? <div>
+                                                            <h6>Categories:</h6>
+                                                            {renderCategories}
+                                                        </div> : ''}
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col xs={{span: 10, offset: 1}}>
+                                                        <Comment pollId={this.props.match.params.pollId}
+                                                                 disable={!isAuthUser}/>
+                                                    </Col>
+                                                </Row>
+                                            </Container>
+                                        </Paper>
+                                    </Col>
+                                </Row>
+                            </Container>
+                            <div>
+                                <Snackbar
+                                    open={this.state.showSnackbar}
+                                    message="Thanks for your vote!"
+                                    autoHideDuration={4000}
+                                />
+                            </div>
+                            <div>
+                                <PollShareDialog
+                                    show={this.state.showShareDialog}
+                                    Close={this.handleShareModelClose}
+                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
+                            </div>
+                            <div>
+                                <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
+                            </div>
                         </div>
-                        <div>
-                            <PollShareDialog
-                                show={this.state.showShareDialog}
-                                Close={this.handleShareModelClose}
-                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
-                        </div>
-                        <div>
-                            <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
-                        </div>
-                    </div>
+                    </Styles>
                 );
             case 'openmcq':
                 return (
