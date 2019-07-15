@@ -9,7 +9,7 @@ import {NoMatch} from './NoMatch';
 import {NavigationBar} from './components/NavigationBar';
 import {Comment} from './components/Comment';
 import NewPoll from './components/NewPoll';
-import {Poll} from './components/Poll';
+import Poll from './components/Poll';
 import {Update} from './components/Update';
 import {Login} from './components/Login';
 import {Loginpage} from './components/Loginpage';

@@ -572,11 +572,7 @@ class Poll extends React.Component {
                                                                                             type='submit'>Submit</Button>
                                                                                     </InputGroup.Append>
                                                                                 </InputGroup>
-
-
-
                                                                             </form>}
-
                                                                     </Col>
                                                                 </Row>
                                                             </Col>
@@ -628,112 +624,150 @@ class Poll extends React.Component {
                 );
             case 'openmcq':
                 return (
-                    <div className="row">
-                        <div className="col-sm-12 text-xs-center">
-
-                            <Snackbar
-                                open={this.state.showSnackbar}
-                                message="Thanks for your vote!"
-                                autoHideDuration={4000}
-                            />
-
-
-                            <Paper>
-                                <br/><br/>
-                                <h2>{this.state.title}</h2>
-                                <br/>
-                                <Button variant="outlined" color="primary"
-                                        onClick={this.handleShareModelOpen}>Share</Button>
-                                <br/>
-
-                                {this.renderTimer()}
-
-                                {this.state.imgSrc !== null ?
-                                    <div>
-                                        <img src={this.state.imgSrc} alt='User Uploaded'/>
-                                    </div> : ''}
-
-                                <Loading loading={this.state.loading}/>
-                                {this.state.options.length > 0 ?
-                                    <Chart
-                                        chartType="BarChart"
-                                        loader={<div>Loading Chart</div>}
-                                        width="100%"
-                                        data={customData}
-                                        chartEvents={[
-                                            {
-                                                eventName: 'select',
-                                                callback: ({chartWrapper}) => {
-                                                    const chart = chartWrapper.getChart();
-                                                    const selection = chart.getSelection();
-                                                    if (selection.length === 1 && !this.state.voted) {
-                                                        const [selectedItem] = selection;
-                                                        const {row} = selectedItem;
-                                                        this.handleVote(customData[row + 1][0])
-                                                    }
-                                                },
-                                            },
-                                        ]}
-                                        options={{
-                                            animation: {
-                                                startup: true,
-                                                easing: 'linear',
-                                                duration: 750,
-                                            },
-                                            title: this.state.title,
-                                            hAxis: {
-                                                minValue: 0,
-                                                gridlines: {
-                                                    count: 0
-                                                },
-                                                textPosition: "none",
-                                                baselineColor: '#fff'
-                                            },
-                                            vAxis: {
-                                                title: 'Options',
-                                                baselineColor: '#fff'
-                                            },
-                                            legend: {position: 'none'},
-                                        }}
-                                    /> : ''}
-
-                                <br/>
-
-                                {this.state.voted ? <h2>Already Answer</h2> :
-                                    <form onSubmit={this.handleAnswerOpen}>
-                                        <TextField
-                                            label="Your Answer Here"
-                                            value={this.state.newOption.option}
-                                            onChange={this.handleAnswerChange}
-                                            error={this.state.newOption.optionError}
-                                            helperText={this.state.newOption.optionError}
-                                            disabled={this.state.voted}
-                                        />
-                                        <Button variant='outlined' type='submit'>Submit</Button>
-                                    </form>}
-                                <br/>
-                                {this.state.categories.length > 0 ? <div>
-                                    <h4>Categories:</h4>
-                                    {renderCategories}
-                                </div> : <h4> No Categories:</h4>}
-                                <br/>
-                                <Comment pollId={this.props.match.params.pollId} disable={!isAuthUser}/>
-                            </Paper>
+                    <Styles>
+                        <div className='background-color'>
+                            <Container fluid>
+                                <Row style={{marginBottom: '0px'}}>
+                                    <Col xs={{span: 10, offset: 1}}>
+                                        <Loading loading={this.state.loading}/>
+                                        <Paper className='row-style' elevation={5}>
+                                            <Container fluid>
+                                                <Row className='d-flex align-items-center'>
+                                                    <div className='share-btn ml-auto'>
+                                                        <Button variant="outline-primary"
+                                                                onClick={this.handleShareModelOpen}>Share</Button>
+                                                    </div>
+                                                </Row>
+                                                <Row className='d-flex justify-content-center'>
+                                                    <Col xs={{span: 8}}>
+                                                        <h2 className='poll-question text-center'>{this.state.title}</h2>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col xs={{span: 8, offset: 2}}>
+                                                        {this.state.imgSrc !== null ?
+                                                            <Row>
+                                                                <div>
+                                                                    <img src={this.state.imgSrc}
+                                                                         alt='User Uploaded'/>
+                                                                </div>
+                                                            </Row> : ''}
+                                                        <Row>
+                                                            <Col xs={{span: 10, offset: 2}}>
+                                                                {this.state.options.length > 0 ?
+                                                                    <Chart
+                                                                        chartType="BarChart"
+                                                                        loader={<div>Loading Chart</div>}
+                                                                        width="100%"
+                                                                        data={customData}
+                                                                        chartEvents={[
+                                                                            {
+                                                                                eventName: 'select',
+                                                                                callback: ({chartWrapper}) => {
+                                                                                    const chart = chartWrapper.getChart();
+                                                                                    const selection = chart.getSelection();
+                                                                                    if (selection.length === 1 && !this.state.voted) {
+                                                                                        const [selectedItem] = selection;
+                                                                                        const {row} = selectedItem;
+                                                                                        this.handleVote(customData[row + 1][0])
+                                                                                    }
+                                                                                },
+                                                                            },
+                                                                        ]}
+                                                                        options={{
+                                                                            animation: {
+                                                                                startup: true,
+                                                                                easing: 'linear',
+                                                                                duration: 750,
+                                                                            },
+                                                                            hAxis: {
+                                                                                minValue: 0,
+                                                                                gridlines: {
+                                                                                    count: 0
+                                                                                },
+                                                                                textPosition: "none",
+                                                                                baselineColor: '#fff'
+                                                                            },
+                                                                            vAxis: {
+                                                                                title: 'Options',
+                                                                                baselineColor: '#fff'
+                                                                            },
+                                                                            legend: {position: 'none'},
+                                                                        }}
+                                                                    /> : ''}
+                                                            </Col>
+                                                        </Row>
+                                                        <Row>
+                                                            <Col xs={{span: 8, offset: 2}}>
+                                                                {this.state.voted ? '' :
+                                                                    <form onSubmit={this.handleAnswerOpen}>
+                                                                        <InputGroup>
+                                                                            <FormControl
+                                                                                placeholder="Your Answer Here"
+                                                                                value={this.state.newOption.option}
+                                                                                onChange={this.handleAnswerChange}
+                                                                                isInvalid={Boolean(this.state.newOption.optionError)}
+                                                                                disabled={this.state.voted}
+                                                                            />
+                                                                            {/*<FormControl.Feedback  type="invalid">{this.state.newOption.optionError}</FormControl.Feedback>*/}
+                                                                            <InputGroup.Append>
+                                                                                <Button
+                                                                                    variant="outline-primary"
+                                                                                    type='submit'>Submit</Button>
+                                                                            </InputGroup.Append>
+                                                                        </InputGroup>
+                                                                    </form>}
+                                                            </Col>
+                                                        </Row>
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col xs={{span: 10, offset: 1}}>
+                                                        {this.renderTimer()}
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col xs={{span: 10, offset: 1}}>
+                                                        {this.state.categories.length > 0 ? <div>
+                                                            <h6>Categories:</h6>
+                                                            {renderCategories}
+                                                        </div> : ''}
+                                                    </Col>
+                                                </Row>
+                                                <Row>
+                                                    <Col xs={{span: 10, offset: 1}}>
+                                                        <Comment pollId={this.props.match.params.pollId}
+                                                                 disable={!isAuthUser}/>
+                                                    </Col>
+                                                </Row>
+                                            </Container>
+                                        </Paper>
+                                    </Col>
+                                </Row>
+                            </Container>
+                            <div>
+                                <Snackbar
+                                    open={this.state.showSnackbar}
+                                    message="Thanks for your vote!"
+                                    autoHideDuration={4000}
+                                />
+                            </div>
+                            <div>
+                                <PollShareDialog
+                                    show={this.state.showShareDialog}
+                                    Close={this.handleShareModelClose}
+                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
+                            </div>
+                            <div>
+                                <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
+                            </div>
                         </div>
-                        <div>
-                            <PollShareDialog
-                                show={this.state.showShareDialog}
-                                Close={this.handleShareModelClose}
-                                url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
-                        </div>
-                        <div>
-                            <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
-                        </div>
-                    </div>
-                );
+                    </Styles>
+                )
+                    ;
             default:
                 return (
-                    <h1>Unknown Poll Type</h1>
+                    <h1>Loading</h1>
                 );
         }
 
@@ -765,4 +799,4 @@ class Poll extends React.Component {
     }
 }
 
-export {Poll};
+export default Poll;
