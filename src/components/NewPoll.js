@@ -91,41 +91,44 @@ class NewPoll extends React.Component {
         history.push('/pollgroup/new')
     };
 
+    handleBack = () =>{
+        this.setState({typePoll:'main'})
+    };
+
     render() {
 
         const showComponent = () => {
             switch (this.state.typePoll) {
                 case 'mcq':
-                    return <NewSingleOption/>;
+                    return <NewSingleOption handleBack={this.handleBack}/>;
                 case 'open':
-                    return <NewOpenEnded/>;
+                    return <NewOpenEnded handleBack={this.handleBack}/>;
                 case 'openmcq':
-                    return <NewOpenEndedMcq/>;
+                    return <NewOpenEndedMcq handleBack={this.handleBack}/>;
                 default:
                     return (
-                        <Paper className='main-paper'>
-                            <Container fluid>
-                                <Row className='d-flex justify-content-center align-items-center'>
-                                    <div>
-                                        <h3 className='type-title font'>SELECT THE TYPE OF POLL QUESTION</h3>
-                                        <hr className='line'/>
-                                    </div>
-                                </Row>
-                                <Row className='d-flex align-items-stretch justify-content-center' style={{marginBottom:'20px'}}>
-                                    {renderCards}
-                                </Row>
-                                <Row>
-                                    <Col xs={{span: 3, offset: 3}}>
-                                        <Button variant="outline-danger" onClick={this.handleCancel}
-                                                block>Cancel</Button>
-                                    </Col>
-                                    <Col xs={3}>
-                                        <Button variant="outline-warning" onClick={this.handleCreatePollGroup}
-                                                block>Try creating a Poll Group</Button>
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Paper>
+                        <Container fluid>
+                            <Row className='d-flex justify-content-center align-items-center'>
+                                <div>
+                                    <h3 className='type-title font'>SELECT THE TYPE OF POLL QUESTION</h3>
+                                    <hr className='line'/>
+                                </div>
+                            </Row>
+                            <Row className='d-flex align-items-stretch justify-content-center'
+                                 style={{marginBottom: '20px'}}>
+                                {renderCards}
+                            </Row>
+                            <Row>
+                                <Col xs={{span: 3, offset: 3}}>
+                                    <Button variant="outline-danger" onClick={this.handleCancel}
+                                            block>Cancel</Button>
+                                </Col>
+                                <Col xs={3}>
+                                    <Button variant="outline-warning" onClick={this.handleCreatePollGroup}
+                                            block>Try creating a Poll Group</Button>
+                                </Col>
+                            </Row>
+                        </Container>
                     );
             }
         };
@@ -151,7 +154,9 @@ class NewPoll extends React.Component {
                 <Container fluid className='background'>
                     <Row>
                         <Col xs={{span: 10, offset: 1}}>
-                            {showComponent()}
+                            <Paper className='main-paper'>
+                                {showComponent()}
+                            </Paper>
                         </Col>
                     </Row>
                 </Container>
