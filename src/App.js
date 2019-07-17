@@ -6,7 +6,7 @@ import {Home} from './Home';
 import {About} from './About';
 import {Contact} from './Contact';
 import {NoMatch} from './NoMatch';
-import {NavigationBar} from './components/NavigationBar';
+import NavigationBar from './components/NavigationBar';
 import {Comment} from './components/Comment';
 import NewPoll from './components/NewPoll';
 import Poll from './components/Poll';

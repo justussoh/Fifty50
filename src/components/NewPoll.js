@@ -27,20 +27,19 @@ const pollOptions = [
 
 const Styles = styled.div`
     .background{
-        background-color:#cbcbe6;
         min-height:75vh;
+        
      }
      
      .main-paper{
-     padding: 30px;
-     margin-top:30px;
-     margin-bottom:30px;
-     min-height:65vh;
+         padding: 30px;
+         margin-top:20px;
+         min-height:45vh;
      }
      
      .option-card{
-     width:30%;
-     margin:10px;
+         width:30%;
+         margin:10px;
      }
      
      .line{
@@ -54,16 +53,20 @@ const Styles = styled.div`
     }
     
     .type-title{
-        color:#707070;
+        color:#00001a;
     }
     
     .font{
         font-family:Roboto;
     }
     
+    .option-title{
+        color:#00001a;
+    }
+    
     .option-desc{
         font-size:12px;
-        color:#707070;
+        color:#00001a;
     }
     
     .option-logo{
@@ -91,8 +94,8 @@ class NewPoll extends React.Component {
         history.push('/pollgroup/new')
     };
 
-    handleBack = () =>{
-        this.setState({typePoll:'main'})
+    handleBack = () => {
+        this.setState({typePoll: 'main'})
     };
 
     render() {
@@ -141,7 +144,7 @@ class NewPoll extends React.Component {
                     }} style={{height: "100%"}}>
                         <CardContent className='d-flex flex-column align-items-center'>
                             <img src={`/images/${option.value}.png`} alt={option.value} className='option-logo'/>
-                            <h4 className='text-center font'>{option.label}</h4>
+                            <h4 className='text-center font option-title'>{option.label}</h4>
                             <p className='text-center font option-desc'>{option.desc}</p>
                         </CardContent>
                     </CardActionArea>
@@ -154,7 +157,7 @@ class NewPoll extends React.Component {
                 <Container fluid className='background'>
                     <Row>
                         <Col xs={{span: 10, offset: 1}}>
-                            <Paper className='main-paper'>
+                            <Paper elevation={0} className='main-paper'>
                                 {showComponent()}
                             </Paper>
                         </Col>

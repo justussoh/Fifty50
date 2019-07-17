@@ -4,14 +4,19 @@ import history from '../history';
 import styled from 'styled-components';
 
 import {Nav, Navbar} from 'react-bootstrap';
-import Button from '@material-ui/core/Button';
 import AvatarIcon from "./AvatarIcon";
 import Dropdown from 'react-bootstrap/Dropdown';
 import SearchBar from "./SearchBar";
+import Button from 'react-bootstrap/Button'
 
 const Styles = styled.div`
     .Navbar{
         background-color: #222;
+    }
+    
+    .navbar{
+        box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
+        z-index:1;
     }
 
     .Navbar-brand, .Navbar-nav .nav-link {
@@ -20,6 +25,16 @@ const Styles = styled.div`
         &:hover {
             color: white;
         }
+    }
+    
+    .logout-btn{
+        font-size: 14px;
+        font-family: Roboto;
+        font-weight: bold;
+    }
+    
+    .avatar-dropdown{
+        padding-bottom: 0px!important;
     }
 `;
 
@@ -31,13 +46,15 @@ class NavigationBar extends React.Component {
         this.state = {
             loggedIn: (null !== firebaseApp.auth().currentUser), //currentUser is null when not loggedin
             hover: false,
+            user:null,
         };
     }
 
     componentWillMount() {
         firebaseApp.auth().onAuthStateChanged(user => {
             this.setState({
-                loggedIn: (null !== user) //user is null when not loggedin 
+                loggedIn: (null !== user), //user is null when not loggedin
+                user: user
             })
         });
     }
@@ -58,7 +75,7 @@ class NavigationBar extends React.Component {
     renderNav = () => {
         switch (this.state.loggedIn) {
             case null:
-                return <div></div>
+                return <div></div>;
             case true:
                 return (
                     <Nav className="ml-auto d-flex align-items-center">
@@ -66,16 +83,33 @@ class NavigationBar extends React.Component {
                         <Dropdown as={Nav.Item} show={this.state.hover} onClick={this.handleAvatarMenuToggle}
                                   alignRight={true}>
                             <Dropdown.Toggle as={AvatarIcon}/>
-                            <Dropdown.Menu>
-                                <Dropdown.Item as={Nav.Link} href="/polls/dashboard">Dashboard</Dropdown.Item>
-                                <Dropdown.Divider/>
-                                <Dropdown.Item><Button
-                                    onClick={this.handleLogout}
-                                    children="Logout"
-                                /></Dropdown.Item>
+                            <Dropdown.Menu alignRight className='avatar-dropdown'>
+                                <Dropdown.Header style={{marginBottom: '4px', marginTop: '4px'}}>
+                                    <div className='d-flex align-items-center'>
+                                        <AvatarIcon/>
+                                        <div className='d-flex flex-column'>
+                                            <strong>{this.state.user.displayName}</strong>
+                                            {this.state.user.email}
+                                        </div>
+                                    </div>
+                                </Dropdown.Header>
+                                {/*<Dropdown.Item as={NavLink} href="#" onClick={(e) => {*/}
+                                {/*    this.props.history.push('/');*/}
+                                {/*}} className='header-avatar-icon-nav-link'>Home</Dropdown.Item>*/}
+                                <Dropdown.Divider style={{marginBottom: '0px'}}/>
+                                <Dropdown.Header>
+                                    <div className='d-flex'>
+                                        <Button onClick={this.handleLogout}
+                                                variant="secondary"
+                                                className="ml-auto logout-btn"
+                                        >Sign Out
+                                        </Button>
+                                    </div>
+                                </Dropdown.Header>
                             </Dropdown.Menu>
                         </Dropdown>
-                    </Nav>);
+                    </Nav>
+                );
             default:
                 return (
                     <Nav className="ml-auto">
@@ -84,13 +118,13 @@ class NavigationBar extends React.Component {
                     </Nav>
                 );
         }
-    }
+    };
 
     render() {
 
         return (
             <Styles>
-                <Navbar expand="lg" >
+                <Navbar expand="lg">
                     <Navbar.Brand href='/'>Fifty50</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -103,4 +137,4 @@ class NavigationBar extends React.Component {
 
 }
 
-export {NavigationBar}
+export default NavigationBar;

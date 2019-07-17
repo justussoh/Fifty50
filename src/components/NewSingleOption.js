@@ -168,8 +168,10 @@ const Styles = styled.div`
         width:100%;
         margin-bottom:20px;
     }
-   
-
+    
+    .duration-button{
+        background-color:white;
+    }
 `;
 
 class NewSingleOption extends React.Component {
@@ -413,8 +415,8 @@ class NewSingleOption extends React.Component {
         let options = this.state.options.map((option, i) => {
             return (
                 <Row key={i} className='d-flex align-items-center'>
-                    <div className=''>
-                        <input className='ghost-input option-input' placeholder={`Option ${i + 1}`}
+                    <div className='option-input'>
+                        <input className='ghost-input' placeholder={`Option ${i + 1}`}
                                value={this.state.options[i].option}
                                onChange={this.handleOptionChange.bind(this, i)} required/>
                         {Boolean(this.state.options[i].optionError) ?
@@ -501,6 +503,7 @@ class NewSingleOption extends React.Component {
                                                                 control={<Switch
                                                                     checked={this.state.loginToAnswer}
                                                                     onChange={this.handleLoginToAnswer}
+                                                                    color="default"
                                                                 />}
                                                                 label={<span className='requirement-text'>Does User need to Login to Answer</span>}
                                                             /> : ''}
@@ -513,6 +516,7 @@ class NewSingleOption extends React.Component {
                                                             control={<Switch
                                                                 checked={this.state.expire.check}
                                                                 onChange={this.handleExpiryChange}
+                                                                color="default"
                                                             />}
                                                             label={<span className='requirement-text'>Set a Duration for the poll</span>}
                                                         />
@@ -528,6 +532,7 @@ class NewSingleOption extends React.Component {
 
                                                                 <DropdownButton
                                                                     as={InputGroup.Append}
+                                                                    className='duration-button'
                                                                     variant="outline-secondary"
                                                                     title={this.state.durationMeasure}>
                                                                     <Dropdown.Item onClick={() => {
