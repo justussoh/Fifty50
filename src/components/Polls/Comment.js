@@ -1,8 +1,8 @@
 import React from 'react';
-import {firebaseApp} from '../utils/firebase';
+import {firebaseApp} from '../../utils/firebase';
 
 import styled from 'styled-components';
-import AvatarIcon from "./AvatarIcon";
+import AvatarIcon from "../Header/AvatarIcon";
 import Button from 'react-bootstrap/Button'
 import Avatar from "@material-ui/core/Avatar";
 import ThumbUp from '@material-ui/icons/ThumbUp'

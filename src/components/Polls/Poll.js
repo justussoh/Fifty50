@@ -1,7 +1,7 @@
 import React from 'react';
-import {firebaseApp} from '../utils/firebase';
-import Loading from './Loading';
-import history from '../history';
+import {firebaseApp} from '../../utils/firebase';
+import Loading from '../Loading';
+import history from '../../history';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import Paper from '@material-ui/core/Paper';
@@ -22,10 +22,13 @@ import ReactWordcloud from 'react-wordcloud'
 import styled from "styled-components";
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from "@material-ui/core/Slide";
 
 var randomColor = require('randomcolor');
 
-const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];
+const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList', 'username', 'createAt'];
 
 const Styles = styled.div`
 
@@ -77,8 +80,6 @@ const Styles = styled.div`
 class Poll extends React.Component {
     constructor(props) {
         super(props);
-
-        //console.log(this.props.match.params.pollId)
         this.state = {
             title: '',
             options: [],
@@ -95,6 +96,7 @@ class Poll extends React.Component {
             status: '',
             categories: [],
             showResults: false,
+            copied:false,
         };
 
         this.formIsInvalid = this.formIsInvalid.bind(this);
@@ -231,7 +233,6 @@ class Poll extends React.Component {
         if (this.state.options.filter(o => {
             return o.hasOwnProperty(newOption);
         }).length > 0) {
-            console.log('hello')
             let currentCount = this.state.options.filter(o => {
                 return o.hasOwnProperty(newOption);
             })[0][newOption];
@@ -253,7 +254,7 @@ class Poll extends React.Component {
 
     handleShareModelClose = () => {
         this.setState({showShareDialog: false});
-    }
+    };
 
     handleShareModelOpen = () => {
         this.setState({showShareDialog: true});
@@ -289,6 +290,21 @@ class Poll extends React.Component {
 
     handleUpdatePoll = () => {
         history.push(`/polls/update/${this.props.match.params.pollId}`)
+    };
+
+    handleCopy = () => {
+        this.setState({copied: true});
+        window.setTimeout(() => {
+            this.setState({copied: false})
+        }, 5000)
+    };
+
+    handleCopySnackBarClose = () => {
+        this.setState({copied: false})
+    };
+
+    SlideTransition = (props) => {
+        return <Slide {...props} direction="up"/>
     };
 
 
@@ -490,7 +506,22 @@ class Poll extends React.Component {
                                 <PollShareDialog
                                     show={this.state.showShareDialog}
                                     Close={this.handleShareModelClose}
-                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
+                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}
+                                    copied={this.handleCopy}/>
+                                <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                                          open={this.state.copied}
+                                          message={<span id="message-id">Link Has Been Copied</span>}
+                                          action={
+                                              <IconButton
+                                                  key="close"
+                                                  color="inherit"
+                                                  onClick={this.handleCopySnackBarClose}
+                                              >
+                                                  <CloseIcon/>
+                                              </IconButton>
+                                          }
+                                          TransitionComponent={this.SlideTransition}
+                                />
                             </div>
                             <div>
                                 <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
@@ -614,7 +645,22 @@ class Poll extends React.Component {
                                 <PollShareDialog
                                     show={this.state.showShareDialog}
                                     Close={this.handleShareModelClose}
-                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
+                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}
+                                    copied={this.handleCopy}/>
+                                <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                                          open={this.state.copied}
+                                          message={<span id="message-id">Link Has Been Copied</span>}
+                                          action={
+                                              <IconButton
+                                                  key="close"
+                                                  color="inherit"
+                                                  onClick={this.handleCopySnackBarClose}
+                                              >
+                                                  <CloseIcon/>
+                                              </IconButton>
+                                          }
+                                          TransitionComponent={this.SlideTransition}
+                                />
                             </div>
                             <div>
                                 <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>
@@ -756,7 +802,22 @@ class Poll extends React.Component {
                                 <PollShareDialog
                                     show={this.state.showShareDialog}
                                     Close={this.handleShareModelClose}
-                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}/>
+                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}
+                                    copied={this.handleCopy}/>
+                                <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                                          open={this.state.copied}
+                                          message={<span id="message-id">Link Has Been Copied</span>}
+                                          action={
+                                              <IconButton
+                                                  key="close"
+                                                  color="inherit"
+                                                  onClick={this.handleCopySnackBarClose}
+                                              >
+                                                  <CloseIcon/>
+                                              </IconButton>
+                                          }
+                                          TransitionComponent={this.SlideTransition}
+                                />
                             </div>
                             <div>
                                 <LoginDialog show={this.state.loginToAnswer && !isAuthUser}/>

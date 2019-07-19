@@ -40,7 +40,7 @@ class PollShareDialog extends Component {
     render() {
 
         return (
-            <Dialog open={this.props.show} onClose={this.props.Close} aria-labelledby="form-dialog-title">
+            <Dialog open={this.props.show} onClose={this.props.Close} maxWidth="sm" fullWidth={true}>
                 <DialogTitle id="alert-dialog-title"><div className='d-flex align-items-center'>
                     <IconButton aria-label="Close" className='closeButton ml-auto' onClick={this.props.Close}>
                         <CloseIcon />
@@ -55,7 +55,7 @@ class PollShareDialog extends Component {
                             />
                             <InputGroup.Append>
                                 <CopyToClipboard text={this.props.url}
-                                    onCopy={() => this.setState({ copied: true })}>
+                                    onCopy={this.props.copied}>
                                     <ButtonB variant="outline-secondary">Copy</ButtonB>
                                 </CopyToClipboard>
                             </InputGroup.Append>

@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import {Chart} from 'react-google-charts';
 import Snackbar from "@material-ui/core/Snackbar";
 
-const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];
+const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList', 'username', 'createAt'];
 
 class ViewPoll extends React.Component {
     constructor(props) {
@@ -109,22 +109,6 @@ class ViewPoll extends React.Component {
         this.pollRef.off();
     };
 
-    // componentWillReceiveProps(nextProps, nextContext) {
-    //     this.componentWillUnmount();
-    //     this.setState({
-    //         title: '',
-    //         options: [],
-    //         newOption: {option: '', optionError: ''},
-    //         originalCount: 0,
-    //         imgSrc: null,
-    //         pollType: null,
-    //         voted: localStorage.getItem(this.props.pollId) ? true : false,
-    //         loading: true,
-    //         showSnackbar: false,
-    //     });
-    //     this.componentWillMount();
-    // }
-
     handleVote(option) {
         let currentCount = this.state.options.filter(o => {
             return o.hasOwnProperty(option);
@@ -152,7 +136,6 @@ class ViewPoll extends React.Component {
         if (this.state.options.filter(o => {
             return o.hasOwnProperty(newOption);
         }).length > 0) {
-            console.log('hello')
             let currentCount = this.state.options.filter(o => {
                 return o.hasOwnProperty(newOption);
             })[0][newOption];

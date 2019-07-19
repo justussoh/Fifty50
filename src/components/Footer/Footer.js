@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import {Nav, Navbar} from 'react-bootstrap';
-import {firebaseApp} from "../utils/firebase";
+import {firebaseApp} from "../../utils/firebase";
 
 const Styles = styled.div`
     .Navbar{

@@ -1,25 +1,22 @@
 import React from 'react';
-import {firebaseApp} from '../utils/firebase';
-import history from '../history';
-import Paper from '@material-ui/core/Paper';
+import {firebaseApp} from '../../utils/firebase';
+import history from '../../history';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import CloseIcon from '@material-ui/icons/Close';
 import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {Typeahead} from 'react-bootstrap-typeahead';
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import {Typeahead} from 'react-bootstrap-typeahead'
+
+import {InputGroup, FormControl, DropdownButton, Dropdown, Container, Row, Col} from 'react-bootstrap'
+import Dropzone from 'react-dropzone';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
-
-import {InputGroup, FormControl, DropdownButton, Dropdown, Container, Row, Col} from 'react-bootstrap'
-
-import Dropzone from 'react-dropzone';
 import styled from "styled-components";
+import IconButton from "@material-ui/core/IconButton";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Paper from "@material-ui/core/Paper";
 
-const acceptFileType = 'image/x-png, image/png, image,jpg, image/jpeg, image/gif';
+const acceptFileType = 'image/x-png, image/png, image,jpg, image/jpeg, image/gif'
 const acceptFileTypeArray = acceptFileType.split(",").map((item) => {
     return item.trim()
 });
@@ -59,13 +56,14 @@ const Styles = styled.div`
       border-image-repeat: initial;
       min-width: -webkit-min-content;
       margin-top:20px;
+      width:100%;
     }
     
     .ghost-input {
       display: block;
       border:0px;
       outline: none;
-      width: 90%;
+      width: 60%;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
@@ -174,7 +172,7 @@ const Styles = styled.div`
     }
 `;
 
-class NewSingleOption extends React.Component {
+class NewOpenEnded extends React.Component {
     constructor(props) {
         super(props);
 
@@ -182,12 +180,8 @@ class NewSingleOption extends React.Component {
             loggedIn: false,
             title: '',
             titleError: '',
-            options: [
-                {option: '', optionError: ''},
-                {option: '', optionError: ''}
-            ],
             imgSrc: null,
-            pollType: 'mcq',
+            pollType: 'open',
             loginToAnswer: false,
             expire: {check: false, createDate: null, expireDate: null, duration: 0},
             durationMeasure: 'minutes',
@@ -195,10 +189,10 @@ class NewSingleOption extends React.Component {
             category: '',
             categoryList: [],
             categories: [],
+            username: '',
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleAddOption = this.handleAddOption.bind(this);
         this.formIsInvalid = this.formIsInvalid.bind(this);
     }
 
@@ -209,7 +203,7 @@ class NewSingleOption extends React.Component {
                 this.setState({
                     uid: currentuser.uid,
                     username: currentuser.displayName,
-                    loggedIn: true
+                    loggedIn: true,
                 });
             } else {
                 this.setState({loggedIn: false})
@@ -224,20 +218,13 @@ class NewSingleOption extends React.Component {
 
     componentWillUnmount() {
         this.pollRef.off();
-    };
+    }
 
     handleTitleChange(e) {
         this.setState({title: e.target.value});
     }
 
-    handleOptionChange(i, e) {
-        let options = this.state.options;
-        options[i].option = e.target.value;
-        this.setState({options: options});
-    };
-
     handleSubmit = (type) => {
-
         if (this.formIsInvalid()) {
             return;
         }
@@ -259,22 +246,22 @@ class NewSingleOption extends React.Component {
             newExpiry.duration = duration;
             let expiryTime = new Date(now.getTime() + duration);
             newExpiry.expireDate = expiryTime;
+
         }
 
-        const pollData = this.state.options.reduce((a, op) => {
-            const key = op.option.trim();
-            a[key] = 0;
-            return a;
-        }, {
+        const pollData = {
             title: this.state.title.trim(),
             imgSrc: this.state.imgSrc,
             pollType: this.state.pollType,
             loginToAnswer: this.state.loginToAnswer,
             expire: this.state.expire,
             categoryList: this.state.categoryList,
-        });
+            username: this.state.username,
+            createAt: new Date().toISOString(),
+        };
 
         if (!this.props.pollGroup) {
+
             const newPollKey = firebaseApp.database().ref().child('polls').push().key;
             firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
 
@@ -300,6 +287,7 @@ class NewSingleOption extends React.Component {
             }
 
             console.log(200);
+
             history.push(`/polls/poll/${newPollKey}`);
 
         } else {
@@ -311,21 +299,14 @@ class NewSingleOption extends React.Component {
             firebaseApp.database().ref().update(updates);
 
             if (type === 'pollGroup-next') {
-                history.push(`/pollgroup/newpoll/${this.props.pollId}`);
+                window.open(`/pollgroup/newpoll/${this.props.pollId}`, "_self");
             }
             if (type === 'pollGroup-submit') {
                 history.push(`/pollgroup/view/${this.props.pollId}`);
             }
-
         }
     };
 
-    handleAddOption() {
-        let options = this.state.options;
-        options.push({option: '', optionError: ''});
-
-        this.setState({options});
-    };
 
     verifyFile = (files) => {
         if (files && files.length > 0) {
@@ -333,11 +314,11 @@ class NewSingleOption extends React.Component {
             const currentFileType = currentFile.type
             const currentFileSize = currentFile.size
             if (currentFileSize > 10000000) {
-                alert("This File is too Large")
+                alert("This file is too large")
                 return false;
             }
             if (!acceptFileTypeArray.includes(currentFileType)) {
-                alert("This File Type is not allowed. Only images are allowed")
+                alert("This file type is not allowed. Only images are allowed")
                 return false
             }
             return true
@@ -350,13 +331,13 @@ class NewSingleOption extends React.Component {
         }
 
         if (files && files.length > 0) {
-            const isVerified = this.verifyFile(files)
+            const isVerified = this.verifyFile(files);
             if (isVerified) {
                 const currentFile = files[0]
                 const reader = new FileReader()
                 reader.addEventListener("load", () => {
                     this.setState({imgSrc: reader.result})
-                }, false)
+                }, false);
 
                 reader.readAsDataURL(currentFile)
 
@@ -390,49 +371,22 @@ class NewSingleOption extends React.Component {
 
     handleSearchSelect = (selected) => {
         let select = selected.reduce((a, sel) => {
-            a.push(sel.label);
-            return a
+            if (sel instanceof Object) {
+                a.push(sel.label);
+                return a
+            } else {
+                a.push(sel);
+                return a
+            }
         }, []);
         this.setState({
             categoryList: select,
         });
     };
 
-    handleOptionDelete = (index) => {
-        if (this.state.options.length > 2) {
-            const options = this.state.options;
-            options.splice(index, 1);
-            this.setState({options: options});
-        } else {
-            alert('A minimum of 2 options are required!')
-        }
-    };
-
     render() {
 
         const {imgSrc} = this.state;
-
-        let options = this.state.options.map((option, i) => {
-            return (
-                <Row key={i} className='d-flex align-items-center'>
-                    <div className='option-input'>
-                        <input className='ghost-input' placeholder={`Option ${i + 1}`}
-                               value={this.state.options[i].option}
-                               onChange={this.handleOptionChange.bind(this, i)} required/>
-                        {Boolean(this.state.options[i].optionError) ?
-                            <span className='error-text'><i>{this.state.options[i].optionError}</i></span> : ''}
-                    </div>
-                    <IconButton onClick={this.handleAddOption} size="small" className='option-icons'>
-                        <AddIcon fontSize="inherit"/>
-                    </IconButton>
-                    <IconButton onClick={(e) => {
-                        this.handleOptionDelete(i)
-                    }} size="small" className='option-icons'>
-                        <CloseIcon fontSize="inherit"/>
-                    </IconButton>
-                </Row>
-            );
-        });
 
         return (
             <Styles>
@@ -443,12 +397,12 @@ class NewSingleOption extends React.Component {
                                 <Col xs={8}>
                                     <Row className='d-flex justify-content-center align-items-center'>
                                         <div>
-                                            <h3 className='type-title font'>CREATE A POLL</h3>
+                                            <h3 className='type-title font'>CREATE A OPEN ENDED POLL</h3>
                                             <hr className='line'/>
                                         </div>
                                     </Row>
-                                    <Row>
-                                        <Col>
+                                    <Col xs={{span: 10, offset: 1}}>
+                                        <Row>
                                             {imgSrc !== null ?
                                                 <div>
                                                     <img src={imgSrc} alt='User Uploaded'/>
@@ -464,15 +418,15 @@ class NewSingleOption extends React.Component {
                                                                 <img src='/images/cloud.png' alt='upload'
                                                                      className='cloud'/>
                                                                 <p className='dropzone-text text-center'>Drop your image
-                                                                    files here</p>
+                                                                    files here (Optional)</p>
                                                             </div>
                                                         </div>
                                                     )}
                                                 </Dropzone>}
-                                        </Col>
-                                        <Col>
+                                        </Row>
+                                        <Row>
                                             <fieldset>
-                                                <Row className='title-section'>
+                                                <Row className='title-section d-flex justify-content-center'>
                                                     <input className='ghost-input title-input'
                                                            placeholder='Please ask a question!'
                                                            value={this.state.title}
@@ -481,10 +435,36 @@ class NewSingleOption extends React.Component {
                                                         <span
                                                             className='error-text'> {this.state.titleError}</span> : ''}
                                                 </Row>
-                                                {options}
                                             </fieldset>
-                                        </Col>
-                                    </Row>
+                                        </Row>
+                                    </Col>
+                                    {this.props.pollGroup ?
+                                        <Row>
+                                            <div>
+                                                <Button
+                                                    variant="outlined"
+                                                    label="Create"
+                                                    type="submit"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        this.handleSubmit('pollGroup-submit')
+                                                    }}>
+                                                    Finished
+                                                </Button>
+
+                                                <Button
+                                                    variant="outlined"
+                                                    label="Create"
+                                                    type="submit"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        this.handleSubmit('pollGroup-next')
+                                                    }}>
+                                                    Next
+                                                </Button>
+                                            </div>
+                                        </Row> : ''
+                                    }
                                     <Row className='d-flex align-items-center'>
                                         <IconButton onClick={this.props.handleBack}>
                                             <ArrowBackIcon/>
@@ -492,25 +472,25 @@ class NewSingleOption extends React.Component {
                                         <span className='back-text'><i>Back to Previous Page</i></span>
                                     </Row>
                                 </Col>
-                                <Col xs={4}>
-                                    <Paper className='requirement-paper'>
-                                        <Container fluid style={{height:'100%'}} className='d-flex flex-column'>
-                                            <Row>
-                                                {this.props.pollGroup ? '' :
-                                                    <div>
-                                                        {this.state.loggedIn ?
-                                                            <FormControlLabel
-                                                                control={<Switch
-                                                                    checked={this.state.loginToAnswer}
-                                                                    onChange={this.handleLoginToAnswer}
-                                                                    color="default"
-                                                                />}
-                                                                label={<span className='requirement-text'>Does User need to Login to Answer</span>}
-                                                            /> : ''}
-                                                    </div>}
-                                            </Row>
-                                            <Row>
-                                                {this.props.pollGroup ? '' :
+                                {!this.props.pollGroup ?
+                                    <Col xs={4}>
+                                        <Paper className='requirement-paper'>
+                                            <Container fluid style={{height: '100%'}} className='d-flex flex-column'>
+                                                <Row>
+                                                    {this.props.pollGroup ? '' :
+                                                        <div>
+                                                            {this.state.loggedIn ?
+                                                                <FormControlLabel
+                                                                    control={<Switch
+                                                                        checked={this.state.loginToAnswer}
+                                                                        onChange={this.handleLoginToAnswer}
+                                                                        color="default"
+                                                                    />}
+                                                                    label={<span className='requirement-text'>Does User need to Login to Answer</span>}
+                                                                /> : ''}
+                                                        </div>}
+                                                </Row>
+                                                <Row>
                                                     <div>
                                                         <FormControlLabel
                                                             control={<Switch
@@ -546,66 +526,37 @@ class NewSingleOption extends React.Component {
                                                                     }}>Days</Dropdown.Item>
                                                                 </DropdownButton>
                                                             </InputGroup> : ''}
-                                                    </div>}
-                                            </Row>
-                                            <Row className='mt-auto'>
-                                                {
-                                                    this.props.pollGroup ? '' :
-                                                        <Typeahead allowNew
-                                                                   multiple
-                                                                   selectHintOnEnter
-                                                                   newSelectionPrefix="Add a Category: "
-                                                                   options={this.state.categories}
-                                                                   placeholder="Add Category"
-                                                                   onInputChange={this.handleCategoryInputChange}
-                                                                   onChange={this.handleSearchSelect}
-                                                                   id='category'
-                                                                   maxResults={5}
-                                                                   minLength={2}
-                                                                   className='category-input'
-                                                        />
-                                                }
-                                            </Row>
-                                            <Row>
-                                                {
-                                                    this.props.pollGroup ?
-                                                        <div>
-                                                            <Button
-                                                                variant="outlined"
-                                                                label="Create"
-                                                                type="submit"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    this.handleSubmit('pollGroup-submit')
-                                                                }}>
-                                                                Finished
-                                                            </Button>
+                                                    </div>
+                                                </Row>
+                                                <Row className='mt-auto'>
+                                                    <Typeahead allowNew
+                                                               multiple
+                                                               selectHintOnEnter
+                                                               newSelectionPrefix="Add a Category: "
+                                                               options={this.state.categories}
+                                                               placeholder="Add Category"
+                                                               onInputChange={this.handleCategoryInputChange}
+                                                               onChange={this.handleSearchSelect}
+                                                               id='category'
+                                                               maxResults={5}
+                                                               minLength={2}
+                                                               className='category-input'
+                                                    />
 
-                                                            <Button
-                                                                variant="outlined"
-                                                                label="Create"
-                                                                type="submit"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    this.handleSubmit('pollGroup-next')
-                                                                }}>
-                                                                Next
-                                                            </Button>
-                                                        </div>
-
-                                                        : <button
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                this.handleSubmit('poll-submit')
-                                                            }}
-                                                            className='ghost-button '>
-                                                            SUBMIT
-                                                        </button>
-                                                }
-                                            </Row>
-                                        </Container>
-                                    </Paper>
-                                </Col>
+                                                </Row>
+                                                <Row>
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            this.handleSubmit('poll-submit')
+                                                        }}
+                                                        className='ghost-button '>
+                                                        SUBMIT
+                                                    </button>
+                                                </Row>
+                                            </Container>
+                                        </Paper>
+                                    </Col> : ''}
                             </Row>
                         </Col>
                     </Row>
@@ -630,33 +581,9 @@ class NewSingleOption extends React.Component {
             this.setState({title: title, titleError: ''})
         }
 
-        this.state.options.forEach((o, i) => {
-
-            let options = this.state.options;
-            let thisOption = o.option.trim();
-
-            if (thisOption.length === 0) {
-                options[i] = {option: thisOption, optionError: 'This option must not be empty.'}
-                this.setState({options: options});
-                isInvalid = true;
-            } else if (thisOption.match(regex)) {
-                options[i] = {option: thisOption, optionError: `Options can't contain ".", "#", "$", "/", "[", or "]"`}
-                this.setState({options: options});
-                isInvalid = true;
-            } else {
-
-                if (thisOption === 'title') { //can't have option with key "title"
-                    thisOption = 'Title';
-                }
-
-                options[i] = {option: thisOption, optionError: ''}
-                this.setState({options: options});
-            }
-        });
-
         return isInvalid;
     }
 
 }
 
-export default NewSingleOption;
+export default NewOpenEnded;

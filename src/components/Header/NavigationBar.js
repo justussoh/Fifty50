@@ -1,6 +1,6 @@
 import React from 'react';
-import {firebaseApp} from '../utils/firebase';
-import history from '../history';
+import {firebaseApp} from '../../utils/firebase';
+import history from '../../history';
 import styled from 'styled-components';
 
 import {Nav, Navbar} from 'react-bootstrap';

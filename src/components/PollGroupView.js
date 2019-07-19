@@ -8,13 +8,12 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 
-import PollShareDialog from './PollShareDialog';
-import LoginDialog from './LoginDialog'
+import PollShareDialog from './Polls/PollShareDialog';
+import LoginDialog from './Polls/LoginDialog'
 import ViewPoll from './ViewPoll'
-import {Comment} from "./Comment";
-import {switchCase} from "@babel/types";
+import {Comment} from "./Polls/Comment";
 
-const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList'];
+const keyTypes = ['title', 'imgSrc', 'pollType', 'loginToAnswer', 'expire', 'categoryList', 'username', "createAt"];
 
 class PollGroupView extends React.Component {
     constructor(props) {
@@ -70,6 +69,10 @@ class PollGroupView extends React.Component {
             })
         ).bind(this);
     };
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.state)
+    }
 
     componentWillUnmount() {
         this.pollRef.off();
@@ -146,13 +149,14 @@ class PollGroupView extends React.Component {
         } else {
             renderPoll = this.state.polls.map((pollId, index) => {
                     return (
-                        <div>
+                        <div key={pollId}>
                             {this.state.index === index ?
                                 <ViewPoll polls={this.state.polls}
                                           index={this.state.index}
                                           pollId={pollId}
                                           handleNext={this.handlePollGroupNext}
-                                          handlePrev={this.handlePollGroupPrev}/> : ''}
+                                          handlePrev={this.handlePollGroupPrev}
+                                          key={pollId}/> : ''}
                         </div>);
                 }
             )

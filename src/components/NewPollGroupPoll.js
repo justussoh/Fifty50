@@ -1,11 +1,12 @@
 import React from 'react';
-import { Paper, TextField, MenuItem} from '@material-ui/core';
+import {Paper, TextField, MenuItem} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-import NewSingleOption from './NewSingleOption';
-import NewOpenEnded from "./NewOpenEnded"
-import NewOpenEndedMcq from "./NewOpenEndedMcq";
+import NewSingleOption from './Polls/NewSingleOption';
+import NewOpenEnded from "./Polls/NewOpenEnded"
+import NewOpenEndedMcq from "./Polls/NewOpenEndedMcq";
 import {firebaseApp} from "../utils/firebase";
 import history from "../history";
+import Loading from "./Loading";
 
 const pollOptions = [
     {
@@ -25,13 +26,30 @@ const pollOptions = [
 class NewPollGroupPoll extends React.Component {
 
     state = {
-        typePoll: 'mcq'
+        typePoll: 'mcq',
+        loggedIn: false,
+        loading:true,
     };
 
+    componentDidMount() {
+        firebaseApp.auth().onAuthStateChanged(user => {
+            if (user) {
+                let currentuser = firebaseApp.auth().currentUser;
+                this.setState({
+                    uid: currentuser.uid,
+                    username: currentuser.displayName,
+                    loggedIn: true,
+                    loading:false
+                });
+            } else {
+                this.setState({loggedIn: false, loading:false})
+            }
+        });
+    }
+
     render() {
-        let isAuthUser = firebaseApp.auth().currentUser ? true : false;
         const handleChange = event => {
-            this.setState({typePoll:event.target.value });
+            this.setState({typePoll: event.target.value});
         };
 
         const showComponent = () => {
@@ -47,12 +65,10 @@ class NewPollGroupPoll extends React.Component {
             }
         };
 
-        switch (isAuthUser){
+        switch (this.state.loggedIn) {
             case null:
-                return <div></div>
-            case false:
-                history.push(`/`);
-            default:
+                return <div></div>;
+            case true:
                 return (
                     <div>
                         <Grid>
@@ -74,10 +90,11 @@ class NewPollGroupPoll extends React.Component {
                             </TextField>
                             {showComponent()}
                         </Grid>
-
                     </div>
-
-                )
+                );
+            default:
+                return (<Loading loading={this.state.loading}/>)
+                // window.setTimeout(() => history.push(`/`), 5000);
         }
     }
 }

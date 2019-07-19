@@ -36,6 +36,10 @@ class NewPollGroup extends React.Component {
         this.formIsInvalid = this.formIsInvalid.bind(this);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.state)
+    }
+
     componentDidMount() {
         firebaseApp.auth().onAuthStateChanged(user => {
             if (user) {
@@ -50,6 +54,7 @@ class NewPollGroup extends React.Component {
             }
         });
         this.pollRef = firebaseApp.database().ref();
+
         this.pollRef.on('value', ((snapshot) => {
             const db = snapshot.val();
             this.setState({categories:db.categoryList});
@@ -95,6 +100,8 @@ class NewPollGroup extends React.Component {
             loginToAnswer:this.state.loginToAnswer,
             expire:this.state.expire,
             categoryList: this.state.categoryList,
+            username: this.state.username,
+            createAt: new Date().toISOString(),
         };
 
         const newPollKey = firebaseApp.database().ref().child('pollgroup').push().key;
@@ -151,8 +158,17 @@ class NewPollGroup extends React.Component {
     };
 
     handleSearchSelect = (selected) => {
+        let select = selected.reduce((a, sel) => {
+            if(sel instanceof Object){
+                a.push(sel.label);
+                return a
+            }else{
+                a.push(sel);
+                return a
+            }
+        }, []);
         this.setState({
-            categoryList: selected,
+            categoryList: select,
         });
     };
 
@@ -174,7 +190,7 @@ class NewPollGroup extends React.Component {
                                 label="Title"
                                 value={this.state.title}
                                 onChange={this.handleTitleChange}
-                                error={this.state.titleError}
+                                error={Boolean(this.state.titleError)}
                                 helperText={this.state.titleError}
                             />
 

@@ -3,12 +3,30 @@
   <component name="ChangeListManager">
     <list default="true" id="f73ac83d-0255-4215-b650-7b0233237f59" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NavigationBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NavigationBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NewOpenEnded.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewOpenEnded.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NewOpenEndedMcq.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewOpenEndedMcq.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NewPoll.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewPoll.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NewSingleOption.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewSingleOption.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/AvatarIcon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/AvatarIcon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Comment.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/Comment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Footer/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/LoginDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/LoginDialog.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Loginpage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/Loginpage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NavigationBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/NavigationBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NewOpenEnded.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/NewOpenEnded.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NewOpenEndedMcq.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/NewOpenEndedMcq.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NewPoll.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/NewPoll.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NewPollGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewPollGroup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NewPollGroupPoll.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NewPollGroupPoll.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NewSingleOption.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/NewSingleOption.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Poll.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/Poll.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PollGroupView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PollGroupView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PollShareDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/PollShareDialog.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Recover.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/Recover.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SearchBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/SearchBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ViewPoll.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ViewPoll.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,17 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="11" column="37" lean-forward="true" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/NavigationBar.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="91" column="66" selection-start-line="91" selection-start-column="66" selection-end-line="91" selection-end-column="66" />
+            <state relative-caret-position="1080">
+              <caret line="45" column="39" lean-forward="true" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="55" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -43,10 +52,73 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Poll.js">
+        <entry file="file://$PROJECT_DIR$/src/components/PollGroupView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="68" column="91" selection-start-line="68" selection-start-column="7" selection-end-line="68" selection-end-column="91" />
+            <state relative-caret-position="117">
+              <caret line="151" column="41" selection-start-line="151" selection-start-column="41" selection-end-line="151" selection-end-column="41" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/ViewPoll.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="11" column="101" selection-start-line="11" selection-start-column="101" selection-end-line="11" selection-end-column="101" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Polls/LoginDialog.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="7" selection-start-line="7" selection-end-line="7" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Polls/NewSingleOption.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="261">
+              <caret line="547" column="53" selection-start-line="547" selection-start-column="53" selection-end-line="547" selection-end-column="53" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+                <element signature="n#!!block;n#componentDidMount#0;n#NewSingleOption#0" />
+                <element signature="n#!!block;n#componentWillUnmount#0;n#NewSingleOption#0" />
+                <element signature="n#!!block;n#handleTitleChange#0;n#NewSingleOption#0" />
+                <element signature="n#!!block;n#handleOptionChange#0;n#NewSingleOption#0" />
+                <element signature="n#!!block;n#handleAddOption#0;n#NewSingleOption#0" />
+                <element signature="n#!!block;n#handleDurationChange#0;n#NewSingleOption#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Polls/NewOpenEndedMcq.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="531" column="73" selection-start-line="531" selection-start-column="73" selection-end-line="531" selection-end-column="73" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/Polls/NewOpenEnded.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="528" column="58" selection-start-line="528" selection-start-column="58" selection-end-line="528" selection-end-column="58" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -58,17 +130,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>‘</find>
-      <find>’</find>
-      <find>cater</find>
-      <find>this.props</find>
-      <find>this.props.match</find>
-      <find>this.props.match.params.pollId</find>
-      <find>history</find>
-      <find>data</find>
-      <find>word</find>
       <find>compo</find>
-      <find>consol</find>
       <find>post</find>
       <find>vote</find>
       <find>hover</find>
@@ -87,6 +149,17 @@
       <find>dura</find>
       <find>handleLog</find>
       <find>def</find>
+      <find>view</find>
+      <find>cate</find>
+      <find>handleCat</find>
+      <find>handleCate</find>
+      <find>Close</find>
+      <find>consol</find>
+      <find>createAt</find>
+      <find>user</find>
+      <find>length</find>
+      <find>Errr</find>
+      <find>min</find>
     </findStrings>
     <replaceStrings>
       <replace>’</replace>
@@ -101,16 +174,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/components/AvatarIcon.js" />
-        <option value="$PROJECT_DIR$/src/components/Dashboard.js" />
         <option value="$PROJECT_DIR$/../../SimpFleet/client/src/components/SearchBar/SearchBar.js" />
         <option value="$PROJECT_DIR$/src/components/cat.txt" />
         <option value="$PROJECT_DIR$/src/components/cat.js" />
         <option value="$PROJECT_DIR$/src/components/Category.js" />
         <option value="$PROJECT_DIR$/src/components/hello.js" />
-        <option value="$PROJECT_DIR$/src/components/NewPollGroup.js" />
-        <option value="$PROJECT_DIR$/src/components/ViewPoll.js" />
-        <option value="$PROJECT_DIR$/src/components/NewPollGroupPoll.js" />
-        <option value="$PROJECT_DIR$/src/components/PollGroupView.js" />
         <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/process.env" />
         <option value="$PROJECT_DIR$/index.js" />
@@ -120,19 +188,30 @@
         <option value="$PROJECT_DIR$/src/components/Footer.js" />
         <option value="$PROJECT_DIR$/src/components/SearchBar.js" />
         <option value="$PROJECT_DIR$/src/components/Comment.js" />
-        <option value="$PROJECT_DIR$/src/components/Poll.js" />
         <option value="$PROJECT_DIR$/src/components/PollShareDialog.js" />
         <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/src/components/NewSingleOption.js" />
         <option value="$PROJECT_DIR$/src/components/NewPoll.js" />
         <option value="$PROJECT_DIR$/src/components/NewOpenEnded.js" />
         <option value="$PROJECT_DIR$/src/components/NewOpenEndedMcq.js" />
-        <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/components/NavigationBar.js" />
+        <option value="$PROJECT_DIR$/src/components/Poll.js" />
+        <option value="$PROJECT_DIR$/src/components/Polls/LoginDialog.js" />
+        <option value="$PROJECT_DIR$/src/App.js" />
+        <option value="$PROJECT_DIR$/src/components/Polls/PollShareDialog.js" />
+        <option value="$PROJECT_DIR$/src/components/Polls/Poll.js" />
+        <option value="$PROJECT_DIR$/src/components/ViewPoll.js" />
+        <option value="$PROJECT_DIR$/src/components/NewPollGroup.js" />
+        <option value="$PROJECT_DIR$/src/components/Dashboard.js" />
+        <option value="$PROJECT_DIR$/src/components/PollGroupView.js" />
+        <option value="$PROJECT_DIR$/src/components/NewPollGroupPoll.js" />
+        <option value="$PROJECT_DIR$/src/components/Polls/NewSingleOption.js" />
+        <option value="$PROJECT_DIR$/src/components/Polls/NewOpenEndedMcq.js" />
+        <option value="$PROJECT_DIR$/src/components/Polls/NewOpenEnded.js" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1071" />
     <option name="y" value="396" />
     <option name="width" value="3780" />
@@ -169,6 +248,20 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="fiftyfifty" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fiftyfifty" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Header" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="fiftyfifty" type="b2602c69:ProjectViewProjectNode" />
+              <item name="fiftyfifty" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Polls" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -187,6 +280,15 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2019.1.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\justu\Desktop\orbital\fiftyfifty\src\components\Login" />
+      <recent name="C:\Users\justu\Desktop\orbital\fiftyfifty\src\components\Polls" />
+      <recent name="C:\Users\justu\Desktop\orbital\fiftyfifty\src\components\Header" />
+      <recent name="C:\Users\justu\Desktop\orbital\fiftyfifty\src\components\Footer" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -240,11 +342,14 @@
       <workItem from="1562953898770" duration="40385000" />
       <workItem from="1563208266894" duration="21506000" />
       <workItem from="1563383335592" duration="4215000" />
+      <workItem from="1563415929681" duration="4138000" />
+      <workItem from="1563505880161" duration="2449000" />
+      <workItem from="1563508757257" duration="17036000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="108167000" />
+    <option name="totallyTimeSpent" value="131790000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -265,7 +370,7 @@
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="1" weight="0.5092937" />
-      <window_info anchor="bottom" id="Terminal" order="2" weight="0.23791821" />
+      <window_info anchor="bottom" id="Terminal" order="2" weight="0.55947953" />
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="5" />
@@ -274,18 +379,19 @@
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="10" weight="0.32899627" />
+      <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24324325" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24324325" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="1" weight="0.5092937" />
-      <window_info anchor="bottom" id="Terminal" order="2" weight="0.23791821" />
+      <window_info anchor="bottom" id="Terminal" order="2" weight="0.55947953" />
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="5" />
@@ -294,6 +400,7 @@
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="10" weight="0.32899627" />
+      <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -338,36 +445,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/hello.js" />
-    <entry file="file://$PROJECT_DIR$/src/components/NewPollGroup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="125" column="8" selection-start-line="125" selection-start-column="8" selection-end-line="125" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Dashboard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1152">
-          <caret line="63" column="64" selection-start-line="56" selection-start-column="16" selection-end-line="63" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ViewPoll.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1392">
-          <caret line="187" column="52" lean-forward="true" selection-start-line="187" selection-start-column="52" selection-end-line="187" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/process.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -386,40 +463,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js" />
-    <entry file="file://$PROJECT_DIR$/src/components/NewPollGroupPoll.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-480">
-          <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Home.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="10" selection-start-line="10" selection-end-line="15" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/PollGroupView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1464">
-          <caret line="137" column="14" selection-start-line="137" selection-start-column="14" selection-end-line="137" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -435,7 +482,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/random.css" />
     <entry file="file://$PROJECT_DIR$/src/components/Layout.js" />
-    <entry file="file://$PROJECT_DIR$/src/components/AvatarIcon.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Header/AvatarIcon.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="28" column="105" lean-forward="true" selection-start-line="28" selection-start-column="16" selection-end-line="28" selection-end-column="105" />
@@ -445,7 +492,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Footer.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Footer/Footer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1152">
           <caret line="48" column="29" selection-start-line="48" selection-start-column="29" selection-end-line="48" selection-end-column="29" />
@@ -455,32 +502,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/SearchBar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Comment.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/Comment.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="535">
           <caret line="166" column="98" selection-start-line="166" selection-start-column="98" selection-end-line="166" selection-end-column="98" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/PollShareDialog.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -492,17 +519,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Poll.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="68" column="91" selection-start-line="68" selection-start-column="7" selection-end-line="68" selection-end-column="91" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/NewPoll.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/NewPoll.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="48">
           <caret line="35" column="25" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
@@ -512,37 +529,148 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/NewOpenEndedMcq.js">
+    <entry file="file://$PROJECT_DIR$/src/history.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/@material-ui/core/Button/Button.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5767">
-          <caret line="557" column="21" selection-start-line="557" selection-start-column="21" selection-end-line="557" selection-end-column="21" />
+        <state relative-caret-position="360">
+          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Home.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="10" selection-start-line="10" selection-end-line="15" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/NewOpenEnded.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Header/NavigationBar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="558" column="10" lean-forward="true" selection-start-line="558" selection-start-column="10" selection-end-line="558" selection-end-column="10" />
+        <state relative-caret-position="740">
+          <caret line="91" column="66" selection-start-line="91" selection-start-column="66" selection-end-line="91" selection-end-column="66" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
-            <element signature="n#!!block;n#componentDidMount#0;n#NewOpenEnded#0" />
-            <element signature="e#2357#5435#0" />
-            <element signature="e#5467#6023#0" />
-            <element signature="e#6071#6626#0" />
-            <element signature="e#7255#7448#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/NewSingleOption.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Header/SearchBar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="30" lean-forward="true" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+        <state relative-caret-position="-576">
+          <caret line="41" column="6" lean-forward="true" selection-start-line="37" selection-start-column="4" selection-end-line="41" selection-end-column="6" />
           <folding>
-            <element signature="n#!!block;n#constructor#0;n#NewSingleOption#0" />
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/PollShareDialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="57" column="61" selection-start-line="57" selection-start-column="55" selection-end-line="57" selection-end-column="61" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/Poll.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="30" column="101" selection-start-line="30" selection-start-column="93" selection-end-line="30" selection-end-column="101" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/LoginDialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="7" selection-start-line="7" selection-end-line="7" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="45" column="39" lean-forward="true" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/PollGroupView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="151" column="41" selection-start-line="151" selection-start-column="41" selection-end-line="151" selection-end-column="41" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/ViewPoll.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="11" column="101" selection-start-line="11" selection-start-column="101" selection-end-line="11" selection-end-column="101" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Dashboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="410" column="40" selection-start-line="410" selection-start-column="40" selection-end-line="410" selection-end-column="79" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="n#!!block;n#componentWillMount#0;n#Dashboard#0" />
+            <element signature="n#!!block;n#handleOpen#0;n#Dashboard#0" />
+            <element signature="n#!!block;n#handleClose#0;n#Dashboard#0" />
+            <element signature="n#!!block;n#handleDelete#0;n#Dashboard#0" />
+            <element signature="e#8326#8820#0" />
+            <element signature="e#8877#11354#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/NewPollGroup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-701">
+          <caret line="54" column="11" lean-forward="true" selection-start-line="43" selection-start-column="8" selection-end-line="54" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="n#!!block;n#componentWillUnmount#0;n#NewPollGroup#0" />
+            <element signature="n#!!block;n#handleTitleChange#0;n#NewPollGroup#0" />
+            <element signature="e#5002#5081#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/NewPollGroupPoll.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2280">
+          <caret line="95" column="63" selection-start-line="95" selection-start-column="63" selection-end-line="95" selection-end-column="63" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/NewSingleOption.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="547" column="53" selection-start-line="547" selection-start-column="53" selection-end-line="547" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
             <element signature="n#!!block;n#componentDidMount#0;n#NewSingleOption#0" />
             <element signature="n#!!block;n#componentWillUnmount#0;n#NewSingleOption#0" />
             <element signature="n#!!block;n#handleTitleChange#0;n#NewSingleOption#0" />
@@ -553,17 +681,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/NewOpenEndedMcq.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="11" column="37" lean-forward="true" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
+        <state relative-caret-position="165">
+          <caret line="531" column="73" selection-start-line="531" selection-start-column="73" selection-end-line="531" selection-end-column="73" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/NavigationBar.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/NewOpenEnded.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="91" column="66" selection-start-line="91" selection-start-column="66" selection-end-line="91" selection-end-column="66" />
+        <state relative-caret-position="336">
+          <caret line="528" column="58" selection-start-line="528" selection-start-column="58" selection-end-line="528" selection-end-column="58" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>

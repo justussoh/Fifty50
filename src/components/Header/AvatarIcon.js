@@ -1,6 +1,6 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar'
-import {firebaseApp} from "../utils/firebase";
+import {firebaseApp} from "../../utils/firebase";
 import styled from "styled-components";
 
 

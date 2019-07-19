@@ -1,7 +1,7 @@
 import React from 'react';
-import { firebaseApp } from '../utils/firebase';
+import { firebaseApp } from '../../utils/firebase';
 import * as firebase from 'firebase';
-import history from '../history';
+import history from '../../history';
 
 import Icon from '@mdi/react';
 import { mdiFacebookBox, mdiGoogle } from '@mdi/js';

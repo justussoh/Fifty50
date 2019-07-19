@@ -6,22 +6,22 @@ import {Home} from './Home';
 import {About} from './About';
 import {Contact} from './Contact';
 import {NoMatch} from './NoMatch';
-import NavigationBar from './components/NavigationBar';
-import {Comment} from './components/Comment';
-import NewPoll from './components/NewPoll';
-import Poll from './components/Poll';
+import NavigationBar from './components/Header/NavigationBar';
+import {Comment} from './components/Polls/Comment';
+import NewPoll from './components/Polls/NewPoll';
+import Poll from './components/Polls/Poll';
 import {Update} from './components/Update';
-import {Login} from './components/Login';
-import {Loginpage} from './components/Loginpage';
+import {Login} from './components/Login/Login';
+import {Loginpage} from './components/Login/Loginpage';
 import {Signup} from './components/Signup';
-import {Recover} from './components/Recover';
-import {Dashboard} from './components/Dashboard';
+import {Recover} from './components/Login/Recover';
+import Dashboard from './components/Dashboard';
 import Category from './components/Category';
 import NewPollGroup from './components/NewPollGroup';
 import NewPollGroupPoll from './components/NewPollGroupPoll';
 import PollGroupView from './components/PollGroupView';
 import Search from './components/Search';
-import Footer from './components/Footer';
+import Footer from './components/Footer/Footer';
 
 function App() {
     return (

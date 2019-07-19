@@ -1,10 +1,10 @@
 import React from 'react';
-import {firebaseApp} from "../utils/firebase";
+import {firebaseApp} from "../../utils/firebase";
 import {Typeahead, Highlighter} from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
 import styled from "styled-components";
-import history from '../history';
+import history from '../../history';
 
 const Styles = styled.div`
   .round-search-bar .rbt-input-hint-container .form-control {

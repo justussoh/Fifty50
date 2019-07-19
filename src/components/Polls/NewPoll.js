@@ -5,7 +5,7 @@ import NewOpenEnded from "./NewOpenEnded"
 import NewOpenEndedMcq from "./NewOpenEndedMcq";
 import {Container, Row, Col, Button} from 'react-bootstrap';
 import styled from "styled-components";
-import history from '../history';
+import history from '../../history';
 
 const pollOptions = [
     {

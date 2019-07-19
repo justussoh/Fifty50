@@ -1,7 +1,9 @@
 import React from 'react';
-import {firebaseApp} from '../utils/firebase';
-import history from '../history';
+import {firebaseApp} from '../../utils/firebase';
+import history from '../../history';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import {Typeahead} from 'react-bootstrap-typeahead'
@@ -172,7 +174,7 @@ const Styles = styled.div`
     }
 `;
 
-class NewOpenEnded extends React.Component {
+class NewOpenEndedMcq extends React.Component {
     constructor(props) {
         super(props);
 
@@ -181,7 +183,7 @@ class NewOpenEnded extends React.Component {
             title: '',
             titleError: '',
             imgSrc: null,
-            pollType: 'open',
+            pollType: 'openmcq',
             loginToAnswer: false,
             expire: {check: false, createDate: null, expireDate: null, duration: 0},
             durationMeasure: 'minutes',
@@ -189,6 +191,7 @@ class NewOpenEnded extends React.Component {
             category: '',
             categoryList: [],
             categories: [],
+            username: '',
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -202,7 +205,7 @@ class NewOpenEnded extends React.Component {
                 this.setState({
                     uid: currentuser.uid,
                     username: currentuser.displayName,
-                    loggedIn: true
+                    loggedIn: true,
                 });
             } else {
                 this.setState({loggedIn: false})
@@ -224,6 +227,7 @@ class NewOpenEnded extends React.Component {
     }
 
     handleSubmit = (type) => {
+
         if (this.formIsInvalid()) {
             return;
         }
@@ -255,10 +259,11 @@ class NewOpenEnded extends React.Component {
             loginToAnswer: this.state.loginToAnswer,
             expire: this.state.expire,
             categoryList: this.state.categoryList,
+            username: this.state.username,
+            createAt: new Date().toISOString(),
         };
 
         if (!this.props.pollGroup) {
-
             const newPollKey = firebaseApp.database().ref().child('polls').push().key;
             firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData)
 
@@ -286,7 +291,6 @@ class NewOpenEnded extends React.Component {
             console.log(200);
 
             history.push(`/polls/poll/${newPollKey}`);
-
         } else {
             const newPollKey = firebaseApp.database().ref().child('polls').push().key;
             firebaseApp.database().ref(`/polls/${newPollKey}`).update(pollData);
@@ -296,7 +300,7 @@ class NewOpenEnded extends React.Component {
             firebaseApp.database().ref().update(updates);
 
             if (type === 'pollGroup-next') {
-                history.push(`/pollgroup/newpoll/${this.props.pollId}`);
+                window.open(`/pollgroup/newpoll/${this.props.pollId}`, "_self");
             }
             if (type === 'pollGroup-submit') {
                 history.push(`/pollgroup/view/${this.props.pollId}`);
@@ -307,15 +311,15 @@ class NewOpenEnded extends React.Component {
 
     verifyFile = (files) => {
         if (files && files.length > 0) {
-            const currentFile = files[0]
-            const currentFileType = currentFile.type
-            const currentFileSize = currentFile.size
+            const currentFile = files[0];
+            const currentFileType = currentFile.type;
+            const currentFileSize = currentFile.size;
             if (currentFileSize > 10000000) {
-                alert("This file is too large")
+                alert("This file is too large");
                 return false;
             }
             if (!acceptFileTypeArray.includes(currentFileType)) {
-                alert("This file type is not allowed. Only images are allowed")
+                alert("This file type is not allowed. Only images are allowed");
                 return false
             }
             return true
@@ -330,8 +334,8 @@ class NewOpenEnded extends React.Component {
         if (files && files.length > 0) {
             const isVerified = this.verifyFile(files);
             if (isVerified) {
-                const currentFile = files[0]
-                const reader = new FileReader()
+                const currentFile = files[0];
+                const reader = new FileReader();
                 reader.addEventListener("load", () => {
                     this.setState({imgSrc: reader.result})
                 }, false);
@@ -368,8 +372,13 @@ class NewOpenEnded extends React.Component {
 
     handleSearchSelect = (selected) => {
         let select = selected.reduce((a, sel) => {
-            a.push(sel.label);
-            return a
+            if (sel instanceof Object) {
+                a.push(sel.label);
+                return a
+            } else {
+                a.push(sel);
+                return a
+            }
         }, []);
         this.setState({
             categoryList: select,
@@ -389,7 +398,7 @@ class NewOpenEnded extends React.Component {
                                 <Col xs={8}>
                                     <Row className='d-flex justify-content-center align-items-center'>
                                         <div>
-                                            <h3 className='type-title font'>CREATE A OPEN ENDED POLL</h3>
+                                            <h3 className='type-title font'>CREATE A CUSTOM ANSWER POLL</h3>
                                             <hr className='line'/>
                                         </div>
                                     </Row>
@@ -430,6 +439,33 @@ class NewOpenEnded extends React.Component {
                                             </fieldset>
                                         </Row>
                                     </Col>
+                                    {this.props.pollGroup ?
+                                        <Row>
+                                            <div>
+                                                <Button
+                                                    variant="outlined"
+                                                    label="Create"
+                                                    type="submit"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        this.handleSubmit('pollGroup-submit')
+                                                    }}>
+                                                    Finished
+                                                </Button>
+
+                                                <Button
+                                                    variant="outlined"
+                                                    label="Create"
+                                                    type="submit"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        this.handleSubmit('pollGroup-next')
+                                                    }}>
+                                                    Next
+                                                </Button>
+                                            </div>
+                                        </Row> : ''
+                                    }
                                     <Row className='d-flex align-items-center'>
                                         <IconButton onClick={this.props.handleBack}>
                                             <ArrowBackIcon/>
@@ -437,11 +473,11 @@ class NewOpenEnded extends React.Component {
                                         <span className='back-text'><i>Back to Previous Page</i></span>
                                     </Row>
                                 </Col>
-                                <Col xs={4}>
-                                    <Paper className='requirement-paper'>
-                                        <Container fluid style={{height: '100%'}} className='d-flex flex-column'>
-                                            <Row>
-                                                {this.props.pollGroup ? '' :
+                                {!this.props.pollGroup ?
+                                    <Col xs={4}>
+                                        <Paper className='requirement-paper'>
+                                            <Container fluid style={{height: '100%'}} className='d-flex flex-column'>
+                                                <Row>
                                                     <div>
                                                         {this.state.loggedIn ?
                                                             <FormControlLabel
@@ -452,105 +488,75 @@ class NewOpenEnded extends React.Component {
                                                                 />}
                                                                 label={<span className='requirement-text'>Does User need to Login to Answer</span>}
                                                             /> : ''}
-                                                    </div>}
-                                            </Row>
-                                            <Row>
-                                                {this.props.pollGroup ? '' :
-                                                    <div>
-                                                        <FormControlLabel
-                                                            control={<Switch
-                                                                checked={this.state.expire.check}
-                                                                onChange={this.handleExpiryChange}
-                                                                color="default"
-                                                            />}
-                                                            label={<span className='requirement-text'>Set a Duration for the poll</span>}
-                                                        />
-
-                                                        {this.state.expire.check ?
-                                                            <InputGroup>
-                                                                <FormControl
-                                                                    placeholder="Enter Duration"
-                                                                    value={this.state.duration}
-                                                                    type='number'
-                                                                    onChange={this.handleDurationPeriodChange}
-                                                                />
-
-                                                                <DropdownButton
-                                                                    as={InputGroup.Append}
-                                                                    className='duration-button'
-                                                                    variant="outline-secondary"
-                                                                    title={this.state.durationMeasure}>
-                                                                    <Dropdown.Item onClick={() => {
-                                                                        this.handleDurationChange('minutes')
-                                                                    }}>Minutes</Dropdown.Item>
-                                                                    <Dropdown.Item onClick={() => {
-                                                                        this.handleDurationChange('hours')
-                                                                    }}>Hours</Dropdown.Item>
-                                                                    <Dropdown.Item onClick={() => {
-                                                                        this.handleDurationChange('days')
-                                                                    }}>Days</Dropdown.Item>
-                                                                </DropdownButton>
-                                                            </InputGroup> : ''}
-                                                    </div>}
-                                            </Row>
-                                            <Row className='mt-auto'>
-                                                {
-                                                    this.props.pollGroup ? '' :
-                                                        <Typeahead allowNew
-                                                                   multiple
-                                                                   selectHintOnEnter
-                                                                   newSelectionPrefix="Add a Category: "
-                                                                   options={this.state.categories}
-                                                                   placeholder="Add Category"
-                                                                   onInputChange={this.handleCategoryInputChange}
-                                                                   onChange={this.handleSearchSelect}
-                                                                   id='category'
-                                                                   maxResults={5}
-                                                                   minLength={2}
-                                                                   className='category-input'
-                                                        />
-                                                }
-                                            </Row>
-                                            <Row>
-                                                {
-                                                    this.props.pollGroup ?
+                                                    </div>
+                                                </Row>
+                                                <Row>
+                                                    {this.props.pollGroup ? '' :
                                                         <div>
-                                                            <Button
-                                                                variant="outlined"
-                                                                label="Create"
-                                                                type="submit"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    this.handleSubmit('pollGroup-submit')
-                                                                }}>
-                                                                Finished
-                                                            </Button>
+                                                            <FormControlLabel
+                                                                control={<Switch
+                                                                    checked={this.state.expire.check}
+                                                                    onChange={this.handleExpiryChange}
+                                                                    color="default"
+                                                                />}
+                                                                label={<span className='requirement-text'>Set a Duration for the poll</span>}
+                                                            />
 
-                                                            <Button
-                                                                variant="outlined"
-                                                                label="Create"
-                                                                type="submit"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    this.handleSubmit('pollGroup-next')
-                                                                }}>
-                                                                Next
-                                                            </Button>
-                                                        </div>
+                                                            {this.state.expire.check ?
+                                                                <InputGroup>
+                                                                    <FormControl
+                                                                        placeholder="Enter Duration"
+                                                                        value={this.state.duration}
+                                                                        type='number'
+                                                                        onChange={this.handleDurationPeriodChange}
+                                                                    />
 
-                                                        : <button
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                this.handleSubmit('poll-submit')
-                                                            }}
-                                                            className='ghost-button '>
-                                                            SUBMIT
-                                                        </button>
-                                                }
-                                            </Row>
-                                        </Container>
-                                    </Paper>
-                                </Col>
+                                                                    <DropdownButton
+                                                                        as={InputGroup.Append}
+                                                                        className='duration-button'
+                                                                        variant="outline-secondary"
+                                                                        title={this.state.durationMeasure}>
+                                                                        <Dropdown.Item onClick={() => {
+                                                                            this.handleDurationChange('minutes')
+                                                                        }}>Minutes</Dropdown.Item>
+                                                                        <Dropdown.Item onClick={() => {
+                                                                            this.handleDurationChange('hours')
+                                                                        }}>Hours</Dropdown.Item>
+                                                                        <Dropdown.Item onClick={() => {
+                                                                            this.handleDurationChange('days')
+                                                                        }}>Days</Dropdown.Item>
+                                                                    </DropdownButton>
+                                                                </InputGroup> : ''}
+                                                        </div>}
+                                                </Row>
+                                                <Row className='mt-auto'>
+                                                    <Typeahead allowNew
+                                                               multiple
+                                                               selectHintOnEnter
+                                                               newSelectionPrefix="Add a Category: "
+                                                               options={this.state.categories}
+                                                               placeholder="Add Category"
+                                                               onInputChange={this.handleCategoryInputChange}
+                                                               onChange={this.handleSearchSelect}
+                                                               id='category'
+                                                               maxResults={5}
+                                                               minLength={2}
+                                                               className='category-input'
+                                                    />
+                                                </Row>
+                                                <Row>
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            this.handleSubmit('poll-submit')
+                                                        }}
+                                                        className='ghost-button '>
+                                                        SUBMIT
+                                                    </button>
+                                                </Row>
+                                            </Container>
+                                        </Paper>
+                                    </Col> : ''}
                             </Row>
                         </Col>
                     </Row>
@@ -580,4 +586,4 @@ class NewOpenEnded extends React.Component {
 
 }
 
-export default NewOpenEnded;
+export default NewOpenEndedMcq;
