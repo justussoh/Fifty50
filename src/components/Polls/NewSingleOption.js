@@ -10,6 +10,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {Typeahead} from 'react-bootstrap-typeahead';
+import RightIcon from '@material-ui/icons/ArrowRight';
+import DoneIcon from '@material-ui/icons/Done';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';
@@ -448,15 +450,16 @@ class NewSingleOption extends React.Component {
                     <Row>
                         <Col xs={12}>
                             <Row>
-                                <Col xs={8}>
+                                <Col xs={this.props.pollGroup ? {offset:1, span:10} :8}>
+                                    {!this.props.pollGroup ?
                                     <Row className='d-flex justify-content-center align-items-center'>
                                         <div>
                                             <h3 className='type-title font'>CREATE A POLL</h3>
                                             <hr className='line'/>
                                         </div>
-                                    </Row>
+                                    </Row>:''}
                                     <Row>
-                                        <Col>
+                                        <Col className={this.props.pollGroup? 'd-flex flex-column align-items-center':''}>
                                             {imgSrc !== null ?
                                                 <div>
                                                     <img src={imgSrc} alt='User Uploaded'/>
@@ -494,28 +497,30 @@ class NewSingleOption extends React.Component {
                                         </Col>
                                     </Row>
                                     {this.props.pollGroup ?
-                                        <Row>
-                                            <div>
+                                        <Row style={{margin: "20px 0px"}}>
+                                            <div className='d-flex align-items-center justify-content-center w-100'>
                                                 <Button
+                                                    size="medium"
                                                     variant="outlined"
-                                                    label="Create"
-                                                    type="submit"
+                                                    className='poll-group-button'
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         this.handleSubmit('pollGroup-submit')
                                                     }}>
-                                                    Finished
+                                                    <span><DoneIcon /> Finished</span>
                                                 </Button>
 
                                                 <Button
+                                                    size="medium"
                                                     variant="outlined"
-                                                    label="Create"
-                                                    type="submit"
+                                                    className='poll-group-button'
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         this.handleSubmit('pollGroup-next')
-                                                    }}>
+                                                    }}
+                                                style={{marginLeft:'15px'}}>
                                                     Next
+                                                    <RightIcon />
                                                 </Button>
                                             </div>
                                         </Row> : ''
@@ -583,22 +588,19 @@ class NewSingleOption extends React.Component {
                                                     </div>
                                                 </Row>
                                                 <Row className='mt-auto'>
-                                                    {
-                                                        this.props.pollGroup ? '' :
-                                                            <Typeahead allowNew
-                                                                       multiple
-                                                                       selectHintOnEnter
-                                                                       newSelectionPrefix="Add a Category: "
-                                                                       options={this.state.categories}
-                                                                       placeholder="Add Category"
-                                                                       onInputChange={this.handleCategoryInputChange}
-                                                                       onChange={this.handleSearchSelect}
-                                                                       id='category'
-                                                                       maxResults={5}
-                                                                       minLength={2}
-                                                                       className='category-input'
-                                                            />
-                                                    }
+                                                    <Typeahead allowNew
+                                                               multiple
+                                                               selectHintOnEnter
+                                                               newSelectionPrefix="Add a Category: "
+                                                               options={this.state.categories}
+                                                               placeholder="Add Category"
+                                                               onInputChange={this.handleCategoryInputChange}
+                                                               onChange={this.handleSearchSelect}
+                                                               id='category'
+                                                               maxResults={5}
+                                                               minLength={2}
+                                                               className='category-input'
+                                                    />
                                                 </Row>
                                                 <Row>
                                                     <button

@@ -5,7 +5,6 @@ import history from '../../history';
 
 import Snackbar from '@material-ui/core/Snackbar';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 
 import Button from 'react-bootstrap/Button';
@@ -284,6 +283,7 @@ class Poll extends React.Component {
     handleMouseHoverIn = () => {
         this.setState({showResults: true})
     };
+
     handleMouseHoverOut = () => {
         this.setState({showResults: false})
     };

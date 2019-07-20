@@ -1,9 +1,7 @@
 import React from 'react';
 import {firebaseApp} from '../../utils/firebase';
 import history from '../../history';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import {Typeahead} from 'react-bootstrap-typeahead'
@@ -17,6 +15,8 @@ import styled from "styled-components";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Paper from "@material-ui/core/Paper";
+import RightIcon from '@material-ui/icons/ArrowRight';
+import DoneIcon from '@material-ui/icons/Done';
 
 const acceptFileType = 'image/x-png, image/png, image,jpg, image/jpeg, image/gif'
 const acceptFileTypeArray = acceptFileType.split(",").map((item) => {
@@ -395,14 +395,15 @@ class NewOpenEndedMcq extends React.Component {
                     <Row>
                         <Col xs={12}>
                             <Row>
-                                <Col xs={8}>
+                                <Col xs={this.props.pollGroup ? {offset:1, span:10} :8}>
+                                    {!this.props.pollGroup ?
                                     <Row className='d-flex justify-content-center align-items-center'>
                                         <div>
                                             <h3 className='type-title font'>CREATE A CUSTOM ANSWER POLL</h3>
                                             <hr className='line'/>
                                         </div>
-                                    </Row>
-                                    <Col xs={{span: 10, offset: 1}}>
+                                    </Row>:''}
+                                    <Col xs={{span: 10, offset: 1}} className={this.props.pollGroup? 'd-flex flex-column align-items-center':''}>
                                         <Row>
                                             {imgSrc !== null ?
                                                 <div>
@@ -425,7 +426,7 @@ class NewOpenEndedMcq extends React.Component {
                                                     )}
                                                 </Dropzone>}
                                         </Row>
-                                        <Row>
+                                        <Row className={this.props.pollGroup?'w-100':''}>
                                             <fieldset>
                                                 <Row className='title-section d-flex justify-content-center'>
                                                     <input className='ghost-input title-input'
@@ -440,28 +441,30 @@ class NewOpenEndedMcq extends React.Component {
                                         </Row>
                                     </Col>
                                     {this.props.pollGroup ?
-                                        <Row>
-                                            <div>
+                                        <Row style={{margin: "20px 0px"}}>
+                                            <div className='d-flex align-items-center justify-content-center w-100'>
                                                 <Button
+                                                    size="medium"
                                                     variant="outlined"
-                                                    label="Create"
-                                                    type="submit"
+                                                    className='poll-group-button'
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         this.handleSubmit('pollGroup-submit')
                                                     }}>
-                                                    Finished
+                                                    <span><DoneIcon /> Finished</span>
                                                 </Button>
 
                                                 <Button
+                                                    size="medium"
                                                     variant="outlined"
-                                                    label="Create"
-                                                    type="submit"
+                                                    className='poll-group-button'
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         this.handleSubmit('pollGroup-next')
-                                                    }}>
+                                                    }}
+                                                    style={{marginLeft:'15px'}}>
                                                     Next
+                                                    <RightIcon />
                                                 </Button>
                                             </div>
                                         </Row> : ''
@@ -491,43 +494,42 @@ class NewOpenEndedMcq extends React.Component {
                                                     </div>
                                                 </Row>
                                                 <Row>
-                                                    {this.props.pollGroup ? '' :
-                                                        <div>
-                                                            <FormControlLabel
-                                                                control={<Switch
-                                                                    checked={this.state.expire.check}
-                                                                    onChange={this.handleExpiryChange}
-                                                                    color="default"
-                                                                />}
-                                                                label={<span className='requirement-text'>Set a Duration for the poll</span>}
-                                                            />
 
-                                                            {this.state.expire.check ?
-                                                                <InputGroup>
-                                                                    <FormControl
-                                                                        placeholder="Enter Duration"
-                                                                        value={this.state.duration}
-                                                                        type='number'
-                                                                        onChange={this.handleDurationPeriodChange}
-                                                                    />
+                                                    <div>
+                                                        <FormControlLabel
+                                                            control={<Switch
+                                                                checked={this.state.expire.check}
+                                                                onChange={this.handleExpiryChange}
+                                                                color="default"
+                                                            />}
+                                                            label={<span className='requirement-text'>Set a Duration for the poll</span>}
+                                                        />
+                                                        {this.state.expire.check ?
+                                                            <InputGroup>
+                                                                <FormControl
+                                                                    placeholder="Enter Duration"
+                                                                    value={this.state.duration}
+                                                                    type='number'
+                                                                    onChange={this.handleDurationPeriodChange}
+                                                                />
 
-                                                                    <DropdownButton
-                                                                        as={InputGroup.Append}
-                                                                        className='duration-button'
-                                                                        variant="outline-secondary"
-                                                                        title={this.state.durationMeasure}>
-                                                                        <Dropdown.Item onClick={() => {
-                                                                            this.handleDurationChange('minutes')
-                                                                        }}>Minutes</Dropdown.Item>
-                                                                        <Dropdown.Item onClick={() => {
-                                                                            this.handleDurationChange('hours')
-                                                                        }}>Hours</Dropdown.Item>
-                                                                        <Dropdown.Item onClick={() => {
-                                                                            this.handleDurationChange('days')
-                                                                        }}>Days</Dropdown.Item>
-                                                                    </DropdownButton>
-                                                                </InputGroup> : ''}
-                                                        </div>}
+                                                                <DropdownButton
+                                                                    as={InputGroup.Append}
+                                                                    className='duration-button'
+                                                                    variant="outline-secondary"
+                                                                    title={this.state.durationMeasure}>
+                                                                    <Dropdown.Item onClick={() => {
+                                                                        this.handleDurationChange('minutes')
+                                                                    }}>Minutes</Dropdown.Item>
+                                                                    <Dropdown.Item onClick={() => {
+                                                                        this.handleDurationChange('hours')
+                                                                    }}>Hours</Dropdown.Item>
+                                                                    <Dropdown.Item onClick={() => {
+                                                                        this.handleDurationChange('days')
+                                                                    }}>Days</Dropdown.Item>
+                                                                </DropdownButton>
+                                                            </InputGroup> : ''}
+                                                    </div>
                                                 </Row>
                                                 <Row className='mt-auto'>
                                                     <Typeahead allowNew

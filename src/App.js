@@ -17,9 +17,9 @@ import {Signup} from './components/Signup';
 import {Recover} from './components/Login/Recover';
 import Dashboard from './components/Dashboard';
 import Category from './components/Category';
-import NewPollGroup from './components/NewPollGroup';
-import NewPollGroupPoll from './components/NewPollGroupPoll';
-import PollGroupView from './components/PollGroupView';
+import NewPollGroup from './components/PollGroup/NewPollGroup';
+import NewPollGroupPoll from './components/PollGroup/NewPollGroupPoll';
+import PollGroupView from './components/PollGroup/PollGroupView';
 import Search from './components/Search';
 import Footer from './components/Footer/Footer';
 

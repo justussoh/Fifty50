@@ -15,6 +15,8 @@ import styled from "styled-components";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Paper from "@material-ui/core/Paper";
+import RightIcon from '@material-ui/icons/ArrowRight';
+import DoneIcon from '@material-ui/icons/Done';
 
 const acceptFileType = 'image/x-png, image/png, image,jpg, image/jpeg, image/gif'
 const acceptFileTypeArray = acceptFileType.split(",").map((item) => {
@@ -333,8 +335,8 @@ class NewOpenEnded extends React.Component {
         if (files && files.length > 0) {
             const isVerified = this.verifyFile(files);
             if (isVerified) {
-                const currentFile = files[0]
-                const reader = new FileReader()
+                const currentFile = files[0];
+                const reader = new FileReader();
                 reader.addEventListener("load", () => {
                     this.setState({imgSrc: reader.result})
                 }, false);
@@ -394,14 +396,15 @@ class NewOpenEnded extends React.Component {
                     <Row>
                         <Col xs={12}>
                             <Row>
-                                <Col xs={8}>
+                                <Col xs={this.props.pollGroup ? {offset:1, span:10} :8}>
+                                    {!this.props.pollGroup ?
                                     <Row className='d-flex justify-content-center align-items-center'>
                                         <div>
                                             <h3 className='type-title font'>CREATE A OPEN ENDED POLL</h3>
                                             <hr className='line'/>
                                         </div>
-                                    </Row>
-                                    <Col xs={{span: 10, offset: 1}}>
+                                    </Row>:''}
+                                    <Col xs={{span: 10, offset: 1}} className={this.props.pollGroup? 'd-flex flex-column align-items-center':''}>
                                         <Row>
                                             {imgSrc !== null ?
                                                 <div>
@@ -424,8 +427,8 @@ class NewOpenEnded extends React.Component {
                                                     )}
                                                 </Dropzone>}
                                         </Row>
-                                        <Row>
-                                            <fieldset>
+                                        <Row className={this.props.pollGroup?'w-100':''}>
+                                            <fieldset >
                                                 <Row className='title-section d-flex justify-content-center'>
                                                     <input className='ghost-input title-input'
                                                            placeholder='Please ask a question!'
@@ -439,28 +442,30 @@ class NewOpenEnded extends React.Component {
                                         </Row>
                                     </Col>
                                     {this.props.pollGroup ?
-                                        <Row>
-                                            <div>
+                                        <Row style={{margin: "20px 0px"}}>
+                                            <div className='d-flex align-items-center justify-content-center w-100'>
                                                 <Button
+                                                    size="medium"
                                                     variant="outlined"
-                                                    label="Create"
-                                                    type="submit"
+                                                    className='poll-group-button'
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         this.handleSubmit('pollGroup-submit')
                                                     }}>
-                                                    Finished
+                                                    <span><DoneIcon /> Finished</span>
                                                 </Button>
 
                                                 <Button
+                                                    size="medium"
                                                     variant="outlined"
-                                                    label="Create"
-                                                    type="submit"
+                                                    className='poll-group-button'
                                                     onClick={(e) => {
                                                         e.preventDefault();
                                                         this.handleSubmit('pollGroup-next')
-                                                    }}>
+                                                    }}
+                                                    style={{marginLeft:'15px'}}>
                                                     Next
+                                                    <RightIcon />
                                                 </Button>
                                             </div>
                                         </Row> : ''
@@ -477,18 +482,17 @@ class NewOpenEnded extends React.Component {
                                         <Paper className='requirement-paper'>
                                             <Container fluid style={{height: '100%'}} className='d-flex flex-column'>
                                                 <Row>
-                                                    {this.props.pollGroup ? '' :
-                                                        <div>
-                                                            {this.state.loggedIn ?
-                                                                <FormControlLabel
-                                                                    control={<Switch
-                                                                        checked={this.state.loginToAnswer}
-                                                                        onChange={this.handleLoginToAnswer}
-                                                                        color="default"
-                                                                    />}
-                                                                    label={<span className='requirement-text'>Does User need to Login to Answer</span>}
-                                                                /> : ''}
-                                                        </div>}
+                                                    <div>
+                                                        {this.state.loggedIn ?
+                                                            <FormControlLabel
+                                                                control={<Switch
+                                                                    checked={this.state.loginToAnswer}
+                                                                    onChange={this.handleLoginToAnswer}
+                                                                    color="default"
+                                                                />}
+                                                                label={<span className='requirement-text'>Does User need to Login to Answer</span>}
+                                                            /> : ''}
+                                                    </div>
                                                 </Row>
                                                 <Row>
                                                     <div>
