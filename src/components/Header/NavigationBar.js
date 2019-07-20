@@ -126,7 +126,6 @@ class NavigationBar extends React.Component {
             default:
                 return (
                     <Nav className="ml-auto">
-                        <Nav.Item><Nav.Link href="/login"> Login </Nav.Link></Nav.Item>
                         <Nav.Item><SearchBar/></Nav.Item>
                     </Nav>
                 );
