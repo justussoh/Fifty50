@@ -11,9 +11,8 @@ import {Comment} from './components/Polls/Comment';
 import NewPoll from './components/Polls/NewPoll';
 import Poll from './components/Polls/Poll';
 import {Update} from './components/Update';
-import {Login} from './components/Login/Login';
-import Loginpage from './components/Login/Loginpage';
-import Signup from './components/Signup';
+import Login from './components/Login/Login';
+import Signup from './components/Login/Signup';
 import Recover from './components/Login/Recover';
 import Dashboard from './components/Dashboard';
 import Category from './components/Category';
@@ -33,7 +32,6 @@ function App() {
                     <Route exact path="/about" component={About}/>
                     <Route exact path="/contact" component={Contact}/>
                     <Route exact path="/login" component={Login}/>
-                    <Route exact path="/loginpage" component={Loginpage}/>
                     <Route exact path="/recover" component={Recover}/>
                     <Route exact path="/signup" component={Signup}/>
                     <Route exact path="/polls/dashboard" component={Dashboard}/>
