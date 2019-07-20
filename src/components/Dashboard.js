@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
+import ButtonRB from 'react-bootstrap/Button';
 
 import {Container, Row, Col, CardColumns, Card,} from 'react-bootstrap';
 
@@ -374,37 +375,38 @@ class Dashboard extends React.Component {
                     <Row className='dashboard-row'>
                         <Col xs={{span: 10, offset: 1}}>
                             <Paper elevation={0} className='dashboard-paper'>
-                                <h2>Dashboard</h2>
-                                <Paper>
+                                <h2 style={{marginBottom: '20px'}}>Dashboard</h2>
+                                <Paper style={{padding: "30px", marginBottom:'30px'}} elevation={5}>
                                     <Row>
-                                        <Col style={{borderRight: '1px solid #b1b1b1'}}>
+                                        <Col style={{borderRight: '1px solid #b1b1b1'}}
+                                             className='d-flex flex-column align-items-center justify-content-center'>
                                             <h1>{this.state.polls.length}</h1>
                                             <h5>Open Polls</h5>
                                         </Col>
-                                        <Col>
+                                        <Col className='d-flex flex-column align-items-center justify-content-center'>
                                             <h1>{this.state.pollGroups.length}</h1>
                                             <h5>Poll Groups</h5>
                                         </Col>
                                     </Row>
                                 </Paper>
-                                <div>
-                                    <div className='d-flex align-items-center'>
+                                <div style={{margin: "15px 0 30px"}}>
+                                    <div className='d-flex align-items-center' style={{margin: "10px 0"}}>
                                         <h4>My Polls</h4>
-                                        <Button onClick={this.handleCreateNewPoll} className='ml-auto'>
+                                        <ButtonRB onClick={this.handleCreateNewPoll} className='ml-auto' variant="outline-success">
                                             Create New Poll
-                                        </Button>
+                                        </ButtonRB>
                                     </div>
                                     <CardColumns>
                                         {pollsUIs}
                                         <Loading loading={this.state.loading}/>
                                     </CardColumns>
                                 </div>
-                                <div>
-                                    <div className='d-flex align-items-center'>
+                                <div style={{margin: "15px 0 30px"}}>
+                                    <div className='d-flex align-items-center' style={{margin: "10px 0"}}>
                                         <h4>My Polls Groups</h4>
-                                        <Button onClick={this.handleCreateNewPollGroup} className='ml-auto'>
+                                        <ButtonRB onClick={this.handleCreateNewPollGroup} className='ml-auto' variant="outline-success">
                                             Create New Poll Group
-                                        </Button>
+                                        </ButtonRB>
                                     </div>
                                     <CardColumns>
                                         {pollGroupUIs}

@@ -36,6 +36,19 @@ const Styles = styled.div`
     .avatar-dropdown{
         padding-bottom: 0px!important;
     }
+    
+    .header-avatar-icon-nav-link{
+        text-align:end;
+        
+        &:hover{
+            font-weight:bold;
+        }
+    }
+    
+    .active{
+        background-color: white!important;
+    }
+    
 `;
 
 class NavigationBar extends React.Component {
@@ -93,9 +106,9 @@ class NavigationBar extends React.Component {
                                         </div>
                                     </div>
                                 </Dropdown.Header>
-                                {/*<Dropdown.Item as={NavLink} href="#" onClick={(e) => {*/}
-                                {/*    this.props.history.push('/');*/}
-                                {/*}} className='header-avatar-icon-nav-link'>Home</Dropdown.Item>*/}
+                                <Dropdown.Item as={Nav.Link} href="#" onClick={(e) => {
+                                    history.push('/polls/dashboard');
+                                }} className='header-avatar-icon-nav-link'>Dashboard</Dropdown.Item>
                                 <Dropdown.Divider style={{marginBottom: '0px'}}/>
                                 <Dropdown.Header>
                                     <div className='d-flex'>
