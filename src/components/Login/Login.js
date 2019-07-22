@@ -122,10 +122,10 @@ class Login extends React.Component {
                     <Grid item xs={false} sm={4} md={7}
                           className='d-flex align-items-center justify-content-center flex-column'>
                         <Title text='FIFTY50'/>
-                        {/*<h4>Log In to unlock all the Features</h4>*/}
+                        {/*<h4>Log in to unlock all the features</h4>*/}
                     </Grid>
                     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={0} square
-                          style={{padding: "50px"}} className='d-flex align-items-center justify-content-center'>
+                          style={{padding: "70px"}} className='d-flex align-items-center justify-content-center'>
                         <div className='d-flex align-items-center justify-content-center flex-column'>
                             <Avatar style={{backgroundColor: "#e91e63"}}>
                                 <LockOutlinedIcon/>
