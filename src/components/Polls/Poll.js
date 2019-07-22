@@ -336,7 +336,7 @@ class Poll extends React.Component {
         let isAuthUser = firebaseApp.auth().currentUser ? true : false;
 
         let addOptionUI;
-        if (isAuthUser) {
+        if (isAuthUser && this.state.status !== "expired") {
             addOptionUI = (
                 <div>
                     <Button onClick={this.handleUpdatePoll} variant="outline-warning" style={{marginLeft: "10px"}}>

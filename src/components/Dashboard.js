@@ -174,10 +174,6 @@ class Dashboard extends React.Component {
         this.mounted = false;
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.state)
-    }
-
     handleOpen(pollId, type) {
         if (type === 'poll') {
             this.setState({dialogOpen: true, deleteType: type});

@@ -7,11 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
+import RightIcon from '@material-ui/icons/ArrowRight';
+import DoneIcon from '@material-ui/icons/Done';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import {Typeahead} from 'react-bootstrap-typeahead';
-import RightIcon from '@material-ui/icons/ArrowRight';
-import DoneIcon from '@material-ui/icons/Done';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-bootstrap-typeahead/css/Typeahead-bs4.css';

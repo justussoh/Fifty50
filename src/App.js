@@ -7,10 +7,9 @@ import {About} from './About';
 import {Contact} from './Contact';
 import {NoMatch} from './NoMatch';
 import NavigationBar from './components/Header/NavigationBar';
-import {Comment} from './components/Polls/Comment';
 import NewPoll from './components/Polls/NewPoll';
 import Poll from './components/Polls/Poll';
-import {Update} from './components/Update';
+import Update from './components/Update';
 import Login from './components/Login/Login';
 import Signup from './components/Login/Signup';
 import Recover from './components/Login/Recover';
@@ -44,7 +43,6 @@ function App() {
                     <Route exact path="/pollgroup/view/:pollId" component={PollGroupView}/>
                     <Route exact path="/search" component={Search}/>
                     <Route exact path="/search/:query" component={Search}/>
-                    <Route exact path="/pollingform" component={Comment}/>
                     <Route component={NoMatch}/>
                 </Switch>
             </Router>
