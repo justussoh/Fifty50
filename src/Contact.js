@@ -27,6 +27,10 @@ const useStyles = makeStyles(theme => ({
 export const Contact = () => (
     <div>
     	<Grid container direction = "column" alignItems = "center">
+        <h1>    </h1>
+        <h1>    </h1>
+        <h1>    </h1>
+        <h1>    </h1>      
         <Grid>
         <h2>We're here to help</h2>
        	</Grid>
