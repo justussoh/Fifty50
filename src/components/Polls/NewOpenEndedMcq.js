@@ -430,7 +430,7 @@ class NewOpenEndedMcq extends React.Component {
                                             <fieldset>
                                                 <Row className='title-section d-flex justify-content-center'>
                                                     <input className='ghost-input title-input'
-                                                           placeholder='Please ask a question!'
+                                                           placeholder='Please ask a question here!'
                                                            value={this.state.title}
                                                            onChange={this.handleTitleChange} required/>
                                                     {Boolean(this.state.titleError) ?

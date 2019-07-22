@@ -26,12 +26,12 @@ const useStyles = makeStyles(theme => ({
 
 export const Contact = () => (
     <div>
-    	<Grid container direction = "row">
+    	<Grid container direction = "column" alignItems = "center">
         <Grid>
         <h2>We're here to help</h2>
        	</Grid>
 
-       	<Grid container direction = "column">
+       	<Grid container direction = "column" alignItems = "center">
 		<TextField
 	        id="standard-dense"
 	        label="Name"
@@ -71,7 +71,7 @@ export const Contact = () => (
 	    <h6>might take us until the next business day.</h6> 	
 	    </Grid>
 
-       	<Grid container direction = "column">
+       	<Grid container direction = "column" alignItems = "center">
        	<h1>    </h1>
        	<h1>    </h1>
        	<h1>    </h1>

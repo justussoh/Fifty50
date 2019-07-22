@@ -485,7 +485,7 @@ class NewSingleOption extends React.Component {
                                             <fieldset>
                                                 <Row className='title-section'>
                                                     <input className='ghost-input title-input'
-                                                           placeholder='Please ask a question!'
+                                                           placeholder='Please ask a question here!'
                                                            value={this.state.title}
                                                            onChange={this.handleTitleChange} required/>
                                                     {Boolean(this.state.titleError) ?

@@ -400,7 +400,7 @@ class NewOpenEnded extends React.Component {
                                     {!this.props.pollGroup ?
                                     <Row className='d-flex justify-content-center align-items-center'>
                                         <div>
-                                            <h3 className='type-title font'>CREATE A OPEN ENDED POLL</h3>
+                                            <h3 className='type-title font'>CREATE AN OPEN ENDED POLL</h3>
                                             <hr className='line'/>
                                         </div>
                                     </Row>:''}
@@ -431,7 +431,7 @@ class NewOpenEnded extends React.Component {
                                             <fieldset >
                                                 <Row className='title-section d-flex justify-content-center'>
                                                     <input className='ghost-input title-input'
-                                                           placeholder='Please ask a question!'
+                                                           placeholder='Please ask a question here!'
                                                            value={this.state.title}
                                                            onChange={this.handleTitleChange} required/>
                                                     {Boolean(this.state.titleError) ?
