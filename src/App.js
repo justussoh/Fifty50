@@ -13,7 +13,7 @@ import Update from './components/Update';
 import Login from './components/Login/Login';
 import Signup from './components/Login/Signup';
 import Recover from './components/Login/Recover';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 import Category from './components/Category';
 import NewPollGroup from './components/PollGroup/NewPollGroup';
 import NewPollGroupPoll from './components/PollGroup/NewPollGroupPoll';

@@ -1,0 +1,78 @@
+.dialog-top{
+    background-color: #49AE4B !important;
+}
+
+.closeButton{
+    color:white;
+}
+
+.delete-title{
+    text-align: center;
+    color: #707070;
+}
+
+.modal-btm-delete{
+    padding: 20px;
+}
+
+.modal-btm-delete .MuiButton-label{
+    color: #707070;
+    font-weight: bold;
+}
+
+.share-modal-copy-title {
+    font-family: 'Roboto medium';
+    font-size: 14px;
+    color: #707070;
+}
+
+.share-modal-copy{
+    padding-top: 10px;
+}
+
+.share-modal-title{
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Roboto';
+    font-size: 18px;
+    margin-bottom: 0px !important;
+}
+
+.share-modal-content{
+    padding: 25px 85px 5px 85px !important;
+}
+
+.closeButton{
+    color:white;
+}
+
+.share-modal-message{
+    margin-top:20px;
+    font-family: 'Roboto';
+    color: #707070;
+    font-size: 14px;
+}
+
+.share-modal-email{
+    margin-top: 25px;
+}
+
+.share-modal-bottom{
+    padding: 20px 85px 26px 85px !important;
+}
+
+.MuiButton-outlined {
+    padding: 8px 30px !important;
+}
+
+.share-modal-button{
+    color: white;
+    font-family: 'Roboto';
+    font-weight: bold;
+    background-color: #49AE4B;
+}
+
+.share-modal-button:hover{
+    background-color: #7AC4A7;
+}
+

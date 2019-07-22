@@ -1,11 +1,12 @@
 import React from 'react';
-import {firebaseApp} from '../utils/firebase';
-import history from '../history';
+import {firebaseApp} from '../../utils/firebase';
+import history from '../../history';
 
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
@@ -13,18 +14,21 @@ import ButtonRB from 'react-bootstrap/Button';
 
 import {Container, Row, Col, CardColumns, Card,} from 'react-bootstrap';
 
-import Loading from './Loading';
+import Loading from '../Loading';
 
 import styled from "styled-components";
 import Chip from "@material-ui/core/Chip";
 import DeleteIcon from '@material-ui/icons/DeleteOutline';
 import ShareIcon from '@material-ui/icons/ShareOutlined';
 import CloseIcon from '@material-ui/icons/Close';
+import DoneIcon from '@material-ui/icons/Done';
 import IconButton from '@material-ui/core/IconButton';
-import PollShareDialog from "./Polls/PollShareDialog";
+import PollShareDialog from "../Polls/PollShareDialog";
 import LinesEllipsis from 'react-lines-ellipsis'
 
 import moment from 'moment';
+
+import './Dashboard.css';
 
 
 const Styles = styled.div`
@@ -416,11 +420,41 @@ class Dashboard extends React.Component {
                         open={this.state.dialogOpen}
                         onClose={this.handleClose}
                     >
-                        <DialogTitle>Delete "{this.poll2DeleteTitle}"?</DialogTitle>
-                        <DialogActions>
-                            <Button children="Cancel" onClick={this.handleClose}/>
-                            <Button children="Delete" onClick={this.handleDelete}/>
-                        </DialogActions>
+                            <DialogTitle className='dialog-top'>
+                                <div className='d-flex align-items-center'>
+                                    <p className='share-modal-title'>Delete</p>
+                                    <IconButton className='closeButton ml-auto'
+                                                onClick={this.handleClose}>
+                                        <CloseIcon className='closeButton'/>
+                                    </IconButton>
+                                </div>
+                            </DialogTitle>
+                            <DialogContent className='share-modal-content'>
+                                <div className='share-modal-copy'>
+                                    <h6 className='delete-title'>Would you like to delete this poll</h6>
+                                    <h6 className='delete-title'>"{this.poll2DeleteTitle}"</h6>
+                                </div>
+                            </DialogContent>
+                            <DialogActions>
+                                <div className='d-flex align-items-center justify-content-center w-100 modal-btm-delete'>
+                                    <Button
+                                        size="medium"
+                                        variant="outlined"
+                                        className='poll-group-button'
+                                        onClick={this.handleClose}
+                                    >
+                                        <span><CloseIcon/> Cancel</span>
+                                    </Button>
+                                    <Button
+                                        size="medium"
+                                        variant="outlined"
+                                        className='poll-group-button'
+                                        onClick={this.handleDelete}
+                                        style={{marginLeft: '15px'}}>
+                                        <span><DoneIcon/> Delete</span>
+                                    </Button>
+                                </div>
+                            </DialogActions>
                     </Dialog>
                     <PollShareDialog
                         show={this.state.showShareDialog}
