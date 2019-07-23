@@ -11,7 +11,11 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import ButtonB from 'react-bootstrap/Button'
 import FormControl from 'react-bootstrap/FormControl'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import TagsInput from 'react-tagsinput'
 import styled from "styled-components";
+import 'react-tagsinput/react-tagsinput.css'
+
+import axios from "axios";
 
 const Styles = styled.div`
 
@@ -74,33 +78,68 @@ const Styles = styled.div`
      .share-modal-button:hover{
         background-color: #7AC4A7;
       }
+      
+      .tag-input{
+        width:200px;
+        padding:0px;
+        margin:0px;
+        overflow:hidden;
+      }
+      
+      .input-tag-box{
+        height:auto!important;
+      }
+      
+      .tag{
+        padding:2px;
+      }
 
 `;
 
-
 class PollShareDialog extends Component {
 
-    state = {
-        copied: false,
-        email: '',
-        emailList: [],
-        message: '',
-    };
+    constructor() {
+        super()
 
-    handleEmailChange = (e) => {
-        this.setState({email: e.target.value});
+        this.state = {
+            copied: false,
+            email: '',
+            emailList: [],
+            message: '',
+        };
+
+        this.handleSubmit = this.handleSubmit.bind(this)
+
+    }
+
+
+    handleEmailChange = (tag) => {
+        this.setState({email: tag});
     };
 
     handleMessageChange = (e) => {
         this.setState({message: e.target.value});
     };
 
-    handleEmailAdd = () => {
-        this.state.emailList.push(this.state.email);
-        this.setState({email: ''});
-        console.log(this.state.emailList)
+    handleChange = (tags) => {
+        this.setState({emailList: tags});
     };
 
+    async handleSubmit(e) {
+        e.preventDefault();
+        const {emailList, message} = this.state;
+
+        await axios.post('/api/share', {
+            emailList,
+            message,
+            url: this.props.url,
+        }).then(res => {
+            console.log('200')
+        }).catch(err => {
+            console.log(err);
+        });
+
+    }
 
     render() {
 
@@ -134,22 +173,26 @@ class PollShareDialog extends Component {
                         </div>
                         <div className='share-modal-email'>
                             <h6 className='share-modal-copy-title'>People</h6>
-                            <InputGroup>
-                                <FormControl
-                                    placeholder='Please Enter Email Address'
-                                    value={this.state.email}
-                                    onChange={this.handleEmailChange}
-                                />
-                                <InputGroup.Append>
-                                    <ButtonB onClick={this.handleEmailAdd} variant="outline-secondary">+</ButtonB>
-                                </InputGroup.Append>
-                            </InputGroup>
+                            <TagsInput value={this.state.emailList} onChange={this.handleChange}
+                                       className='input-tag-box form-control'
+                                       inputValue={this.state.email}
+                                       onChangeInput={this.handleEmailChange}
+                                       inputProps={{
+                                           className: 'react-tagsinput-input tag-input',
+                                           placeholder: 'Please Enter Email Address'
+                                       }}
+                                       tagProps={{
+                                           className: 'react-tagsinput-tag tag',
+                                           classNameRemove: 'react-tagsinput-remove'
+                                       }}
+                                       onlyUnique={true}
+                            />
                             <FormControl placeholder='Add a note (Optimal)' value={this.state.message} as="textarea"
                                          rows="3" onChange={this.handleMessageChange} className='share-modal-message'/>
                         </div>
                     </DialogContent>
                     <DialogActions className='d-flex justify-content-center share-modal-bottom'>
-                        <Button onClick={this.props.Close} variant="contained" size="large"
+                        <Button onClick={this.handleSubmit} variant="contained" size="large"
                                 className='share-modal-button'>
                             Send
                         </Button>

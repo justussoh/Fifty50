@@ -1,9 +1,58 @@
 const algoliasearch = require('algoliasearch');
 const dotenv = require('dotenv');
 const firebase = require('firebase');
+const express =require('express');
+const bodyParser =require('body-parser');
+const nodemailer =require('nodemailer');
 
 // load values from the .env file in this directory into process.env
 dotenv.config({ path: 'process.env' });
+
+const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
+
+app.post('/api/share', (req, res)=>{
+    const htmlEmail = `
+        <h3>Dear Friend</h3><br/>
+        <p>You have been invited to answer the following poll</p>
+        <p>Poll Link: <a href=${req.body.url}>${req.body.url}</a>></p><br/>
+        <h4>Message</h4>
+        <p>${req.body.message}</p>
+        <h4>Thank You!</h4><br />
+        <br/>
+        <h3>Best Regards</h3>
+        <h3>Fifty50</h3>
+    `;
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_GOOGLE,
+            pass: process.env.GOOGLE_PASSWORD,
+        }
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL_GOOGLE,
+        to: req.body.emailList,
+        subject: "Help us to answer this poll",
+        html: htmlEmail,
+    };
+
+    transporter.sendMail(mailOptions, (err,info)=>{
+        if(err){
+            console.log(err)
+        }
+        console.log('Message has been sent.', info)
+    })
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, ()=>{
+   console.log(`Server listening on port ${PORT}`)
+});
 
 // configure firebase
 firebase.initializeApp({
@@ -57,3 +106,4 @@ function deleteIndexRecord({key}) {
             process.exit(1);
         });
 }
+
