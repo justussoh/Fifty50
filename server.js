@@ -48,6 +48,48 @@ app.post('/api/share', (req, res)=>{
     })
 });
 
+app.post('/api/contact', (req, res)=>{
+    const htmlEmail = `
+        <h3>Dear Clara/Justus</h3><br/>
+        <p>Someone has contacted you</p>
+        <p>The details are as follows:</p><br/>
+        <h4>Name</h4>
+        <p>${req.body.name}</p>
+        <h4>Email</h4>
+        <p>${req.body.email}</p>
+        <h4>Contact</h4>
+        <p>${req.body.contact}</p>
+        <h4>Message</h4>
+        <p>${req.body.message}</p>
+        <h4>Thank You!</h4><br />
+        <br/>
+        <h3>Best Regards</h3>
+        <h3>Fifty50</h3>
+    `;
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_GOOGLE,
+            pass: process.env.GOOGLE_PASSWORD,
+        }
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL_GOOGLE,
+        to: process.env.EMAIL_GOOGLE,
+        subject: "Someone Contacted You",
+        html: htmlEmail,
+    };
+
+    transporter.sendMail(mailOptions, (err,info)=>{
+        if(err){
+            console.log(err)
+        }
+        console.log('Message has been sent.', info)
+    })
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, ()=>{

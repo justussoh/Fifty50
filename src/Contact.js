@@ -72,7 +72,7 @@ class Contact extends React.Component {
                                 <h2 className='text-center'>We're here to help</h2>
                             </Row>
                             <Row>
-                                <Col className='d-flex align-items-center justify-content-center'>
+                                <Col className='d-flex align-items-center justify-content-center' xs={6}>
                                     <div className='d-flex flex-column align-items-center justify-content-center'>
                                         <h6>EMAIL US</h6>
                                         <h6>support@fifty50.com</h6>
@@ -86,7 +86,7 @@ class Contact extends React.Component {
                                         <h6>might take us until the next business day.</h6>
                                     </div>
                                 </Col>
-                                <Col className='d-flex flex-column' xs={{span: 4}}>
+                                <Col className='d-flex flex-column' xs={{span: 4, offset:1}}>
                                     <form onSubmit={this.onSubmit}>
                                         <TextField
                                             value={this.state.name}
@@ -94,6 +94,7 @@ class Contact extends React.Component {
                                             label="Name"
                                             margin="dense"
                                             variant="outlined"
+                                            fullWidth={true}
                                             onChange={this.handleNameChange}
                                         />
                                         <TextField
@@ -102,6 +103,7 @@ class Contact extends React.Component {
                                             label="Email"
                                             margin="dense"
                                             variant="outlined"
+                                            fullWidth={true}
                                             onChange={this.handleEmailChange}
                                         />
                                         <TextField
@@ -110,6 +112,7 @@ class Contact extends React.Component {
                                             label="contact"
                                             margin="dense"
                                             variant="outlined"
+                                            fullWidth={true}
                                             onChange={this.handleContactChange}
                                         />
                                         <TextField
