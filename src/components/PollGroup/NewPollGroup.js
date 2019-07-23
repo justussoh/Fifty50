@@ -180,7 +180,7 @@ class NewPollGroup extends React.Component {
 
                     <h1>New Grouped Poll</h1>
 
-                    <Grid alignItems="center">
+                    <Grid container direction = "column" alignItems="center">
                         <br /><br />
                         <h2>New Poll</h2>
 
@@ -193,7 +193,7 @@ class NewPollGroup extends React.Component {
                                 error={Boolean(this.state.titleError)}
                                 helperText={this.state.titleError}
                             />
-
+                            <h1>  </h1>    
                             <br />
                             {this.state.loggedIn?
                                 <FormControlLabel
@@ -201,7 +201,7 @@ class NewPollGroup extends React.Component {
                                         checked={this.state.loginToAnswer}
                                         onChange={this.handleLoginToAnswer}
                                     />}
-                                    label="Does user need to login to answer"
+                                    label="Does user need to login to answer?"
                                     labelPlacement="top"
                                 />:''}
                             <FormControlLabel
@@ -209,6 +209,7 @@ class NewPollGroup extends React.Component {
                                     checked={this.state.expire.check}
                                     onChange={this.handleExpiryChange}
                                 />}
+
                                 label="Set a duration for the poll"
                                 labelPlacement="top" />
 

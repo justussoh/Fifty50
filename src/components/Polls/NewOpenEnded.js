@@ -320,7 +320,7 @@ class NewOpenEnded extends React.Component {
                 return false;
             }
             if (!acceptFileTypeArray.includes(currentFileType)) {
-                alert("This file type is not allowed. Only images are allowed")
+                alert("This file type is not allowed. Only images are allowed.")
                 return false
             }
             return true
@@ -408,7 +408,7 @@ class NewOpenEnded extends React.Component {
                                         <Row>
                                             {imgSrc !== null ?
                                                 <div>
-                                                    <img src={imgSrc} alt='User Uploaded'/>
+                                                    <img src={imgSrc} alt='User uploaded'/>
                                                 </div> :
 
                                                 <Dropzone onDrop={this.handleOnDrop}>
@@ -474,7 +474,7 @@ class NewOpenEnded extends React.Component {
                                         <IconButton onClick={this.props.handleBack}>
                                             <ArrowBackIcon/>
                                         </IconButton>
-                                        <span className='back-text'><i>Back to Previous Page</i></span>
+                                        <span className='back-text'><i>Back to previous page</i></span>
                                     </Row>
                                 </Col>
                                 {!this.props.pollGroup ?
@@ -490,7 +490,7 @@ class NewOpenEnded extends React.Component {
                                                                     onChange={this.handleLoginToAnswer}
                                                                     color="default"
                                                                 />}
-                                                                label={<span className='requirement-text'>Does User need to Login to Answer</span>}
+                                                                label={<span className='requirement-text'>Does user need to login to answer?</span>}
                                                             /> : ''}
                                                     </div>
                                                 </Row>
@@ -502,13 +502,13 @@ class NewOpenEnded extends React.Component {
                                                                 onChange={this.handleExpiryChange}
                                                                 color="default"
                                                             />}
-                                                            label={<span className='requirement-text'>Set a Duration for the poll</span>}
+                                                            label={<span className='requirement-text'>Set a duration for the poll</span>}
                                                         />
 
                                                         {this.state.expire.check ?
                                                             <InputGroup>
                                                                 <FormControl
-                                                                    placeholder="Enter Duration"
+                                                                    placeholder="Enter duration"
                                                                     value={this.state.duration}
                                                                     type='number'
                                                                     onChange={this.handleDurationPeriodChange}
@@ -536,9 +536,9 @@ class NewOpenEnded extends React.Component {
                                                     <Typeahead allowNew
                                                                multiple
                                                                selectHintOnEnter
-                                                               newSelectionPrefix="Add a Category: "
+                                                               newSelectionPrefix="Add a category: "
                                                                options={this.state.categories}
-                                                               placeholder="Add Category"
+                                                               placeholder="Add category"
                                                                onInputChange={this.handleCategoryInputChange}
                                                                onChange={this.handleSearchSelect}
                                                                id='category'
@@ -576,7 +576,7 @@ class NewOpenEnded extends React.Component {
         const title = this.state.title.trim();
 
         if (title.length === 0) {
-            this.setState({titleError: 'Title must no be empty.'})
+            this.setState({titleError: 'Title must not be empty.'})
             isInvalid = true;
         } else if (title.match(regex)) {
             this.setState({titleError: `Title can't contain ".", "#", "$", "/", "[", or "]"`})
