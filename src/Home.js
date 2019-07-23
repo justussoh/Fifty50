@@ -11,7 +11,6 @@ const Styles = styled.div`
     }
 `;
 
-<<<<<<< HEAD
 class Home extends React.Component {
     render() {
         return (
@@ -31,6 +30,7 @@ class Home extends React.Component {
                                     size="medium"
                                     color="secondary"
                                     aria-label="Add"
+                                    background-color="#5baff5"
                                 >
                                     Create new poll
                                 </Fab>
@@ -44,30 +44,4 @@ class Home extends React.Component {
 }
 
 export default Home;
-=======
-export const Home = () => (
-    <Styles>
-        <div>
-            <Grid container justify="center" alignItems="center">
-                <Title text='FIFTY50'/>
-            </Grid>
-            <Grid container justify="center" alignItems="center">
-                <h5>GATHERING ANSWERS FOR YOU</h5>
-            </Grid>
-            <Grid container justify="center" alignItems="center">
-                <Link to="/polls/new">
-                    <Fab
-                        variant="extended"
-                        size="medium"
-                        color="primary"
-                        background-color="#5baff5"
-                        aria-label="Add"
-                    >
-                        Create new poll
-                    </Fab>
-                </Link>
-            </Grid>
-        </div>
-    </Styles>
-)
->>>>>>> 9ec53a0bf7d26c6878456d71f19145bd44588ec8
+

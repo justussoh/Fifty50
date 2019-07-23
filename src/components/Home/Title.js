@@ -16,13 +16,8 @@ const Styles = styled.div`
         margin-top:10vh;
     }
     .titleWrapper{
-<<<<<<< HEAD
-        color:#ffb3d9;
-        cursor:default;
-=======
         color:#f26f63;
-        cursor:pointer;
->>>>>>> 9ec53a0bf7d26c6878456d71f19145bd44588ec8
+        cursor:default;
     }
     .cloneWrapper{
         position:absolute;

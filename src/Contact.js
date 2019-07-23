@@ -118,6 +118,7 @@ class Contact extends React.Component {
                                             label="Message"
                                             multiline
                                             rows={4}
+                                            fullWidth={true}
                                             rowsMax="20"
                                             margin="normal"
                                             variant="outlined"
