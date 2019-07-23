@@ -125,7 +125,7 @@ class Login extends React.Component {
                         {/*<h4>Log in to unlock all the features</h4>*/}
                     </Grid>
                     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={0} square
-                          style={{padding: "70px"}} className='d-flex align-items-center justify-content-center'>
+                          style={{padding: "30px 70px"}} className='d-flex align-items-center justify-content-center'>
                         <div className='d-flex align-items-center justify-content-center flex-column'>
                             <Avatar style={{backgroundColor: "#e91e63"}}>
                                 <LockOutlinedIcon/>
@@ -139,14 +139,14 @@ class Login extends React.Component {
                                     <Button
                                         variant="outlined"
                                         onClick={this.handleFacebook}>
-                                        <span><Icon path={mdiFacebookBox} size={1}/> Login Facebook</span>
+                                        <span><Icon path={mdiFacebookBox} size={1}/> Facebook</span>
                                     </Button>
                                 </Grid >
                                 <Grid item xs={6} className='d-flex align-items-center justify-content-center'>
                                     <Button
                                         variant="outlined"
                                         onClick={this.handleGoogle}>
-                                        <span><Icon path={mdiGoogle} size={1}/> Login Google</span>
+                                        <span><Icon path={mdiGoogle} size={1}/> Google</span>
                                     </Button>
                                 </Grid>
                             </Grid>

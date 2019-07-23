@@ -5,18 +5,19 @@ const Styles = styled.div`
     .titleContainer{
         font-family:'Poppins', sans-serif;
            h1{
-            font-size:90px;
+            font-size:150px;
             margin:0;
             line-height:1.1em;
         }
         position: relative;
         --maskX: 0;
         --maskY: 0;
-        padding:50px;
+        padding:50px 50px 0 50px;
+        margin-top:10vh;
     }
     .titleWrapper{
         color:#ffb3d9;
-        cursor:pointer;
+        cursor:default;
     }
     .cloneWrapper{
         position:absolute;

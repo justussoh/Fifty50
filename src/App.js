@@ -2,9 +2,9 @@ import React from 'react';
 import {Router, Route, Switch} from 'react-router-dom';
 import history from './history';
 
-import {Home} from './Home';
-import {About} from './About';
-import {Contact} from './Contact';
+import Home from './Home';
+import About from './About';
+import Contact from './Contact';
 import {NoMatch} from './NoMatch';
 import NavigationBar from './components/Header/NavigationBar';
 import NewPoll from './components/Polls/NewPoll';
