@@ -45,7 +45,7 @@ class SearchBar extends React.Component {
         if (e.keyCode === 13) {
             window.setTimeout(()=>{
                 if(this.state.categories.includes(this.state.categorySelected)){
-                    history.push(`/category/${this.state.categorySelected}`);
+                    window.open(`/category/${this.state.categorySelected}`,"_self");
                 }else{
                     window.open(`/search/${this.state.searchBarQuery}`,"_self");
                 }

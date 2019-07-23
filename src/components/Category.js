@@ -9,10 +9,7 @@ import styled from "styled-components";
 import Chip from "@material-ui/core/Chip";
 import LinesEllipsis from 'react-lines-ellipsis'
 import moment from 'moment';
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import history from "../history";
-import ButtonRB from "react-bootstrap/Button";
 
 const Styles = styled.div`
     .card-content{
