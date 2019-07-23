@@ -16,8 +16,13 @@ const Styles = styled.div`
         margin-top:10vh;
     }
     .titleWrapper{
+<<<<<<< HEAD
         color:#ffb3d9;
         cursor:default;
+=======
+        color:#f26f63;
+        cursor:pointer;
+>>>>>>> 9ec53a0bf7d26c6878456d71f19145bd44588ec8
     }
     .cloneWrapper{
         position:absolute;
@@ -25,7 +30,7 @@ const Styles = styled.div`
         left:50px;
         width: 100%;
         height: 100%;
-        color:#99ebff;
+        color:#5baff5;
         transition: all 0.8s cubic-bezier(0.165,0.84,0.44,1); 
         clip-path: polygon(0 0, calc(var(--maskX) * 1% + (var(--maskY) - 50) * .4%) 0, calc(var(--maskX) * 1% + (var(--maskY) - 50) * -.4%) 100%, 0 100%);
     }
