@@ -26,7 +26,8 @@ export const Home = () => (
                     <Fab
                         variant="extended"
                         size="medium"
-                        color="secondary"
+                        color="primary"
+                        background-color="#5baff5"
                         aria-label="Add"
                     >
                         Create new poll

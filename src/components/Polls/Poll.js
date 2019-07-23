@@ -806,7 +806,7 @@ class Poll extends React.Component {
                                     copied={this.handleCopy}/>
                                 <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                                           open={this.state.copied}
-                                          message={<span id="message-id">Link Has Been Copied</span>}
+                                          message={<span id="message-id">Link has been copied.</span>}
                                           action={
                                               <IconButton
                                                   key="close"

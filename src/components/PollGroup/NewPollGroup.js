@@ -178,9 +178,9 @@ class NewPollGroup extends React.Component {
             <div className="row">
                 <div className="col-sm-12 text-xs-center">
 
-                    <h1>New Poll Group</h1>
+                    <h1>New Grouped Poll</h1>
 
-                    <Grid>
+                    <Grid alignItems="center">
                         <br /><br />
                         <h2>New Poll</h2>
 
@@ -201,7 +201,7 @@ class NewPollGroup extends React.Component {
                                         checked={this.state.loginToAnswer}
                                         onChange={this.handleLoginToAnswer}
                                     />}
-                                    label="Does User need to Login to Answer"
+                                    label="Does user need to login to answer"
                                     labelPlacement="top"
                                 />:''}
                             <FormControlLabel
@@ -209,13 +209,13 @@ class NewPollGroup extends React.Component {
                                     checked={this.state.expire.check}
                                     onChange={this.handleExpiryChange}
                                 />}
-                                label="Set a Duration for the poll"
+                                label="Set a duration for the poll"
                                 labelPlacement="top" />
 
                             {this.state.expire.check ?
                                 <InputGroup>
                                     <FormControl
-                                        placeholder="Enter Duration"
+                                        placeholder="Enter duration"
                                         value={this.state.duration}
                                         type='number'
                                         onChange={this.handleDurationPeriodChange}
@@ -236,9 +236,9 @@ class NewPollGroup extends React.Component {
                             <Typeahead allowNew
                                        multiple
                                        selectHintOnEnter
-                                       newSelectionPrefix="Add a Category: "
+                                       newSelectionPrefix="Add a category: "
                                        options={this.state.categories}
-                                       placeholder="Add Category"
+                                       placeholder="Add category"
                                        onInputChange={this.handleCategoryInputChange}
                                        onChange={this.handleSearchSelect}
                                        id='category'

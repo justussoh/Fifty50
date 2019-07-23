@@ -15,7 +15,7 @@ const Styles = styled.div`
         padding:50px;
     }
     .titleWrapper{
-        color:#ffb3d9;
+        color:#f26f63;
         cursor:pointer;
     }
     .cloneWrapper{
@@ -24,7 +24,7 @@ const Styles = styled.div`
         left:50px;
         width: 100%;
         height: 100%;
-        color:#99ebff;
+        color:#5baff5;
         transition: all 0.8s cubic-bezier(0.165,0.84,0.44,1); 
         clip-path: polygon(0 0, calc(var(--maskX) * 1% + (var(--maskY) - 50) * .4%) 0, calc(var(--maskX) * 1% + (var(--maskY) - 50) * -.4%) 100%, 0 100%);
     }
