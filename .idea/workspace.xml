@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f73ac83d-0255-4215-b650-7b0233237f59" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Contact.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Contact.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/PollGroup/NewPollGroup.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PollGroup/NewPollGroup.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,23 +25,29 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Contact.js">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/PollGroup/NewPollGroup.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="88" column="81" selection-start-line="88" selection-start-column="81" selection-end-line="88" selection-end-column="81" />
+            <state relative-caret-position="168">
+              <caret line="195" column="54" selection-start-line="195" selection-start-column="54" selection-end-line="195" selection-end-column="54" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
+                <element signature="n#!!block;n#componentWillUnmount#0;n#NewPollGroup#0" />
+                <element signature="n#!!block;n#handleTitleChange#0;n#NewPollGroup#0" />
+                <element signature="n#!!block;n#handleSubmit#0;n#NewPollGroup#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/server.js">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/Polls/NewOpenEnded.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="61" column="24" lean-forward="true" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
+            <state relative-caret-position="268">
+              <caret line="213" column="8" selection-start-line="213" selection-start-column="8" selection-end-line="217" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -50,10 +56,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>offs</find>
-      <find>submit</find>
       <find>requirement-text</find>
-      <find>mt</find>
       <find>dura</find>
       <find>handleLog</find>
       <find>def</find>
@@ -80,6 +83,9 @@
       <find>form</find>
       <find>goo</find>
       <find>abou</find>
+      <find>height</find>
+      <find>mt</find>
+      <find>requirement-paper</find>
     </findStrings>
     <replaceStrings>
       <replace>’</replace>
@@ -93,7 +99,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/cat.js" />
         <option value="$PROJECT_DIR$/src/components/hello.js" />
         <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/index.js" />
@@ -144,6 +149,7 @@
         <option value="$PROJECT_DIR$/src/components/Home/Title.js" />
         <option value="$PROJECT_DIR$/src/Contact.js" />
         <option value="$PROJECT_DIR$/server.js" />
+        <option value="$PROJECT_DIR$/src/components/PollGroup/NewPollGroup.js" />
       </list>
     </option>
   </component>
@@ -171,7 +177,7 @@
             <path>
               <item name="fiftyfifty" type="b2602c69:ProjectViewProjectNode" />
               <item name="fiftyfifty" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="functions" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fiftyfifty" type="b2602c69:ProjectViewProjectNode" />
@@ -189,14 +195,7 @@
               <item name="fiftyfifty" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Home" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fiftyfifty" type="b2602c69:ProjectViewProjectNode" />
-              <item name="fiftyfifty" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Login" type="462c0819:PsiDirectoryNode" />
+              <item name="PollGroup" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fiftyfifty" type="b2602c69:ProjectViewProjectNode" />
@@ -290,12 +289,12 @@
       <workItem from="1563505880161" duration="2449000" />
       <workItem from="1563508757257" duration="48198000" />
       <workItem from="1563792994631" duration="8511000" />
-      <workItem from="1563868046981" duration="12423000" />
+      <workItem from="1563868046981" duration="14946000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="183886000" />
+    <option name="totallyTimeSpent" value="186409000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -310,7 +309,7 @@
     <frame x="-6" y="-6" width="1292" height="692" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21939586" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21939586" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -320,7 +319,7 @@
       <window_info anchor="bottom" id="Version Control" order="3" weight="0.32899627" />
       <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" weight="0.32899627" />
       <window_info anchor="bottom" id="Message" order="5" />
-      <window_info anchor="bottom" id="Find" order="6" />
+      <window_info anchor="bottom" id="Find" order="6" weight="0.32899627" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -400,19 +399,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/PollGroup/NewPollGroup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-701">
-          <caret line="54" column="11" lean-forward="true" selection-start-line="43" selection-start-column="8" selection-end-line="54" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="n#!!block;n#componentWillUnmount#0;n#NewPollGroup#0" />
-            <element signature="n#!!block;n#handleTitleChange#0;n#NewPollGroup#0" />
-            <element signature="e#5002#5081#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Polls/LoginDialog.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
@@ -438,26 +424,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret line="25" column="2" lean-forward="true" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Polls/NewOpenEndedMcq.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="443" column="73" selection-start-line="443" selection-start-column="73" selection-end-line="443" selection-end-column="73" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Polls/NewOpenEnded.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1368">
-          <caret line="444" column="73" selection-start-line="444" selection-start-column="73" selection-end-line="444" selection-end-column="73" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -713,10 +679,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.js">
+    <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-243">
-          <caret line="6" column="7" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
+        <state relative-caret-position="-699">
+          <caret line="61" column="24" lean-forward="true" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -730,10 +696,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
+    <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="61" column="24" lean-forward="true" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
+        <state relative-caret-position="-243">
+          <caret line="6" column="7" selection-start-line="6" selection-start-column="7" selection-end-line="6" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/NewOpenEndedMcq.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-360">
+          <caret line="175" selection-start-line="25" selection-end-line="175" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/NewOpenEnded.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="213" column="8" selection-start-line="213" selection-start-column="8" selection-end-line="217" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/PollGroup/NewPollGroup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="195" column="54" selection-start-line="195" selection-start-column="54" selection-end-line="195" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <element signature="n#!!block;n#componentWillUnmount#0;n#NewPollGroup#0" />
+            <element signature="n#!!block;n#handleTitleChange#0;n#NewPollGroup#0" />
+            <element signature="n#!!block;n#handleSubmit#0;n#NewPollGroup#0" />
+          </folding>
         </state>
       </provider>
     </entry>
