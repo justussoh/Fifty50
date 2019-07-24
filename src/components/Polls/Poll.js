@@ -420,7 +420,7 @@ class Poll extends React.Component {
                                                                     }}
                                                                 /> :
                                                                 <Chart
-                                                                    chartType="BarChart"
+                                                                    chartType="Bar Chart"
                                                                     loader={<div>Loading Chart</div>}
                                                                     width="100%"
                                                                     data={data}
@@ -510,7 +510,7 @@ class Poll extends React.Component {
                                     copied={this.handleCopy}/>
                                 <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                                           open={this.state.copied}
-                                          message={<span id="message-id">Link Has Been Copied</span>}
+                                          message={<span id="message-id">Link has been copied.</span>}
                                           action={
                                               <IconButton
                                                   key="close"
@@ -590,7 +590,7 @@ class Poll extends React.Component {
                                                                             <form onSubmit={this.handleAnswerOpen}>
                                                                                 <InputGroup>
                                                                                     <FormControl
-                                                                                        placeholder="Your Answer Here"
+                                                                                        placeholder="Your answer here"
                                                                                         value={this.state.newOption.option}
                                                                                         onChange={this.handleAnswerChange}
                                                                                         isInvalid={Boolean(this.state.newOption.optionError)}
@@ -649,7 +649,7 @@ class Poll extends React.Component {
                                     copied={this.handleCopy}/>
                                 <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                                           open={this.state.copied}
-                                          message={<span id="message-id">Link Has Been Copied</span>}
+                                          message={<span id="message-id">Link has been copied.</span>}
                                           action={
                                               <IconButton
                                                   key="close"
@@ -749,7 +749,7 @@ class Poll extends React.Component {
                                                                     <form onSubmit={this.handleAnswerOpen}>
                                                                         <InputGroup>
                                                                             <FormControl
-                                                                                placeholder="Your Answer Here"
+                                                                                placeholder="Your answer here."
                                                                                 value={this.state.newOption.option}
                                                                                 onChange={this.handleAnswerChange}
                                                                                 isInvalid={Boolean(this.state.newOption.optionError)}

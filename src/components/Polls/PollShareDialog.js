@@ -179,7 +179,7 @@ class PollShareDialog extends Component {
                                        onChangeInput={this.handleEmailChange}
                                        inputProps={{
                                            className: 'react-tagsinput-input tag-input',
-                                           placeholder: 'Please Enter Email Address'
+                                           placeholder: 'Please enter email address'
                                        }}
                                        tagProps={{
                                            className: 'react-tagsinput-tag tag',

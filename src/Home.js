@@ -8,6 +8,7 @@ import Title from './components/Home/Title';
 const Styles = styled.div`
     .section{
         height:80vh;
+        primary:#5baff5;
     }
 `;
 
@@ -28,9 +29,8 @@ class Home extends React.Component {
                                 <Fab
                                     variant="extended"
                                     size="medium"
-                                    color="secondary"
+                                    color="primary"
                                     aria-label="Add"
-                                    background-color="#5baff5"
                                 >
                                     Create new poll
                                 </Fab>
