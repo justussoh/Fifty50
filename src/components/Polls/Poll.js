@@ -506,7 +506,7 @@ class Poll extends React.Component {
                                 <PollShareDialog
                                     show={this.state.showShareDialog}
                                     Close={this.handleShareModelClose}
-                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}
+                                    url={`https://fifty50x.firebaseapp.com/polls/poll/${this.props.match.params.pollId}`}
                                     copied={this.handleCopy}/>
                                 <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                                           open={this.state.copied}
@@ -645,7 +645,7 @@ class Poll extends React.Component {
                                 <PollShareDialog
                                     show={this.state.showShareDialog}
                                     Close={this.handleShareModelClose}
-                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}
+                                    url={`https://fifty50x.firebaseapp.com/polls/poll/${this.props.match.params.pollId}`}
                                     copied={this.handleCopy}/>
                                 <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                                           open={this.state.copied}
@@ -802,7 +802,7 @@ class Poll extends React.Component {
                                 <PollShareDialog
                                     show={this.state.showShareDialog}
                                     Close={this.handleShareModelClose}
-                                    url={`localhost:3000/polls/poll/${this.props.match.params.pollId}`}
+                                    url={`https://fifty50x.firebaseapp.com/polls/poll/${this.props.match.params.pollId}`}
                                     copied={this.handleCopy}/>
                                 <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                                           open={this.state.copied}

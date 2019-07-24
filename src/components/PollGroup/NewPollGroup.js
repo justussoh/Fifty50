@@ -170,6 +170,7 @@ class NewPollGroup extends React.Component {
             category: '',
             categoryList: [],
             categories: [],
+            username:'',
         };
 
         this.handleTitleChange = this.handleTitleChange.bind(this);

@@ -327,7 +327,7 @@ class PollGroupView extends React.Component {
                         <PollShareDialog
                             show={this.state.showShareDialog}
                             Close={this.handleShareModelClose}
-                            url={`localhost:3000/pollgroup/view/${this.props.match.params.pollId}`}
+                            url={`https://fifty50x.firebaseapp.com/pollgroup/view/${this.props.match.params.pollId}`}
                             copied={this.handleCopy}/>
                         <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                                   open={this.state.copied}
