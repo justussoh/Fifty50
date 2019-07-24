@@ -49,7 +49,7 @@ class Contact extends React.Component {
         e.preventDefault();
         let {name, email, contact, message} = this.state;
 
-        await axios.post('/api/contact', {
+        await axios.post('https://us-central1-fifty50x.cloudfunctions.net/emails/api/contact', {
             name,
             email,
             contact,

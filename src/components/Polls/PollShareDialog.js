@@ -129,12 +129,14 @@ class PollShareDialog extends Component {
         e.preventDefault();
         const {emailList, message} = this.state;
 
-        await axios.post('/api/share', {
+        await axios.post('https://us-central1-fifty50x.cloudfunctions.net/emails/api/share', {
             emailList,
             message,
             url: this.props.url,
         }).then(res => {
-            console.log('200')
+            console.log(res.data);
+            console.log('200');
+            this.props.Close()
         }).catch(err => {
             console.log(err);
         });
