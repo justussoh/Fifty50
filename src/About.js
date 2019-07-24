@@ -24,11 +24,11 @@ class About extends React.Component {
                             <div className='d-flex align-items-center justify-content-center'>
                                 <div>
                                     <h3 className='text-center'>Justus</h3>
-                                    <p className='text-center'>Mostly work on the backend and functionality of the application</p>
+                                    <p className='text-center'>Mostly work on the backend and functionality of the application.</p>
                                 </div>
                                 <div style={{marginLeft:"5vw"}}>
                                     <h3 className='text-center'>Clara</h3>
-                                    <p className='text-center'>Worked on the frontend and design of the application</p>
+                                    <p className='text-center'>Worked on the frontend and design of the application.</p>
                                 </div>
                             </div>
                         </Grid>
@@ -38,7 +38,7 @@ class About extends React.Component {
                                 base on the wisdom from the internet. We hope that Fifty50 will aid
                                 everyone in their decision making or help quickly gather responses
                                 to their questions.</p>
-                            <p>You can check out our project <a href='https://github.com/justussoh/Fifity50'>here</a></p>
+                            <p>You can check out our project <a href='https://github.com/justussoh/Fifity50'>here</a>.</p>
                         </Grid>
                     </Grid>
                 </div>

@@ -109,7 +109,7 @@ class Contact extends React.Component {
                                         <TextField
                                             value={this.state.contact}
                                             id="standard-dense"
-                                            label="contact"
+                                            label="Contact"
                                             margin="dense"
                                             variant="outlined"
                                             fullWidth={true}
