@@ -128,7 +128,7 @@ class NewPoll extends React.Component {
                                 </Col>
                                 <Col xs={3}>
                                     <Button variant="outline-warning" onClick={this.handleCreatePollGroup}
-                                            block>Try creating a grouped poll</Button>
+                                            block>Try a grouped poll</Button>
                                 </Col>
                             </Row>
                         </Container>
