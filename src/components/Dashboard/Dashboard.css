@@ -5,6 +5,19 @@
     color: #f26f63 !important;
     border-color: #f26f63 !important;
 }
+
+.btn-outline-success:hover{
+    color: #f26f63 !important;
+    border-color: #f26f63 !important;
+    background-color: white !important;
+}
+
+.btn-outline-success:active{
+    color: #f26f63 !important;
+    border-color: #f26f63 !important;
+    background-color: white !important;
+}
+
 .closeButton{
     color:white;
 }

@@ -459,7 +459,7 @@ class Dashboard extends React.Component {
                     <PollShareDialog
                         show={this.state.showShareDialog}
                         Close={this.handleShareModelClose}
-                        url={this.state.shareType === 'poll' ? `localhost:3000/polls/poll/${this.state.clickedPollId}` : `localhost:3000/pollgroup/view/${this.state.clickedPollId}`}
+                        url={this.state.shareType === 'poll' ? `https://fifty50x.web.app/polls/poll/${this.state.clickedPollId}` : `https://fifty50x.web.app/pollgroup/view/${this.state.clickedPollId}`}
                         copied={this.handleCopy}/>
                     <Snackbar anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
                               open={this.state.copied}

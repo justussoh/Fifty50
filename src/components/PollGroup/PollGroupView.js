@@ -236,11 +236,11 @@ class PollGroupView extends React.Component {
                     <h4>Share the poll with your friends!</h4>
                     <InputGroup>
                         <FormControl
-                            value={`localhost:3000/pollgroup/view/${this.props.match.params.pollId}`}
+                            value={`https://fifty50x.web.app/pollgroup/view/${this.props.match.params.pollId}`}
                             disabled={true}
                         />
                         <InputGroup.Append>
-                            <CopyToClipboard text={`localhost:3000/pollgroup/view/${this.props.match.params.pollId}`}
+                            <CopyToClipboard text={`https://fifty50x.web.app/pollgroup/view/${this.props.match.params.pollId}`}
                                              onCopy={this.handleCopy}>
                                 <Button variant="outline-secondary">Copy</Button>
                             </CopyToClipboard>
