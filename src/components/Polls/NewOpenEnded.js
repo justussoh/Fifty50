@@ -172,6 +172,10 @@ const Styles = styled.div`
     .duration-button{
         background-color:white;
     }
+    
+    img{
+        width:100%;
+    }
 `;
 
 class NewOpenEnded extends React.Component {

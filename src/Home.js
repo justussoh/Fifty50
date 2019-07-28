@@ -31,6 +31,7 @@ class Home extends React.Component {
                                     size="medium"
                                     color="primary"
                                     aria-label="Add"
+                                    style={{backgroundColor:'#5baff5'}}
                                 >
                                     Create new poll
                                 </Fab>

@@ -68,7 +68,7 @@ const Styles = styled.div`
     }
     
     .background-color{
-        background: linear-gradient(90deg, rgba(23,205,185,1) 44%, rgba(0,212,255,1) 100%);
+        background: linear-gradient(90deg, rgba(91,175,245,1) 0%, rgba(242,111,99,1) 100%);
     }
     
     img{
@@ -266,9 +266,13 @@ class Poll extends React.Component {
                     <h6>Poll has expired</h6>
                 );
             } else {
+                let displayTiming = Math.floor((new Date(this.state.expire.expireDate).getTime() - new Date().getTime()) / 60 / 1000);
+                if (displayTiming < 1){
+                    displayTiming = '< 1 minute'
+                }
                 return (
                     <h6>Time
-                        Remaining: {Math.floor((new Date(this.state.expire.expireDate).getTime() - new Date().getTime()) / 60 / 1000)} Minutes</h6>
+                        Remaining: {displayTiming} Minutes</h6>
                 );
             }
         }

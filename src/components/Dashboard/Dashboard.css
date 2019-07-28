@@ -1,7 +1,10 @@
 .dialog-top{
-    background-color: #49AE4B !important;
+    background-color: #f26f63 !important;
 }
-
+.btn-outline-success{
+    color: #f26f63 !important;
+    border-color: #f26f63 !important;
+}
 .closeButton{
     color:white;
 }

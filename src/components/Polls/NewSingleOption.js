@@ -174,6 +174,10 @@ const Styles = styled.div`
     .duration-button{
         background-color:white;
     }
+    
+    img{
+        width:100%;
+    }
 `;
 
 class NewSingleOption extends React.Component {
@@ -334,15 +338,15 @@ class NewSingleOption extends React.Component {
 
     verifyFile = (files) => {
         if (files && files.length > 0) {
-            const currentFile = files[0]
-            const currentFileType = currentFile.type
-            const currentFileSize = currentFile.size
-            if (currentFileSize > 10000000) {
-                alert("This File is too Large")
+            const currentFile = files[0];
+            const currentFileType = currentFile.type;
+            const currentFileSize = currentFile.size;
+            if (currentFileSize > 1000000) {
+                alert("This File is too Large");
                 return false;
             }
             if (!acceptFileTypeArray.includes(currentFileType)) {
-                alert("This file type is not allowed. Only images are allowed")
+                alert("This file type is not allowed. Only images are allowed");
                 return false
             }
             return true

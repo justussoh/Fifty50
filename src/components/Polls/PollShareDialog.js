@@ -20,7 +20,7 @@ import axios from "axios";
 const Styles = styled.div`
 
     .dialog-top{
-        background-color: #49AE4B !important;
+        background-color: #f26f63 !important;
     }
     
     .share-modal-copy-title {
@@ -69,14 +69,14 @@ const Styles = styled.div`
      }
      
      .share-modal-button{
-        color: white;
+        color: #707070;
         font-family: 'Roboto';
         font-weight: bold;
-        background-color: #49AE4B;
+        background-color: #fff;
         }
         
      .share-modal-button:hover{
-        background-color: #7AC4A7;
+        background-color: #fff;
       }
       
       .tag-input{

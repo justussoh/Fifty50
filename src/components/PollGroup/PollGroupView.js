@@ -65,7 +65,7 @@ const Styles = styled.div`
     }
     
     .background-color{
-        background: linear-gradient(90deg, rgba(23,205,185,1) 44%, rgba(0,212,255,1) 100%);
+        background: linear-gradient(90deg, rgba(91,175,245,1) 0%, rgba(242,111,99,1) 100%);
     }
     
     img{
@@ -165,12 +165,16 @@ class PollGroupView extends React.Component {
         if (this.state.expire && this.state.expire.check) {
             if (this.state.status === 'expired') {
                 return (
-                    <h2>Poll has expired</h2>
+                    <h6>Poll has expired</h6>
                 );
             } else {
+                let displayTiming = Math.floor((new Date(this.state.expire.expireDate).getTime() - new Date().getTime()) / 60 / 1000);
+                if (displayTiming < 1){
+                    displayTiming = '< 1 minute'
+                }
                 return (
-                    <h2>Time
-                        Remaining: {(new Date(this.state.expire.expireDate).getTime() - new Date().getTime()) / 60 / 1000} Minutes</h2>
+                    <h6>Time
+                        Remaining: {displayTiming} Minutes</h6>
                 );
             }
         }

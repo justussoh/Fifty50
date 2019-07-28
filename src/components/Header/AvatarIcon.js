@@ -8,7 +8,7 @@ const Styles = styled.div`
     .avatar-icon{
         margin: 10px;
         color: white;
-        backgroundColor: darkslategrey;
+        background-color: #5baff5 !important;
     }
 `;
 
