@@ -45,7 +45,7 @@ const Styles = styled.div`
         height: 50px;
         width: 50px;
         border-radius: 50%;
-        background-color:green;
+        background-color:rgba(91,175,245,1);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -832,7 +832,7 @@ class Poll extends React.Component {
                     ;
             default:
                 return (
-                    <h1>Loading</h1>
+                    <Loading loading={this.state.loading}/>
                 );
         }
 

@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f73ac83d-0255-4215-b650-7b0233237f59" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" beforeDir="false" afterPath="$PROJECT_DIR$/.firebase/hosting.YnVpbGQ.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Dashboard/Dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboard/Dashboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/AvatarIcon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/AvatarIcon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/NavigationBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/NavigationBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PollGroup/PollGroupView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PollGroup/PollGroupView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Polls/NewOpenEnded.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/NewOpenEnded.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Polls/NewOpenEndedMcq.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/NewOpenEndedMcq.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Polls/NewSingleOption.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/NewSingleOption.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Polls/Poll.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/Poll.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Polls/PollShareDialog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Polls/PollShareDialog.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -35,10 +25,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/Header/NavigationBar.js">
+        <entry file="file://$PROJECT_DIR$/src/components/Polls/Poll.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="139" column="103" selection-start-line="139" selection-start-column="103" selection-end-line="139" selection-end-column="103" />
+            <state relative-caret-position="148">
+              <caret line="834" column="52" selection-start-line="834" selection-start-column="52" selection-end-line="834" selection-end-column="52" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -50,7 +40,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>user</find>
       <find>length</find>
       <find>Errr</find>
       <find>min</find>
@@ -80,6 +69,7 @@
       <find>timer</find>
       <find>expire</find>
       <find>cr</find>
+      <find>loading</find>
     </findStrings>
     <replaceStrings>
       <replace>’</replace>
@@ -140,10 +130,10 @@
         <option value="$PROJECT_DIR$/src/Home.js" />
         <option value="$PROJECT_DIR$/src/components/Polls/PollShareDialog.js" />
         <option value="$PROJECT_DIR$/src/components/Dashboard/Dashboard.css" />
-        <option value="$PROJECT_DIR$/src/components/Polls/Poll.js" />
         <option value="$PROJECT_DIR$/src/components/Header/AvatarIcon.js" />
         <option value="$PROJECT_DIR$/src/components/PollGroup/PollGroupView.js" />
         <option value="$PROJECT_DIR$/src/components/Header/NavigationBar.js" />
+        <option value="$PROJECT_DIR$/src/components/Polls/Poll.js" />
       </list>
     </option>
   </component>
@@ -294,12 +284,12 @@
       <workItem from="1563508757257" duration="48198000" />
       <workItem from="1563792994631" duration="8511000" />
       <workItem from="1563868046981" duration="20727000" />
-      <workItem from="1564136063216" duration="4978000" />
+      <workItem from="1564136063216" duration="5190000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197168000" />
+    <option name="totallyTimeSpent" value="197380000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -731,22 +721,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Polls/Poll.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="70" column="91" selection-start-line="70" selection-start-column="91" selection-end-line="70" selection-end-column="91" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Home/Title.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="21" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Header/NavigationBar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="139" column="103" selection-start-line="139" selection-start-column="103" selection-end-line="139" selection-end-column="103" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -758,10 +748,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Header/NavigationBar.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Polls/Poll.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="139" column="103" selection-start-line="139" selection-start-column="103" selection-end-line="139" selection-end-column="103" />
+        <state relative-caret-position="148">
+          <caret line="834" column="52" selection-start-line="834" selection-start-column="52" selection-end-line="834" selection-end-column="52" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
